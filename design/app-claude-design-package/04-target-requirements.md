@@ -36,8 +36,8 @@ Justify each pick against `05`.
 
 ## §4 Hard constraints
 
-- **Runtime:** [tinyjs](https://tinyjs.app/). A native system webview (WebKit on macOS, WebView2 on Windows, WebKitGTK on Linux) with a JavaScript backend that has file-system access. The front end is **plain HTML/CSS/vanilla JS** (no framework, no build step), the same approach as the website.
-- **Platforms:** macOS 15+ first (stable). Windows 10/11 and Linux later (beta). Rendering differs slightly per OS webview, so avoid effects that depend on one engine.
+- **Runtime:** [tinyjs](https://tinyjs.app/). A native system webview (WebKit on macOS, WebView2 on Windows, WebKitGTK on Linux) with a JavaScript backend that has file-system access. The front end is **plain HTML/CSS/vanilla JS** (no framework, no build step), and it shares portable CSS (tokens as custom properties) with the website.
+- **Platforms:** **macOS 15+ and Windows 10/11 are both v1 targets.** Linux comes later. Rendering differs slightly between WebKit and WebView2, so avoid effects that depend on one engine.
 - **Window:** resizable. It must work fully at **800×560**, and must not need more than 1280×800 to shine.
 - **Local-only:** no telemetry, accounts or AI calls. The only network use is the optional update check against the public releases list, and it must be visible and switchable.
 - **File writes** are limited to: creating a new vault from the bundled template · replacing kit files during a confirmed update · `~/.ai-kickstart/`. **Everything else in the vault is read-only for the app.** Progress changes happen in the vault, made by the AI or by the person in Obsidian.

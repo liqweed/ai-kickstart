@@ -36,4 +36,4 @@
 | Setup-as-companion experience (§3.4) and prompt treatment (§3.5) | High |
 | Fidelity to `03` facts: nothing invented, nothing missing from `01` | Medium |
 | Identity coherence across light/dark and readiness to extend to a desktop app | Medium |
-| Hard constraints honoured (`04 §4`), especially zero third-party requests and `file://`-safe guide | Gate (fail = redo) |
+| Hard constraints honoured (`04 §4`), especially zero third-party requests and portable plain-CSS styling | Gate (fail = redo) |

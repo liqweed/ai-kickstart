@@ -1,6 +1,6 @@
 # AGENTS.md — maintaining the AI Kickstart repo
 
-You are helping **maintain** a public, CC BY 4.0 kit that helps people start working with AI: an offline HTML guide (`guide/`) plus an Obsidian vault template (`vault/`). Friends download it as a zip from GitHub Releases, or read the guide on GitHub Pages.
+You are helping **maintain** a public, CC BY 4.0 kit that helps people start working with AI: an offline HTML guide (`guide/`) plus an Obsidian vault template (`vault/`). Friends download it as a zip from GitHub Releases. The website **ai-kickstart.me** (Astro, static, on Cloudflare; `site/`, not built yet, see backlog K9) is the front door.
 
 ## Two audiences — don't mix them up
 
@@ -27,7 +27,7 @@ You are helping **maintain** a public, CC BY 4.0 kit that helps people start wor
 ## Invariants (the checks enforce most of these)
 
 1. **No personal or employer details. Ever.** This is public. The only personal detail allowed is the author's credit line (README, CONTRIBUTING, guide footers, design briefs). Examples must be generic and must not mirror one real family's specifics. `scripts/scrub.sh` checks against a **private** term list that lives outside the repo. Never add that list, or terms from it, to the repo.
-2. **The guide works offline.** No external stylesheets, scripts, fonts or images. Plain `<a href="https://…">` links are fine. Light and dark mode must both work.
+2. **No third-party requests, anywhere.** `guide/` (shipped in the zip) must also work offline from `file://`, with no build step. The website (`site/`, Astro) may have a build step but stays static, with zero client JS by default and no analytics. Plain `<a href="https://…">` links are fine. Light and dark mode must both work.
 3. **Two copies of the catalog stay in sync:** `vault/_system/kickstart/function-catalog.md` ↔ the `CATALOG` array in `guide/catalog.html` (names + levels are checked).
 4. **One version number.** `VERSION` = the guide footers (`AI Kickstart · vX.Y · Month YYYY`) = the README credit line = a `## vX.Y` section in `CHANGELOG.md`.
 5. **Every vault skill** has `name` (= folder) and `description` frontmatter and is listed in `vault/AGENTS.md`. New or moved vault notes are reflected in `vault/_system/index.md`.

@@ -4,7 +4,7 @@ A head start for working with AI across your personal life, family, home and wor
 
 Designed and shared by **Ophir Radnitz**. v1.1, October 2026.
 
-- 📖 **Read the guide online:** [liqweed.github.io/ai-kickstart](https://liqweed.github.io/ai-kickstart/)
+- 🌐 **Website:** [ai-kickstart.me](https://ai-kickstart.me) *(coming soon)*. The full guide is also inside the download.
 - ⬇️ **Download the kit:** latest zip on the [Releases page](https://github.com/liqweed/ai-kickstart/releases/latest)
 
 ## Start here

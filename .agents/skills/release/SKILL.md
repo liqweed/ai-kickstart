@@ -1,11 +1,11 @@
 ---
 name: release
-description: Cut a new version of the AI Kickstart kit — choose the version number, bump it everywhere, finalise the changelog, run all checks, build the zip, commit, tag and push (CI then publishes the GitHub Release and the Pages site). Use for "release", "cut a version", "ship v1.2", "publish the kit".
+description: Cut a new version of the AI Kickstart kit — choose the version number, bump it everywhere, finalise the changelog, run all checks, build the zip, commit, tag and push (CI then publishes the GitHub Release). Use for "release", "cut a version", "ship v1.2", "publish the kit".
 ---
 
 # Release
 
-A release = a `vX.Y` tag on `main`. Pushing the tag triggers `.github/workflows/release.yml`, which builds the zip and creates the GitHub Release with the changelog section as notes. Pages redeploys on every push to `main` that touches `guide/`.
+A release = a `vX.Y` tag on `main`. Pushing the tag triggers `.github/workflows/release.yml`, which builds the zip and creates the GitHub Release with the changelog section as notes. The website (`site/`, once it exists) deploys from Cloudflare on every push to `main`.
 
 ## Steps
 
@@ -24,7 +24,7 @@ A release = a `vX.Y` tag on `main`. Pushing the tag triggers `.github/workflows/
    git tag -a v1.2 -m "v1.2"
    git push origin main --follow-tags
    ```
-7. **Verify the outcome, not the trigger:** wait for the workflows, then confirm the release exists and has the zip attached (`https://github.com/liqweed/ai-kickstart/releases/tag/v1.2`), and that the Pages site footer shows v1.2. "The workflow ran" is not proof.
+7. **Verify the outcome, not the trigger:** wait for the workflows, then confirm the release exists and has the zip attached (`https://github.com/liqweed/ai-kickstart/releases/tag/v1.2`), and (once the website is live) that ai-kickstart.me shows v1.2. "The workflow ran" is not proof.
 8. **Log it** in `docs/HARNESS-PLAN.md` (session log) and tell the maintainer the release URL.
 
 ## If something fails

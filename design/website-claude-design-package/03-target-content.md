@@ -7,7 +7,7 @@ Everything here is **true content from the kit (v1.1)**. Render it; don't invent
 | Fact | Value |
 |---|---|
 | Name | AI Kickstart |
-| Domain | ai-kickstart.me |
+| Domain | ai-kickstart.me (static Astro site on Cloudflare) |
 | Current version | v1.1 (October 2026) |
 | Licence | CC BY 4.0 (share and adapt with credit) |
 | Source | github.com/liqweed/ai-kickstart |

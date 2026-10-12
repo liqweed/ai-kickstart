@@ -14,7 +14,7 @@ git config core.hooksPath scripts/hooks                                    # pre
 
 ## Repository settings (one-time, in the GitHub web UI)
 
-1. **Pages:** Settings → Pages → *Build and deployment* → Source: **GitHub Actions**. The site deploys from `guide/` on every push to `main` that touches it.
+1. **Website (once `site/` exists, backlog K9):** a Cloudflare Workers/Pages project connected to this repo (root `site/`, build `npm run build`, output `dist/`), with the custom domain ai-kickstart.me. Preview deploys per branch come for free. Don't enable any analytics beacon: the site promises no tracking.
 2. **CI scrub (optional, recommended):** Settings → Secrets and variables → Actions → New secret `SCRUB_PATTERN`, value = the terms joined with `|`:
    ```bash
    grep -vE '^[[:space:]]*(#|$)' ~/.config/ai-kickstart/scrub-terms.txt | paste -sd'|' - | pbcopy
@@ -51,4 +51,4 @@ Open your agent in the repo root and say one of:
 
 ## Releases
 
-See [`.agents/skills/release/SKILL.md`](../.agents/skills/release/SKILL.md). In short: bump `VERSION` + footers + README + CHANGELOG → `scripts/build.sh` → commit → `git tag -a vX.Y` → `git push origin main --follow-tags` → verify the Release has the zip attached and Pages shows the new version.
+See [`.agents/skills/release/SKILL.md`](../.agents/skills/release/SKILL.md). In short: bump `VERSION` + footers + README + CHANGELOG → `scripts/build.sh` → commit → `git tag -a vX.Y` → `git push origin main --follow-tags` → verify the Release has the zip attached (and, once live, that the website shows the new version).

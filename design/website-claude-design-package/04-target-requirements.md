@@ -42,10 +42,10 @@ Use the success criteria in `05` to justify each pick.
 
 ## §4 Hard constraints
 
-- **Static site.** Hosted on GitHub Pages with a custom domain. No backend, no server-side rendering, no accounts.
-- **Plain HTML/CSS/vanilla JS, no build step.** Maintainers edit files directly, and the same front-end approach will be reused in a desktop app built on a system webview.
+- **Static site built with Astro, hosted on Cloudflare** (custom domain ai-kickstart.me). Static output only: no server rendering, backend or accounts. Zero client-side JS by default; small interactive pieces only where needed (copy, OS/path choice, catalog).
+- **Content comes from the kit's own Markdown at build time:** the catalog, prompts, tips, rounds and phases. Design repeatable patterns that render from structured content, not one-off hand-placed copy.
+- **Prototype in plain HTML/CSS/JS.** It will be ported into Astro components. Styling must be **portable plain CSS** (custom properties for tokens), because a small desktop app built on a system webview will reuse it.
 - **No third-party requests at all:** fonts self-hosted or system fonts, no CDNs, analytics, embeds or social widgets.
-- **Offline-capable guide.** The guide portion also ships inside the downloadable zip and must work when opened directly from disk (`file://`), so it needs relative links and no server routing. A landing section may be web-only.
 - **Responsive** from 360 px phones to wide desktop. Light and dark mode both first-class (follow the OS).
 - **Local persistence only** (`localStorage`) for anything remembered: catalog picks, setup progress, chosen OS/path.
 - Content per `03`. Placeholders in prompts use `<angle brackets>`.
