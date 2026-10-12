@@ -54,6 +54,8 @@ next_step: M0.3
 | K6 | Generate the catalog JS from the markdown (build step) | Removes the D7 duplication. The check already guards it, so this is low priority | L | todo |
 | K7 | Favicon + social preview image (inline/SVG, offline-safe) | Nicer when the link is shared in chats | S | todo |
 | K8 | Translations (guide + vault) | Reach. Needs a structure decision first (D-level change) | L | idea |
+| K9 ★ | **Website at ai-kickstart.me**: point the domain at Pages, then run `design/website-claude-design-package` in Claude Design and implement the approved prototype in `guide/` | The domain is bought; the site is the front door for friends | M | todo |
+| K10 | **Companion app (tinyjs)**: first run, "one next thing", safe kit updates, local-only (`~/.ai-kickstart/`). Design brief: `design/app-claude-design-package`. Build after the M1 pilot shows where people actually stall | It solves first-contact verification and K1 (updates) better than docs can | L | idea |
 
 ## Decisions log
 
