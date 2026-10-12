@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Kickstart — the harness plan</title>
+<link rel="stylesheet" href="assets/kit.css">
+</head>
+<body>
+<header class="site-header"><div class="inner">
+  <a class="brand" href="index.html"><span class="mark">✦</span> AI Kickstart</a>
+  <nav class="site-nav">
+    <a href="index.html">Start</a><a href="why.html">Why</a><a href="setup.html">Setup</a><a href="system.html">The system</a><a href="interview.html">Interview</a><a href="catalog.html">Catalog</a><a href="harness.html">Harness plan</a><a href="prompts.html">Prompts</a>
+  </nav>
+</div></header>
+
+<main>
+  <section class="hero">
+    <div class="eyebrow">Progress over many sessions</div>
+    <h1>The harness plan</h1>
+    <p class="lede">One file, <code>_system/HARNESS-PLAN.md</code>, that grows your setup from "Obsidian installed" to "things run by themselves", one small, proven step at a time. It's the memory that lets you stop, switch tools, and pick up weeks later.</p>
+  </section>
+
+  <section>
+    <h2>The one sentence</h2>
+    <div class="prompt"><div class="bar"><span class="label">Every time you have 15–30 minutes</span></div>
+<pre>Continue my harness plan.</pre></div>
+    <p>That's it. The AI reads the plan, does the next step <em>with</em> you, proves it works, ticks it off, and leaves a note for next time.</p>
+  </section>
+
+  <section>
+    <h2>What happens when you say it</h2>
+    <ol class="steps">
+      <li><strong>It loads lightly</strong>Reads the plan's <i>Now</i> table, the current phase and the last two log entries, plus your preferences. Not your whole vault.</li>
+      <li><strong>It picks the next step</strong>The first unticked step in the current phase, or the one you name.</li>
+      <li><strong>It says the plan in three lines</strong>What we'll do, how long, and what "done" looks like. It asks first if the step involves installing, signing up, paying or other people.</li>
+      <li><strong>It does it, small</strong>If the step is too big for one session, it splits it into sub-steps, writes them into the plan, and does the first.</li>
+      <li><strong>It proves it</strong>Runs the step's <b>Check</b> and shows you the evidence. No proof, no tick.</li>
+      <li><strong>It updates the plan</strong>Ticks the box, updates <i>Now</i>, adds a session-log entry and records any decisions with the why.</li>
+      <li><strong>It hands off</strong>Three lines: what changed, what's next, and the phrase to continue.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>The phases</h2>
+    <div class="table-wrap"><table>
+      <tr><th>Phase</th><th>Goal</th><th>Exit when…</th></tr>
+      <tr><td><b>P0</b> Foundations</td><td>Vault + AI working together, backed up</td><td>The AI can read and write your vault</td></tr>
+      <tr><td><b>P1</b> Get to know you</td><td>Interview rounds 1–4, profile filled</td><td>You've approved your profile and first three wins</td></tr>
+      <tr><td><b>P2</b> First wins</td><td>3 skills you actually use</td><td>Each used at least twice</td></tr>
+      <tr><td><b>P3</b> Capture & memory</td><td>Notes flow in and come back when needed</td><td>Inbox empties weekly; "ask my notes" works</td></tr>
+      <tr><td><b>P4</b> Connections</td><td>AI can read your calendar, tasks, email…</td><td>Each connection tested read-only and documented</td></tr>
+      <tr><td><b>P5</b> Scripts & tools</td><td>Reliable helpers for repeated lists</td><td>Script tested and used by a skill</td></tr>
+      <tr><td><b>P6</b> Automations</td><td>Things run on a schedule</td><td>Two weeks of runs, output verified</td></tr>
+      <tr><td><b>P7</b> Evolve</td><td>Keep it alive and honest</td><td>Recurring: monthly check-in, pruning</td></tr>
+    </table></div>
+    <p class="muted small">P0–P3 are the same for everyone. From P2.3 on, the interview fills the plan with <em>your</em> items, and steps that don't fit you get marked "not for me".</p>
+  </section>
+
+  <section>
+    <h2>Anatomy of a step</h2>
+<pre class="code">- [ ] <b>P0.3 Connect the AI to this vault and test it.</b> Point the tool at this folder, then ask…
+  <b>Done when:</b> it answers correctly and can create a test note.
+  <b>Check:</b> ask it to create _inbox/hello.md, see it appear in Obsidian, then delete it yourself.</pre>
+    <div class="table-wrap"><table>
+      <tr><th>Mark</th><th>Means</th></tr>
+      <tr><td><code>[ ]</code></td><td>To do</td></tr>
+      <tr><td><code>[/]</code></td><td>In progress (started, or the check failed, with a note saying why)</td></tr>
+      <tr><td><code>[x]</code></td><td>Done <b>and verified</b></td></tr>
+      <tr><td><code>[-]</code></td><td>Skipped / not for me (with the reason)</td></tr>
+      <tr><td><code>[?]</code></td><td>Blocked: waiting on something, noted on the line</td></tr>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>The parts of the file</h2>
+    <div class="cards">
+      <div class="card"><div class="icon">📍</div><h3>Now</h3><p>Current phase, next step, anything blocked, last session. Glance here first.</p></div>
+      <div class="card"><div class="icon">✅</div><h3>Phases P0–P7</h3><p>Checklists with "done when" and "check" for every step.</p></div>
+      <div class="card"><div class="icon">💡</div><h3>Personal backlog</h3><p>Your ideas from the interview and later: value, effort (S/M/L), phase, status. ★ = do first.</p></div>
+      <div class="card"><div class="icon">⚖️</div><h3>Decisions log</h3><p>What was chosen and <em>why</em>, so nobody re-argues it in three months.</p></div>
+      <div class="card"><div class="icon">📓</div><h3>Session log</h3><p>Newest first: Did · Checked · Next · Notes. Any AI tool can continue from it alone.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Other things you can say</h2>
+    <div class="prompt"><div class="bar"><span class="label">Where am I?</span></div><pre>Harness status.</pre></div>
+    <div class="prompt"><div class="bar"><span class="label">Capture an idea for later</span></div><pre>Add to harness: a Sunday-evening plan for the family week.</pre></div>
+    <div class="prompt"><div class="bar"><span class="label">Step too big</span></div><pre>This step is too big for today. Split it into smaller steps in the plan and do just the first one.</pre></div>
+    <div class="prompt"><div class="bar"><span class="label">Not for me</span></div><pre>Skip that step. It doesn't fit me. Note why in the plan.</pre></div>
+    <div class="prompt"><div class="bar"><span class="label">Life changed</span></div><pre>Re-plan my harness. My priorities changed: &lt;what changed&gt;. Propose a new order before changing anything.</pre></div>
+    <div class="prompt"><div class="bar"><span class="label">Switching to a different AI tool</span></div><pre>I'm continuing my AI setup in a new tool. Read AGENTS.md, then _system/HARNESS-PLAN.md (the Now table and the last two session-log entries), and tell me where we are and what's next. Don't change anything yet.</pre></div>
+  </section>
+
+  <section>
+    <h2>Tips</h2>
+    <ul>
+      <li><b>One step per session is a success.</b> Twenty minutes a week gets you a working system in a couple of months.</li>
+      <li><b>Look at the file in Obsidian.</b> The checkboxes are clickable, the log reads like a diary of your progress, and you can edit anything by hand.</li>
+      <li><b>Connections and automations are optional.</b> Plenty of people get most of the value from P0–P3 plus a few skills.</li>
+      <li><b>Pair it with the weekly review.</b> The review ends by offering "one harness step this week?"</li>
+      <li><b>When something breaks,</b> say so. The step goes back to <code>[/]</code> with a note, and the next session starts there.</li>
+    </ul>
+  </section>
+
+  <nav class="pager">
+    <a href="catalog.html"><small>Previous</small>← The catalog</a>
+    <a class="next" href="prompts.html"><small>Next</small>Prompt library →</a>
+  </nav>
+</main>
+
+<footer class="site-footer">
+  <span>AI Kickstart · v1.1 · October 2026</span>
+  <span>Designed and shared by <b>Ophir Radnitz</b>. Pass it on.</span>
+</footer>
+<script src="assets/kit.js"></script>
+</body>
+</html>

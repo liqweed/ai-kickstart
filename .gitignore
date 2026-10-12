@@ -1,0 +1,6 @@
+.DS_Store
+dist/
+*.zip
+# Obsidian app state, if someone opens vault/ directly in the repo
+vault/.obsidian/
+vault/.trash/

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Maintainer pre-commit hook. Enable once per clone:  git config core.hooksPath scripts/hooks
+# Blocks commits that would leak personal/employer details or break kit consistency.
+exec "$(git rev-parse --show-toplevel)/scripts/check.sh"
