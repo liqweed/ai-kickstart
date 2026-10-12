@@ -18,3 +18,22 @@ jobs:
           # Optional repository secret: private terms joined with "|". Without it the scrub is skipped with a warning.
           SCRUB_PATTERN: ${{ secrets.SCRUB_PATTERN }}
         run: scripts/check.sh --optional-scrub
+
+  site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Parser tests (packages/core, against the real kit files)
+        run: pnpm test
+      - name: Type check
+        run: pnpm check
+      - name: Build ai-kickstart.me
+        run: pnpm build
+      - name: Built site makes no third-party requests, links resolve
+        run: python3 scripts/check_site.py

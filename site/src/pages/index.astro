@@ -1,0 +1,171 @@
+---
+import Base from "../layouts/Base.astro";
+import Prompt from "../components/Prompt.astro";
+import { OS, PATHS, RELEASES_URL, REPO_URL, ZIP_SIZE } from "../lib/choices.ts";
+import { ordered, prompt } from "../lib/kit.ts";
+
+const areas = await ordered("catalog");
+const ideaCount = areas.reduce((n, a) => n + a.data.items.length, 0);
+const main = await prompt("harness/the-main-one");
+---
+<Base title="AI Kickstart · Give your AI a place to live" place="start">
+  <section class="wrap hero" aria-labelledby="hero-h">
+    <div class="stack gap-18">
+      <p class="kk-eyebrow">A free starter kit · for your life, family, home and work</p>
+      <h1 id="hero-h" class="h1 h1--hero">Give your AI a place to live, a memory of you, and a plan.</h1>
+      <p class="lede">Most people use AI like a brilliant stranger: every chat starts from zero. This kit turns it into an assistant that knows your life, follows your rules, and gets a little better every week.</p>
+      <p class="muted pretty">It's a folder of plain notes on your own computer, a friendly interview, and a step-by-step plan. No account, nothing to pay. Setup takes about an hour.</p>
+    </div>
+
+    <div id="start" data-start>
+      <div class="panel" data-start-chooser>
+        <div class="kk-note phone-note" hidden data-phone-note>
+          <p><strong>You're on a phone.</strong> Read and choose here. The setup itself happens on a computer; the phone is for reading and quick notes later.</p>
+          <button type="button" class="btn-ink" data-share>Send this to my computer</button>
+        </div>
+        <div class="stack gap-4">
+          <h2 class="h2-card" tabindex="-1">Find your first step</h2>
+          <p class="small muted">Two quick choices. They're remembered on this device only.</p>
+        </div>
+        <div class="stack gap-8" role="group" aria-labelledby="os-q" hidden data-os-group>
+          <p id="os-q" class="q">1 · Your computer <span data-os-hint></span></p>
+          <div class="pills">
+            {Object.entries(OS).map(([id, label]) => <button type="button" class="kk-pill kk-pill--lg" aria-pressed="false" data-os-pick={id}>{label}</button>)}
+          </div>
+        </div>
+        <div class="stack gap-8" role="group" aria-labelledby="path-q">
+          <p id="path-q" class="q">2 · How would you like to use AI?</p>
+          {Object.entries(PATHS).map(([id, p]) => (
+            <a class="kk-choice" href={`/setup/#${id}`} data-path-pick={id}>
+              <span class="kk-choice__text">
+                <span class="kk-choice__title">{p.title}{"recommended" in p && <span class="kk-badge">Recommended</span>}</span>
+                <span class="kk-choice__sub">{p.sub}</span>
+              </span>
+              <span class="choice-arrow" aria-hidden="true">→</span>
+            </a>
+          ))}
+          <p class="hint">Not sure? Go with the desktop AI app. Pick the chat app instead if you can't install apps on this computer (a work laptop, say) or want to try the kit before installing anything. You can switch any time without losing anything.</p>
+        </div>
+        <div class="look-first">
+          <span class="muted">Rather look first?</span>
+          <a href={RELEASES_URL}>Download the kit (zip, {ZIP_SIZE.replace("about ", "~")})</a>
+          <a href="/how-it-works/">Read how it works</a>
+        </div>
+      </div>
+
+      <div class="panel panel--welcome" hidden data-start-welcome>
+        <div class="stack gap-4">
+          <p class="kk-mark">[x] Setup done · <span data-setup-label></span></p>
+          <h2 class="h2-card">Welcome back</h2>
+          <p class="small muted">Start every session, in any AI tool, with this one sentence. Your plan remembers where you were.</p>
+        </div>
+        <Prompt label={main.label} text={main.text} size="lg" note="Paste into your AI at the start of a session" />
+        <div class="kk-note stack gap-8" hidden data-welcome-update>
+          <p><strong>A new version of the kit is out.</strong> Your vault has <span data-installed></span>. Your notes are safe either way.</p>
+          <a href="/whats-new/"><strong>What's new, and how to update →</strong></a>
+        </div>
+        <div class="doors">
+          <a class="kk-choice" href="/ideas/"><span class="kk-choice__text"><span class="kk-choice__title">Ideas menu</span><span class="kk-choice__sub">{ideaCount} ideas. Tick what fits your life.</span></span><span class="choice-arrow" aria-hidden="true">→</span></a>
+          <a class="kk-choice" href="/prompts/"><span class="kk-choice__text"><span class="kk-choice__title">Prompts</span><span class="kk-choice__sub">Ready to copy, for everyday things.</span></span><span class="choice-arrow" aria-hidden="true">→</span></a>
+        </div>
+        <p class="again">Setting up another computer, or helping a friend? <button type="button" class="linklike" data-show-chooser>Show the first steps</button></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="ba">
+    <div class="wrap section">
+      <h2 id="ba" class="h2-band">Same two words, two different mornings</h2>
+      <div class="mornings">
+        <figure class="morning">
+          <figcaption class="label-caps">Without the kit · a brilliant stranger</figcaption>
+          <p class="bubble">Morning briefing.</p>
+          <p class="reply">Happy to help! What's on your calendar today? And what are your priorities this week?</p>
+          <p class="morning__foot">Every chat starts from zero, so you explain yourself again.</p>
+        </figure>
+        <figure class="morning morning--with">
+          <figcaption class="label-caps">With the kit · an assistant that knows you</figcaption>
+          <p class="bubble">Morning briefing.</p>
+          <div class="stack gap-4 reply">
+            <span class="reading">reading your notes: GOALS.md · PROJECTS.md · calendar</span>
+            <span>Here's your day: today's calendar, your top 3, what's due, and one nudge from your goals.</span>
+          </div>
+          <p class="morning__foot">It knows because you told it once, and it's written down in notes you can read and change.</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section section--tight-bottom" aria-labelledby="pieces">
+    <div class="section__intro">
+      <h2 id="pieces" class="h2-band">Four pieces, all yours</h2>
+      <p class="muted pretty">The interview fills your notes with what matters. The plan turns that into small steps. Skills and prompts do the repeat work.</p>
+    </div>
+    <div class="pieces">
+      <article class="piece">
+        <span class="chip-mono">vault/</span>
+        <h3 class="h3">A vault you own</h3>
+        <p>An Obsidian folder of plain notes on your own computer. The AI reads it for context and writes back what's worth keeping.</p>
+        <p class="piece__foot">Obsidian is a free notes app. “Vault” is its word for a folder of notes.</p>
+      </article>
+      <article class="piece">
+        <span class="chip-mono">5 rounds</span>
+        <h3 class="h3">A friendly interview</h3>
+        <p>Five short rounds where the AI gets to know your life, your work and your devices, then suggests where it can help most.</p>
+        <p class="piece__foot">One question at a time. Skip or pause whenever you like.</p>
+      </article>
+      <article class="piece">
+        <span class="chip-mono">HARNESS-PLAN.md</span>
+        <h3 class="h3">A harness plan</h3>
+        <p>A checklist the AI works through with you, one small verified step per session. You can stop, switch tools, and pick up later.</p>
+        <p class="piece__foot">It's a plain note. Each step says when it counts as done and how to check.</p>
+      </article>
+      <article class="piece">
+        <span class="chip-mono">skills/</span>
+        <h3 class="h3">Skills &amp; prompts</h3>
+        <p>Ready-made playbooks (briefings, reviews, planning, saving notes) and copy-paste prompts for everything else.</p>
+        <p class="piece__foot">A skill is a written playbook the AI follows, like a recipe.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="wrap section" aria-labelledby="journey">
+    <div class="section__intro">
+      <h2 id="journey" class="h2-band">Small steps, at your pace</h2>
+      <p class="muted">One hour to start. After that, short sessions whenever you feel like it. There's no deadline and nothing to keep up with.</p>
+    </div>
+    <ol class="journey">
+      <li><span class="journey__when">Day 1 · ≈ 1 hour</span><span class="journey__what">Set up</span><span class="journey__how">Install Obsidian, give the kit's vault folder a home, connect an AI tool, say hello.</span></li>
+      <li><span class="journey__when">Week 1 · 4 × ~20 min</span><span class="journey__what">The interview</span><span class="journey__how">Rounds 1–4, one question at a time.</span></li>
+      <li><span class="journey__when">Weeks 2–4 · short sessions</span><span class="journey__what">First wins</span><span class="journey__how">Three things you'll actually use, picked from your answers.</span></li>
+      <li class="optional"><span class="journey__when">Month 2+ · optional</span><span class="journey__what">Grow it</span><span class="journey__how">Connect calendar or email (read-only first), small scripts, schedules.</span></li>
+    </ol>
+    <div class="sentence">
+      <div class="stack gap-8">
+        <h3 class="h3">The one sentence to remember</h3>
+        <p class="muted small">Start any session, in any AI tool, with this. The plan remembers where you were.</p>
+      </div>
+      <Prompt label={main.label} text={main.text} note="Paste into your AI at the start of a session" />
+    </div>
+    <p>Curious what it could help with? <a href="/ideas/">Browse the ideas menu</a>: {ideaCount} ideas in {areas.length} areas, from meal plans to school portals.</p>
+  </section>
+
+  <section class="band band--end" aria-labelledby="trust">
+    <div class="wrap section">
+      <h2 id="trust" class="h2-band">Before you download anything</h2>
+      <dl class="trust">
+        <div><dt>What does it cost?</dt><dd>Nothing. There's no account, no sign-up and nothing to cancel later.</dd></div>
+        <div><dt>Where do my notes go?</dt><dd>Your notes stay on your computer. The AI reads the ones it needs for a task. You decide what goes in, and passwords and ID numbers never do.</dd></div>
+        <div><dt>What am I downloading?</dt><dd>A zip of {ZIP_SIZE}, smaller than one photo. Inside: <span class="mono small">README.md · LICENSE · START-HERE.html · guide/ · vault/</span>. Plain notes and web pages you can open and read first.</dd></div>
+        <div><dt>What does “open source” mean here?</dt><dd>Every file is public on <a href={REPO_URL}>GitHub</a>, a website where projects like this are shared, so anyone can read and check it. The licence (CC BY 4.0) lets you share and adapt it, with credit.</dd></div>
+        <div><dt>Does this website track me?</dt><dd>No. No cookies, no analytics, and nothing loaded from anyone else's servers. Your choices here are saved in this browser only.</dd></div>
+        <div><dt>Who made it?</dt><dd>Designed and shared by Ophir Radnitz.</dd></div>
+      </dl>
+      <div class="cta">
+        <a class="kk-btn kk-btn--lg" href="#start">Find my first step</a>
+        <a class="btn-ink btn-ink--lg" href={RELEASES_URL}>Download the kit</a>
+        <span class="cta__note">Companion app: coming later</span>
+      </div>
+    </div>
+  </section>
+</Base>

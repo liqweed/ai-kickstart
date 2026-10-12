@@ -4,3 +4,8 @@ dist/
 # Obsidian app state, if someone opens vault/ directly in the repo
 vault/.obsidian/
 vault/.trash/
+# Node workspace (site/, packages/)
+node_modules/
+site/dist/
+site/.astro/
+.wrangler/

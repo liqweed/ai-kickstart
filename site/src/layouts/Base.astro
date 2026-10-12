@@ -1,0 +1,104 @@
+---
+// Every page: head and meta, header with the five places, the resume/update banners, footer.
+import "@ai-kickstart/design/kickstart.css";
+import "../styles/site.css";
+import Mark from "../components/Mark.astro";
+import { REPO_URL, STEPS } from "../lib/choices.ts";
+import { VERSION } from "../lib/repo.ts";
+
+export type Place = "start" | "setup" | "ideas" | "prompts" | "guide" | "new" | "none";
+interface Props {
+  title: string;
+  description?: string;
+  place: Place;
+}
+
+const DESCRIPTION = "A free starter kit for using AI at home and at work. Your notes stay on your own computer. No account, about an hour to set up.";
+const { title, description = DESCRIPTION, place } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const shareImage = new URL("/share-card.png", Astro.site);
+const nav: [Place, string, string][] = [
+  ["start", "/", "Start"],
+  ["setup", "/setup/", "Your setup"],
+  ["ideas", "/ideas/", "Ideas menu"],
+  ["prompts", "/prompts/", "Prompts"],
+  ["guide", "/how-it-works/", "How it works"],
+];
+---
+<!doctype html>
+<html lang="en" data-kk="auto" data-version={`v${VERSION}`} data-place={place}>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  <link rel="canonical" href={canonical}>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AI Kickstart">
+  <meta property="og:url" content={canonical}>
+  <meta property="og:title" content="AI Kickstart: give your AI a memory of you">
+  <meta property="og:description" content={DESCRIPTION}>
+  <meta property="og:image" content={shareImage}>
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="AI Kickstart. Give your AI a memory of you. Free, and your notes stay on your computer.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="/favicon-16.png" sizes="16x16" type="image/png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap site-header__in">
+      <a class="brand" href="/" aria-label="AI Kickstart, start page">
+        <Mark class="brand__mark" />
+        <span class="brand__word" aria-hidden="true">AI Kickstart</span>
+      </a>
+      <nav aria-label="Main" class="site-nav">
+        {nav.map(([id, href, label]) => <a href={href} aria-current={place === id ? "page" : undefined}>{label}</a>)}
+      </nav>
+    </div>
+    <div class="banner banner--resume" hidden data-banner="resume" data-steps={JSON.stringify(STEPS.map((s) => s.title))}>
+      <div class="wrap banner__in">
+        <span class="kk-mark">[/]</span>
+        <span class="banner__text">Setup paused at <strong data-resume-step></strong> · <span data-setup-label></span></span>
+        <a class="kk-btn" href="/setup/" data-resume-link>Continue where I left off →</a>
+      </div>
+    </div>
+    <div class="banner banner--update" hidden data-banner="update">
+      <div class="wrap banner__in">
+        <span class="kk-mark">v{VERSION}</span>
+        <span class="banner__text">A new version is out. Your vault was set up with <span data-installed></span>. Your notes are safe either way.</span>
+        <a class="btn-ink" href="/whats-new/">What's new →</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <slot />
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap site-footer__in">
+      <div class="stack gap-4">
+        <span class="site-footer__credit">Designed and shared by Ophir Radnitz</span>
+        <span class="muted">AI Kickstart v{VERSION} · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>: share and adapt it, with credit.</span>
+        <span class="muted">This site uses no cookies, no analytics and nothing from other servers.</span>
+      </div>
+      <nav aria-label="Footer" class="footer-nav">
+        <a href="/whats-new/">What's new</a>
+        <a href={REPO_URL}>Source on GitHub</a>
+        <a href={`${REPO_URL}/issues/new/choose`}>Give feedback</a>
+      </nav>
+    </div>
+  </footer>
+  <span class="kk-sr" aria-live="polite" data-announce></span>
+
+  <script>
+    import "../scripts/site.ts";
+  </script>
+</body>
+</html>

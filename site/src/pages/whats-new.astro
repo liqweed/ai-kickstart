@@ -1,0 +1,36 @@
+---
+// Releases, straight from CHANGELOG.md.
+import Base from "../layouts/Base.astro";
+import { RELEASES_URL } from "../lib/choices.ts";
+import { inline, monthYear, ordered } from "../lib/kit.ts";
+
+const releases = await ordered("releases");
+const latest = releases[0].data;
+---
+<Base title="What's new · AI Kickstart" place="new" description="What changed in each version of the AI Kickstart kit, and how to update without losing your notes.">
+  <section class="wrap wrap--text news">
+    <div class="stack gap-8">
+      <h1 class="h1">What's new</h1>
+      <p class="muted">Latest: {latest.version}, {monthYear(latest.date)}.<span data-installed-line></span></p>
+    </div>
+    <section class="safe" aria-labelledby="upd">
+      <h2 id="upd" class="h2-card">Updating without losing your notes</h2>
+      <p>A guided update isn't part of the kit yet. When it is, it will live here, step by step, like the setup. Until then, the safe rule is simple:</p>
+      <ul>
+        <li>Keep your vault where it is. Never unzip a new version on top of it.</li>
+        <li><a href={RELEASES_URL}>Download the new kit</a> into a separate folder, and read the notes below to see what changed.</li>
+      </ul>
+    </section>
+    <ol class="releases">
+      {releases.map((r) => (
+        <li>
+          <span class="releases__v">{r.data.version}</span>
+          <div class="stack gap-4">
+            <span><strong>{r.data.date ? monthYear(r.data.date) : ""}</strong></span>
+            <ul>{r.data.items.map((i) => <li set:html={inline(i)} />)}</ul>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+</Base>

@@ -1,0 +1,96 @@
+---
+// The catalog as a menu, read from vault/_system/kickstart/function-catalog.md at build time.
+import Base from "../layouts/Base.astro";
+import { hasLevel } from "@ai-kickstart/core";
+import { inline, ordered } from "../lib/kit.ts";
+
+const areas = await ordered("catalog");
+const items = areas.flatMap((a) => a.data.items);
+const LEVELS = [
+  ["all", "Everything"],
+  ["S", "S · Starter"],
+  ["M", "M · Connected"],
+  ["L", "L · Builder"],
+] as const;
+const count = (l: string) => (l === "all" ? items.length : items.filter((i) => hasLevel(i, l)).length);
+const levelWord = (l: string) => l.replace("S", "Starter").replace("M", "Connected").replace("L", "Builder");
+---
+<Base title="Ideas menu · AI Kickstart" place="ideas" description={`${items.length} things AI can do across life and work, in ${areas.length} areas. Tick what fits and copy your picks into the interview.`}>
+  <div data-catalog>
+    <section class="wrap cat-head" aria-labelledby="cat-h">
+      <div class="stack gap-8 measure">
+        <p class="kk-eyebrow">A menu, not a to-do list</p>
+        <h1 id="cat-h" class="h1">What could AI do for you?</h1>
+        <p class="pretty">{items.length} ideas in {areas.length} areas. Most people end up using 5–10 of them regularly. Tick anything that makes you think “oh, yes”, then copy your picks into Round 2 of the interview.</p>
+      </div>
+      <div class="legend">
+        <span><strong>S</strong> Starter: just the AI, your notes and web search</span>
+        <span><strong>M</strong> Connected: needs an app connection</span>
+        <span><strong>L</strong> Builder: needs a small script or schedule</span>
+      </div>
+      <div class="filters" role="group" aria-label="Show by effort" hidden data-filters>
+        <span class="filters__label">Show</span>
+        {LEVELS.map(([id, label]) => <button type="button" class="kk-pill" aria-pressed={id === "all" ? "true" : "false"} data-level={id}>{label} ({count(id)})</button>)}
+      </div>
+      <nav class="jump" aria-label="Areas">
+        {areas.map((a) => <a href={`#${a.id}`} data-jump={a.id}><span aria-hidden="true">{a.data.emoji}</span> {a.data.name}<span data-jump-picked></span></a>)}
+      </nav>
+    </section>
+
+    <div class="wrap cat">
+      <div class="menu">
+        {areas.map((a) => (
+          <section class="area" id={a.id} aria-labelledby={`${a.id}-h`} data-area>
+            <h2 id={`${a.id}-h`}><span aria-hidden="true">{a.data.emoji}</span><span class="area__name">{a.data.name}</span><span class="area__count" data-area-count>{a.data.items.length} ideas</span></h2>
+            {a.data.items.map((i) => (
+              <label class="kk-row" data-row data-id={i.id} data-name={i.name} data-area-name={a.data.name} data-row-level={i.level}>
+                <input class="kk-row__check" type="checkbox" />
+                <span class="kk-row__text"><span class="kk-row__name">{i.name}</span><span class="kk-row__desc" set:html={inline(i.desc)} /></span>
+                <span class="kk-tag" title={levelWord(i.level)}>{i.level}</span>
+              </label>
+            ))}
+          </section>
+        ))}
+      </div>
+      <aside class="picks" aria-labelledby="picks-h">
+        <div class="stack gap-4">
+          <h2 id="picks-h" class="h3">Your picks</h2>
+          <p class="small muted pretty" aria-live="polite" data-picks-text>Nothing picked yet. Tick anything that makes you think “oh, yes”. Most people end up with 5–10.</p>
+        </div>
+        <ul class="picks__list" hidden data-has-picks data-picks-list></ul>
+        <div class="stack gap-8" hidden data-has-picks>
+          <button type="button" class="kk-btn" data-copy-picks>Copy for Round 2</button>
+          <div class="row-btns">
+            <button type="button" class="kk-btn kk-btn--line grow" data-open-msg>Preview message</button>
+            <button type="button" class="kk-btn kk-btn--line" data-clear-picks>Clear</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <div class="tray" hidden data-tray>
+    <div class="wrap tray__in">
+      <p class="tray__text" aria-live="polite" data-tray-text>Tick ideas you like. They collect here.</p>
+      <button type="button" class="kk-btn kk-btn--line" hidden data-has-picks data-open-msg>See message</button>
+      <button type="button" class="kk-btn" hidden data-has-picks data-copy-picks data-short="1">Copy</button>
+    </div>
+  </div>
+
+  <dialog class="dialog" aria-labelledby="pick-dlg-h" data-pick-dialog>
+    <div class="dialog__in">
+      <div class="dialog__head">
+        <div class="stack gap-4 grow-1">
+          <h2 id="pick-dlg-h" class="h2-card">Your message for Round 2</h2>
+          <p class="small muted">This is exactly what gets copied. Paste it when your AI starts Round 2.</p>
+        </div>
+        <button type="button" class="x x--lg" aria-label="Close" data-close-msg>×</button>
+      </div>
+      <pre class="dialog__msg" data-pick-message></pre>
+      <div class="dialog__foot">
+        <button type="button" class="kk-btn kk-btn--line" data-clear-picks>Clear picks</button>
+        <button type="button" class="kk-btn" data-copy-picks>Copy for Round 2</button>
+      </div>
+    </div>
+  </dialog>
+</Base>

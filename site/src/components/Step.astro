@@ -1,0 +1,37 @@
+---
+// One setup step: a <details> card with a status mark, the body (slot), Done when / Check, and the
+// tick / untick buttons that scripts/setup.ts reveals. Proof can vary by AI path (data-path).
+import { STEPS, type StepId } from "../lib/choices.ts";
+
+interface Proof { doneWhen: string; check: string; path?: string }
+interface Props { id: StepId; proof: Proof[] }
+const { id, proof } = Astro.props;
+const n = STEPS.findIndex((s) => s.id === id) + 1;
+const step = STEPS[n - 1];
+---
+<li class="kk-step" id={`step-${id}`} data-step={id}>
+  <details open={n === 1}>
+    <summary class="kk-step__head">
+      <span class="kk-mark step-mark" data-mark>[ ]</span>
+      <span class="step-head-text">
+        <span class="kk-step__kicker">Step {n} · {step.harness}<span data-status></span></span>
+        <span class="kk-step__title">{step.title}</span>
+      </span>
+      <span class="step-chev" aria-hidden="true"></span>
+    </summary>
+    <div class="kk-step__body step-body">
+      <slot />
+      {proof.map((p) => (
+        <div class="kk-proof" data-path={p.path}>
+          <span class="kk-proof__k">Done when:</span><span>{p.doneWhen}</span>
+          <span class="kk-proof__k">Check:</span><span>{p.check}</span>
+        </div>
+      ))}
+      <div class="step-actions" hidden data-actions>
+        <button type="button" class="kk-btn kk-btn--lg" data-tick>{n < STEPS.length ? "Checked. Next step →" : "Checked. Day 1 done"}</button>
+        <button type="button" class="kk-btn kk-btn--line" data-untick hidden>Untick this step</button>
+      </div>
+      <slot name="after" />
+    </div>
+  </details>
+</li>

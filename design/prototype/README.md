@@ -38,6 +38,8 @@ Checked: no third-party requests in the design itself (only `support.js`). The f
 
 ### For the port (content, not design)
 
+**Ported 2026-10-13** into `site/`. The setup items below are done there (6 steps tracking P0.1–P0.5, following `guide/setup.html`); prompts render from `site/src/content/prompts.md`; the C2PA blocks are stripped from the shipped icons. Kept for the record:
+
 Still open from round 1. The content comes from the kit's Markdown at build time anyway:
 
 - **Setup steps are thinner than `guide/setup.html`.** Missing: move and rename the vault folder somewhere permanent (and the OneDrive/iCloud notes); the three Obsidian settings; path A uploads more than two files and needs the *chat-only project instructions*; path B's "project instructions" field; path C's optional skills link; backup & sync (P0.4) and privacy (P0.5). Setup should track harness steps P0.1–P0.5. The app's path A "Your AI" step repeats the "two files" shortcut.

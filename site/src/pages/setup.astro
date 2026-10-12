@@ -1,0 +1,220 @@
+---
+// Day 1. Content follows guide/setup.html (harness steps P0.1–P0.5); layout follows the approved prototype.
+// Every OS and AI-path variant is in the HTML. CSS shows the visitor's own (data-os / data-path on .setup);
+// without script, all variants show with a small tag.
+import Base from "../layouts/Base.astro";
+import Prompt from "../components/Prompt.astro";
+import Step from "../components/Step.astro";
+import { OS, PATHS, RELEASES_URL, ZIP_SIZE } from "../lib/choices.ts";
+import { prompt } from "../lib/kit.ts";
+
+const first = await prompt("setup/first-contact");
+const stuck = await prompt("setup/help-me-with-a-setup-step-i-m-stuck-on");
+const main = await prompt("harness/the-main-one");
+const round1 = await prompt("interview/start");
+
+const CHAT_ONLY = `You are my AI setup coach. The attached files are my "AI Kickstart" kit and the current state of my Obsidian vault.
+Follow AGENTS.md as if you were working inside my vault, but you cannot write files. Whenever you would create or edit a note, give me a paste-ready markdown block headed with the exact file path instead.
+At the start of a conversation, check the attached HARNESS-PLAN.md and tell me in two lines where I am and what's next.`;
+const PROJECT_LINE = "Read AGENTS.md in this folder at the start of every session and follow it.";
+const fill = { "Mac / Windows / Linux": "os", "AI tool": "tool" } as const;
+---
+<Base title="Your setup · AI Kickstart" place="setup" description="Day 1 of AI Kickstart, step by step for your computer and your AI tool. About an hour, in any number of sittings.">
+  <section class="wrap wrap--setup setup" data-os="all" data-path="all">
+    <div class="stack gap-8">
+      <p class="kk-eyebrow">Day 1 · about an hour, in any number of sittings</p>
+      <h1 class="h1">Your setup</h1>
+      <p class="muted">Keep this open next to Obsidian and your AI. Each step you tick is remembered on this device.</p>
+    </div>
+
+    <div class="settings" hidden data-pills>
+      <div class="settings__row" role="group" aria-label="Your computer">
+        <span class="settings__label">Computer</span>
+        {Object.entries(OS).map(([id, label]) => <button type="button" class="kk-pill" aria-pressed="false" data-set-os={id}>{label}</button>)}
+      </div>
+      <div class="settings__row" role="group" aria-label="Your AI">
+        <span class="settings__label">AI</span>
+        {Object.entries(PATHS).map(([id, p]) => <button type="button" class="kk-pill" aria-pressed="false" data-set-path={id}>{p.short}</button>)}
+      </div>
+    </div>
+
+    <div class="kk-note stack gap-10" hidden data-phone-steps>
+      <p><strong>These steps happen on a computer.</strong> Send this page to yourself and open it there. Your choices travel inside the link.</p>
+      <button type="button" class="btn-ink" data-share-setup>Send this to my computer</button>
+    </div>
+
+    <div class="choose-path" hidden data-choose-path>
+      <h2 class="h2-card">First: how would you like to use AI?</h2>
+      {Object.entries(PATHS).map(([id, p]) => (
+        <button type="button" class="kk-choice" data-set-path={id}>
+          <span class="kk-choice__text">
+            <span class="kk-choice__title">{p.title}{"recommended" in p && <span class="kk-badge">Recommended</span>}</span>
+            <span class="kk-choice__sub">{p.sub}</span>
+          </span>
+        </button>
+      ))}
+      <p class="hint">Not sure? Go with the desktop AI app. Pick the chat app if you can't install apps on this computer.</p>
+    </div>
+
+    <div class="stack gap-18" data-steps-area>
+      <p class="progress" aria-live="polite" data-progress>Six steps. Tick each one when its check works.</p>
+      <ol class="steps">
+        <Step id="kit" proof={[{ doneWhen: "You have an unpacked kit folder with a folder called vault inside.", check: "Open vault. You should see AGENTS.md and a folder called _system." }]}>
+          <p class="why">The kit is one small zip file: plain notes and a few web pages. Nothing in it installs itself.</p>
+          <ol class="step-list">
+            <li data-os="mac windows linux"><span class="variant-tag" data-for="os">computer</span>Download the zip ({ZIP_SIZE}).</li>
+            <li data-os="mac"><span class="variant-tag" data-for="os">Mac</span>Double-click it in Downloads. A folder appears next to it.</li>
+            <li data-os="windows"><span class="variant-tag" data-for="os">Windows</span>In Downloads, right-click it and choose <strong>Extract All…</strong>, then <strong>Extract</strong>. Use the extracted folder, not the zip: Windows lets you look inside a zip, but nothing can be saved there.</li>
+            <li data-os="linux"><span class="variant-tag" data-for="os">Linux</span>Extract it with your file manager or <code>unzip</code>.</li>
+            <li data-os="phone"><span class="variant-tag" data-for="os">phone</span>On your computer, download the zip ({ZIP_SIZE}) and unpack it.</li>
+          </ol>
+          <a class="btn-accent-line" href={RELEASES_URL}>Download the kit (zip, {ZIP_SIZE.replace("about ", "~")})</a>
+        </Step>
+
+        <Step id="obsidian" proof={[{ doneWhen: "Obsidian opens and shows its welcome screen.", check: "You can see the option to open a folder as a vault." }]}>
+          <p class="why">Obsidian is a free notes app. It shows the kit as tidy, linked notes, and keeps everything as plain text files on your computer.</p>
+          <ol class="step-list">
+            <li data-os="mac"><span class="variant-tag" data-for="os">Mac</span>Download Obsidian from <a href="https://obsidian.md/download">obsidian.md/download</a> and drag it to <strong>Applications</strong>.</li>
+            <li data-os="mac"><span class="variant-tag" data-for="os">Mac</span>Open it. If your Mac asks whether to open an app from the internet, choose <strong>Open</strong>.</li>
+            <li data-os="windows"><span class="variant-tag" data-for="os">Windows</span>Download the installer from <a href="https://obsidian.md/download">obsidian.md/download</a>, run it, then open Obsidian.</li>
+            <li data-os="windows"><span class="variant-tag" data-for="os">Windows</span>On a work laptop that blocks installs, ask your IT team for Obsidian. Meanwhile you can read ahead here.</li>
+            <li data-os="linux"><span class="variant-tag" data-for="os">Linux</span>Install it from <a href="https://obsidian.md/download">obsidian.md/download</a> (AppImage, .deb, Flatpak or Snap), then open it.</li>
+            <li data-os="phone"><span class="variant-tag" data-for="os">phone</span>On your computer, get Obsidian from <a href="https://obsidian.md/download">obsidian.md/download</a>, install it and open it.</li>
+          </ol>
+        </Step>
+
+        <Step id="vault" proof={[{ doneWhen: "AGENTS.md, _system and the numbered folders show in Obsidian's left sidebar.", check: "Open _system/index.md. It's the map your AI reads first." }]}>
+          <p class="why">“Vault” is Obsidian's word for a folder of notes. Your AI will work in this folder for months, so give it a permanent home and a name first.</p>
+          <ol class="step-list">
+            <li data-os="mac"><span class="variant-tag" data-for="os">Mac</span>Move the <code>vault</code> folder out of the kit to somewhere permanent and rename it, for example <code>Documents/My Vault</code>. Want it on your iPhone too, without paying for sync? Put it in <code>iCloud Drive/Obsidian/My Vault</code> instead.</li>
+            <li data-os="windows"><span class="variant-tag" data-for="os">Windows</span>Move the <code>vault</code> folder out of the kit to somewhere permanent and rename it, for example <code>Documents\My Vault</code>. If OneDrive syncs your Documents, right-click the folder and choose <strong>Always keep on this device</strong>, so your AI never meets “online-only” files.</li>
+            <li data-os="linux"><span class="variant-tag" data-for="os">Linux</span>Move the <code>vault</code> folder out of the kit to somewhere permanent, for example <code>~/Documents/my-vault</code>.</li>
+            <li data-os="phone"><span class="variant-tag" data-for="os">phone</span>On your computer, move the <code>vault</code> folder out of the kit to somewhere permanent and rename it, for example <code>Documents/My Vault</code>.</li>
+            <li>In Obsidian, choose <strong>Open folder as vault</strong> and pick that folder: the renamed one, not the kit folder around it. If asked, choose <strong>Trust author and enable plugins</strong> (there are none yet).</li>
+          </ol>
+          <details class="more">
+            <summary>Three settings worth changing</summary>
+            <div>
+              <table class="table">
+                <thead><tr><th scope="col">Where</th><th scope="col">Setting</th><th scope="col">Why</th></tr></thead>
+                <tbody>
+                  <tr><td>Settings → Files and links</td><td><strong>Automatically update internal links</strong>: on</td><td>Moving or renaming a note won't break links.</td></tr>
+                  <tr><td>Settings → Files and links</td><td><strong>Default location for new notes</strong>: <code>_inbox</code></td><td>Quick notes land in the inbox and get sorted weekly.</td></tr>
+                  <tr><td>Settings → Core plugins → Templates</td><td><strong>Template folder</strong>: <code>_system/templates</code></td><td>One-click project and meeting notes.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+        </Step>
+
+        <Step id="connect" proof={[
+          { path: "a", doneWhen: "A new chat is open inside your Project, with the files and instructions added.", check: "The Project's file list shows AGENTS.md and HARNESS-PLAN.md." },
+          { path: "b", doneWhen: "The app shows your vault as its working folder.", check: "Its file list shows AGENTS.md." },
+          { path: "c", doneWhen: "The agent is running with your vault as its working directory.", check: "Ask it which folder it's in." },
+        ]}>
+          <div class="stack gap-14" data-path="a">
+            <p class="why"><span class="variant-tag" data-for="path">Chat app</span>A chat app can't open files on your computer. So you give it the kit's key files, and it gives you text to paste back into your notes.</p>
+            <ol class="step-list">
+              <li>In Claude or ChatGPT, create a <strong>Project</strong> (a space that keeps files and instructions between chats).</li>
+              <li>Upload these files from your vault: <code>AGENTS.md</code>, <code>_system/HARNESS-PLAN.md</code>, everything in <code>_system/kickstart/</code>, and <code>_system/skills/kickstart-interview/SKILL.md</code> and <code>_system/skills/harness/SKILL.md</code>.</li>
+              <li>Paste the instructions below into the Project's instructions.</li>
+              <li>From now on, whenever the AI gives you a block titled with a file path, paste it into that note in Obsidian. Re-upload changed files now and then. More copy-paste, but it works.</li>
+            </ol>
+            <Prompt label="Chat-only project instructions" note="Paste into your Project's instructions" text={CHAT_ONLY} />
+          </div>
+          <div class="stack gap-14" data-path="b">
+            <p class="why"><span class="variant-tag" data-for="path">Desktop AI app</span>A desktop AI app can work inside one folder you choose. It reads your notes and writes new ones there, and nowhere else.</p>
+            <ol class="step-list">
+              <li>Open your desktop AI app (for example the Claude desktop app's Cowork mode, or Craft Agents) and start a new task or workspace.</li>
+              <li><strong>Choose your vault folder</strong> as the folder it may work in. Only that folder, not your whole Documents. If it asks to read and write files there, allow it.</li>
+              <li>If the app has a “project instructions” field, paste the line below.</li>
+            </ol>
+            <Prompt label="Project instructions" note="Only if your app has this field" text={PROJECT_LINE} />
+          </div>
+          <div class="stack gap-14" data-path="c">
+            <p class="why"><span class="variant-tag" data-for="path">Terminal agent</span>Your agent reads the vault's rules by itself.</p>
+            <ol class="step-list">
+              <li>Open a terminal <strong>in the vault folder</strong> and start your agent there (for example <code>claude</code> or <code>codex</code>).</li>
+              <li>Claude Code reads <code>CLAUDE.md</code>, which simply imports <code>AGENTS.md</code>. Codex and most other agents read <code>AGENTS.md</code> directly. Nothing to configure.</li>
+              <li>Optional: if your agent supports a native skills folder, link it to the kit's skills. For Claude Code on macOS or Linux:</li>
+            </ol>
+            <pre class="cmd">mkdir -p .claude && ln -s ../_system/skills .claude/skills</pre>
+            <p class="tip">Not needed: <code>AGENTS.md</code> already tells the agent where skills live.</p>
+          </div>
+          <p class="tip"><strong>AI tools change monthly.</strong> If something here doesn't match your app, ask your AI how it can read and write files in a local folder on your computer. A paid plan is strongly recommended for the desktop app and the terminal.</p>
+        </Step>
+
+        <Step id="hello" proof={[
+          { path: "a", doneWhen: "It answers in three short lines and gives you the text for a test note.", check: "Create _inbox/hello.md in Obsidian yourself and paste that text in. Then delete it." },
+          { path: "b c", doneWhen: "It answers in three short lines and creates the test note.", check: "See _inbox/hello.md appear in Obsidian, then delete it yourself." },
+        ]}>
+          <p class="why">This first message checks that your AI can read the kit and write a note.</p>
+          <ol class="step-list">
+            <li data-path="a"><span class="variant-tag" data-for="path">Chat app</span>Copy the message below and paste it into a new chat inside your Project.</li>
+            <li data-path="b c"><span class="variant-tag" data-for="path">desktop app or terminal</span>Copy the message below and paste it into your AI.</li>
+          </ol>
+          <Prompt label={first.label} text={first.text} />
+        </Step>
+
+        <Step id="plan" proof={[{ doneWhen: "Your vault lives somewhere that's backed up, and you've looked at the “Ask me first” list in _system/profile/PREFERENCES.md.", check: "Say “Harness status.” All five P0 steps show [x]." }]}>
+          <p class="why">From here your AI leads, using the plan in your vault. It starts with two short safety steps: backup and privacy.</p>
+          <ol class="step-list">
+            <li>Say the sentence below. Your AI ticks off P0.1–P0.3 with you and moves on to backup (P0.4) and privacy (P0.5).</li>
+          </ol>
+          <Prompt label="Hand over to the plan" text={main.text} />
+          <details class="more">
+            <summary>Backup &amp; sync: the options</summary>
+            <div class="stack gap-10">
+              <table class="table">
+                <thead><tr><th scope="col">Option</th><th scope="col">Cost</th><th scope="col">Good for</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>Obsidian Sync</strong></td><td>Paid</td><td>Simplest, includes version history, all platforms and phones</td></tr>
+                  <tr><td><strong>iCloud Drive / OneDrive / Google Drive folder</strong></td><td>Usually already have it</td><td>Backup with no effort. Phone access depends on the platform (iCloud and iPhone work well together)</td></tr>
+                  <tr><td><strong>Git</strong> (private repository)</td><td>Free</td><td>Technical users. Full history of every change the AI made</td></tr>
+                </tbody>
+              </table>
+              <p class="tip">On a phone, Obsidian is great for reading briefings and capturing quick notes into <code>_inbox/</code>. The AI work itself happens on the computer. Android and Windows have free sync options too (for example Syncthing); ask your AI to compare them for your devices.</p>
+            </div>
+          </details>
+          <details class="more">
+            <summary>Privacy: the short version</summary>
+            <div class="stack gap-10">
+              <p>Your notes live on your computer. When you ask the AI something, it reads the notes it needs, and those are sent to your AI provider to produce the answer. So: <strong>put in what you'd be comfortable with your AI provider processing</strong>, and nothing more.</p>
+              <ul class="step-list">
+                <li><strong>Never in the vault:</strong> passwords, PINs, full card or account numbers, ID or passport numbers. Use a password manager for those.</li>
+                <li><strong>Check your provider's data settings.</strong> Most paid plans let you opt out of your data being used for training. Do it.</li>
+                <li><strong>Work material:</strong> follow your employer's AI policy. When in doubt, keep confidential work documents out and store only your own notes and learnings.</li>
+                <li><strong>Other people:</strong> write about others the way you'd be OK with them reading it. Factual and kind.</li>
+                <li><strong>Give the AI one folder</strong>, the vault, not your whole disk.</li>
+                <li><strong>The “ask first” list</strong> in <code>_system/profile/PREFERENCES.md</code> (deleting, sending, spending, installing, connecting accounts) is yours to tighten.</li>
+              </ul>
+            </div>
+          </details>
+        </Step>
+      </ol>
+
+      <div class="done-panel" hidden data-all-done>
+        <h2 class="h2-card">Day 1 is done. That was the hardest part.</h2>
+        <p>Next, when you have about 20 minutes: round 1 of the interview. You can answer by voice, skip anything, and stop whenever you like.</p>
+        <Prompt label="Start the interview" text={round1.text} />
+        <p class="small muted">After that, every session starts the same way: <strong class="mono">Continue my harness plan.</strong></p>
+      </div>
+
+      <details class="stuck">
+        <summary>Stuck on a step? Ask your AI for help</summary>
+        <div><Prompt label={stuck.label} text={stuck.text} note="Pre-filled from your choices. Change anything." fill={fill} /></div>
+      </details>
+
+      <div class="place" hidden data-pills>
+        <div class="stack gap-8">
+          <h2 class="h3">Keeping your place</h2>
+          <p class="small muted">Close this tab, make tea, come back: this browser opens straight to your step. To carry on from another device, use this link. It holds your choices and step, nothing else.</p>
+        </div>
+        <div class="stack gap-8">
+          <code data-share-url></code>
+          <button type="button" class="btn-accent-line" data-share-setup>Copy link</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

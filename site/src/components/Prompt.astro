@@ -1,0 +1,29 @@
+---
+// The prompt card: label, Copy, and the prompt with <placeholders>. The markup works without script
+// (the text is selectable); scripts/prompts.ts turns placeholders into fields and wires up Copy.
+import { splitPlaceholders } from "@ai-kickstart/core";
+
+interface Props {
+  label: string;
+  text: string;
+  note?: string;
+  size?: "md" | "lg";
+  /** Pre-fill a placeholder from the visitor's choices: { "AI tool": "tool", "Mac / Windows / Linux": "os" }. */
+  fill?: Record<string, "os" | "tool">;
+}
+const { label, text, note, size = "md", fill = {} } = Astro.props;
+const segs = splitPlaceholders(text);
+const hasSlots = segs.some((s) => s.kind === "slot");
+---
+<div class="kk-prompt" data-size={size} data-prompt>
+  <div class="kk-prompt__head">
+    <div class="kk-prompt__meta">
+      <span class="kk-prompt__label">{label}</span>
+      {note && <span class="kk-prompt__note">{note}</span>}
+    </div>
+    <button type="button" class="kk-prompt__copy" data-copy hidden aria-label={`Copy prompt: ${label}`}>Copy</button>
+  </div>
+  <div class="kk-prompt__text" data-text>{segs.map((s) => s.kind === "text" ? s.value : <span class="kk-ph" data-slot={s.name} data-fill={fill[s.name]}>&lt;{s.name}&gt;</span>)}</div>
+  {hasSlots && <p class="kk-prompt__hint">Dashed parts in &lt;angle brackets&gt; are yours. Type into them, or copy as-is and fill in later.</p>}
+  <span class="kk-sr" aria-live="polite" data-live></span>
+</div>

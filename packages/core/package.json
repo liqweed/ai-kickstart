@@ -1,0 +1,9 @@
+{
+  "name": "@ai-kickstart/core",
+  "private": true,
+  "type": "module",
+  "description": "Pure, runtime-agnostic parsers for the kit's Markdown. Shared by the website and (later) the companion app. No Node APIs here.",
+  "exports": { ".": "./src/index.ts" },
+  "scripts": { "test": "vitest run" },
+  "devDependencies": { "vitest": "^5.0.4", "typescript": "^6.0.3" }
+}

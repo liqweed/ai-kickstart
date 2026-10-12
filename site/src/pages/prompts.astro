@@ -1,0 +1,28 @@
+---
+// The prompt library, from site/src/content/prompts.md (kept in sync with guide/prompts.html by scripts/check_kit.py).
+import Base from "../layouts/Base.astro";
+import Prompt from "../components/Prompt.astro";
+import { ordered } from "../lib/kit.ts";
+
+const groups = await ordered("prompts");
+const total = groups.reduce((n, g) => n + g.data.prompts.length, 0);
+---
+<Base title="Prompts · AI Kickstart" place="prompts" description={`${total} ready-to-copy prompts for setup, the interview, the plan, everyday life and work.`}>
+  <section class="wrap prompt-groups">
+    <div class="stack gap-8 measure">
+      <h1 class="h1">Prompts to copy</h1>
+      <p class="pretty">Copy one, paste it into your AI, done. Highlighted parts in <span class="ph-sample">&lt;angle brackets&gt;</span> are yours to fill in: type straight into them before copying, or fill them in afterwards. Once you've used one twice, ask your AI to turn it into a skill.</p>
+    </div>
+    <nav class="jump jump--wrap" aria-label="Prompt groups">
+      {groups.map((g) => <a href={`#${g.id}`}>{g.data.name} <span class="muted">{g.data.prompts.length}</span></a>)}
+    </nav>
+    {groups.map((g) => (
+      <section class="group" id={g.id} aria-labelledby={`${g.id}-h`}>
+        <h2 id={`${g.id}-h`}>{g.data.name}</h2>
+        <div class="prompt-grid">
+          {g.data.prompts.map((p) => <Prompt label={p.label} text={p.text} note={p.note} />)}
+        </div>
+      </section>
+    ))}
+  </section>
+</Base>

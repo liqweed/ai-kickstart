@@ -1,0 +1,22 @@
+{
+  "name": "site",
+  "private": true,
+  "type": "module",
+  "description": "ai-kickstart.me: static Astro site. Content is read from the kit (vault/, CHANGELOG.md, VERSION) at build time.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@ai-kickstart/core": "workspace:*",
+    "@ai-kickstart/design": "workspace:*",
+    "astro": "^7.3.8"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@types/node": "^24.19.2",
+    "typescript": "^6.0.3"
+  }
+}

@@ -6,6 +6,7 @@
 3. links    - every relative href/src in guide/*.html and START-HERE.html points to an existing file
 4. offline  - the guide loads no external resources (stylesheets, scripts, images, fonts, iframes)
 5. skills   - every skill in vault/_system/skills/ has name+description frontmatter and is listed in vault/AGENTS.md
+6. prompts  - site/src/content/prompts.md and guide/prompts.html hold the same prompts (until the guide shrinks, K12)
 """
 import html
 import re
@@ -104,16 +105,49 @@ def check_skills():
     return len(skills)
 
 
+def prompts_from_md():
+    text = (ROOT / "site/src/content/prompts.md").read_text()
+    found, label, block = set(), None, None
+    for line in text.splitlines():
+        if block is not None:
+            if line.strip() == "```":
+                found.add((label, "\n".join(block)))
+                block = None
+            else:
+                block.append(line)
+        elif line.startswith("### "):
+            label = line[4:].strip()
+        elif line.startswith("```") and label:
+            block = []
+    return found
+
+
+def prompts_from_html():
+    text = (GUIDE / "prompts.html").read_text()
+    pairs = re.findall(r'<span class="label">(.*?)</span>.*?<pre>(.*?)</pre>', text, re.S)
+    return {(html.unescape(label), html.unescape(body)) for label, body in pairs}
+
+
+def check_prompts():
+    md, guide = prompts_from_md(), prompts_from_html()
+    for label, _ in sorted(md - guide):
+        fail("prompts", f"site/src/content/prompts.md differs from guide/prompts.html: {label}")
+    for label, _ in sorted(guide - md):
+        fail("prompts", f"guide/prompts.html differs from site/src/content/prompts.md: {label}")
+    return len(md)
+
+
 def main():
     version = check_version()
     n_catalog = check_catalog()
     n_pages = check_links_and_offline()
     n_skills = check_skills()
+    n_prompts = check_prompts()
     if errors:
         print("\n".join(errors), file=sys.stderr)
         print(f"check_kit: {len(errors)} problem(s)", file=sys.stderr)
         return 1
-    print(f"check_kit: OK (v{version}, {n_catalog} catalog functions, {n_pages} pages, {n_skills} skills)")
+    print(f"check_kit: OK (v{version}, {n_catalog} catalog functions, {n_pages} pages, {n_skills} skills, {n_prompts} prompts)")
     return 0
 
 

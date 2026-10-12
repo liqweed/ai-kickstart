@@ -1,0 +1,6 @@
+{
+  "name": "@ai-kickstart/design",
+  "private": true,
+  "description": "The shared stylesheet (tokens + primitives) for ai-kickstart.me and the companion app. Approved in design/prototype/.",
+  "exports": { "./kickstart.css": "./kickstart.css" }
+}

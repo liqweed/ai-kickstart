@@ -36,10 +36,11 @@ if [[ -z "$pattern" ]] || printf '\n' | grep -qiE -- "$pattern"; then
   exit 2
 fi
 
-# Tracked + untracked-but-not-ignored files. LICENSE is third-party legal text.
+# Tracked + untracked-but-not-ignored files. LICENSE is third-party legal text; pnpm-lock.yaml is
+# generated from npm package names (a package name can collide with a term without saying anything about anyone).
 files=()
 while IFS= read -r f; do
-  [[ -f "$f" && "$f" != "LICENSE" ]] && files+=("$f")
+  [[ -f "$f" && "$f" != "LICENSE" && "$f" != "pnpm-lock.yaml" ]] && files+=("$f")
 done < <(git ls-files -co --exclude-standard)
 
 fail=0
@@ -50,7 +51,7 @@ if hits="$(grep -nIiE -- "$pattern" "${files[@]}")"; then
 fi
 
 # The author's surname is allowed only in the credit lines.
-allowed_credit='^(README\.md|CONTRIBUTING\.md|guide/[^/]+\.html|design/[^/]+/[^/]+\.md|design/([^/]+-)?prototype/[^/]+\.html|scripts/scrub\.sh)$'
+allowed_credit='^(README\.md|CONTRIBUTING\.md|guide/[^/]+\.html|design/[^/]+/[^/]+\.md|design/([^/]+-)?prototype/[^/]+\.html|site/src/layouts/Base\.astro|site/src/pages/index\.astro|scripts/scrub\.sh)$'
 for f in "${files[@]}"; do
   if [[ ! "$f" =~ $allowed_credit ]] && grep -qI "Radnitz" "$f"; then
     echo "scrub: credit name outside allowed files: $f" >&2

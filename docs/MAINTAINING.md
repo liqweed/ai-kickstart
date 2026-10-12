@@ -14,7 +14,7 @@ git config core.hooksPath scripts/hooks                                    # pre
 
 ## Repository settings (one-time, in the GitHub web UI)
 
-1. **Website (once `site/` exists, backlog K9):** a Cloudflare Workers/Pages project connected to this repo (root `site/`, build `npm run build`, output `dist/`), with the custom domain ai-kickstart.me. Preview deploys per branch come for free. Don't enable any analytics beacon: the site promises no tracking.
+1. **Website (`site/`):** a Cloudflare **Worker with static assets**, configured by `site/wrangler.jsonc` (no Worker code, just `dist/`). Connect the repo in Cloudflare → Workers & Pages → Create → Import a repository: root directory `site`, build command `pnpm build`, deploy command `npx wrangler deploy`. Add the custom domain ai-kickstart.me under the Worker's Settings → Domains. Branch previews come with it. Don't enable Web Analytics or any beacon: the site promises no tracking. Manual deploy instead: `pnpm build && cd site && npx wrangler@4 deploy` (asks you to log in to Cloudflare once).
 2. **CI scrub (optional, recommended):** Settings → Secrets and variables → Actions → New secret `SCRUB_PATTERN`, value = the terms joined with `|`:
    ```bash
    grep -vE '^[[:space:]]*(#|$)' ~/.config/ai-kickstart/scrub-terms.txt | paste -sd'|' - | tr -d '\n' | pbcopy
@@ -29,6 +29,9 @@ git config core.hooksPath scripts/hooks                                    # pre
 | All checks | `scripts/check.sh` |
 | Build the zip locally | `scripts/build.sh` → `dist/ai-kickstart-v<VERSION>.zip` |
 | Preview the guide | open `guide/index.html` in a browser |
+| Install website tools (once) | `pnpm install` (Node 22.12+, pnpm 10) |
+| Website dev server | `pnpm dev` → http://localhost:4321 |
+| Website checks | `pnpm test && pnpm check && pnpm build && scripts/check_site.py` |
 
 ## Working with an AI agent on the repo
 

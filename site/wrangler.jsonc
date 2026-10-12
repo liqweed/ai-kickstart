@@ -1,0 +1,11 @@
+// Cloudflare Workers static assets: serves dist/ as-is (no Worker code).
+// Deploy: `pnpm build` in site/, then `npx wrangler@4 deploy` (see docs/MAINTAINING.md).
+{
+  "name": "ai-kickstart-site",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page",
+    "html_handling": "force-trailing-slash"
+  }
+}
