@@ -4,8 +4,8 @@ status: active
 created: 2026-10-12
 updated: 2026-10-12
 summary: Maintenance plan for the AI Kickstart repo — same harness format the kit teaches.
-current_phase: M0
-next_step: M0.4
+current_phase: M1
+next_step: M1.1
 ---
 
 # Maintenance plan
@@ -16,9 +16,9 @@ next_step: M0.4
 
 | | |
 |---|---|
-| **Current phase** | M0 — Repository foundation |
-| **Next step** | M0.4 |
-| **Blocked** | M0.4 needs the maintainer in the GitHub web UI |
+| **Current phase** | M1 — First real users |
+| **Next step** | M1.1 (pilot) · K9 (website brief → Claude Design) |
+| **Blocked** | — |
 | **Last session** | 2026-10-12 — repo scaffolded, v1.1 pushed |
 
 ## M0 — Repository foundation
@@ -26,7 +26,7 @@ next_step: M0.4
 - [x] **M0.1 Scaffold the repo.** AGENTS.md, maintainer skills, docs, checks, build, CI/Pages/Release workflows, issue templates, CC BY 4.0. Check: `scripts/check.sh` green; negative tests (an injected term, catalog drift) fail as expected.
 - [x] **M0.2 First push + v1.1 tag.** Check: `main` and `v1.1` visible on GitHub.
 - [-] **M0.3 Enable GitHub Pages.** Skipped: the website moves to Astro on Cloudflare at ai-kickstart.me (K9, decision 2026-10-12). `pages.yml` removed.
-- [?] **M0.4 Add the `SCRUB_PATTERN` secret** (see `docs/MAINTAINING.md`). Done when: the CI log shows `scrub: OK` instead of the skip warning.
+- [x] **M0.4 Add the `SCRUB_PATTERN` secret** (see `docs/MAINTAINING.md`). Done when: the CI log shows `scrub: OK` instead of the skip warning. *(Added 2026-10-12; verified on the push that ticked this.)*
 - [x] **M0.5 Verify the v1.1 Release.** Done when: the Release page has `ai-kickstart-v1.1.zip` attached and the zip unpacks to `README.md LICENSE START-HERE.html guide/ vault/`.
 
 ## M1 — First real users
