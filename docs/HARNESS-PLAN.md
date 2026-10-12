@@ -55,6 +55,7 @@ next_step: M0.4
 | K7 | Favicon + social preview image (inline/SVG, offline-safe) | Nicer when the link is shared in chats | S | todo |
 | K8 | Translations (guide + vault) | Reach. Needs a structure decision first (D-level change) | L | idea |
 | K9 ★ | **Website at ai-kickstart.me**: run `design/website-claude-design-package` in Claude Design, then implement the approved prototype as an Astro static site in `site/` (content collections over `vault/` Markdown) on Cloudflare with the custom domain | The domain is bought; the site is the front door for friends | M | todo |
+| K12 | When the website is live: shrink the zip's `guide/` to one offline `START-HERE` page pointing to ai-kickstart.me (the website owns all explanations) | One source of explanation; less to maintain | S | todo |
 | K11 | **tinyjs spike (Mac + Windows)**: a hello-world window that picks a folder, watches it for a new file, writes `~/.ai-kickstart/`, and opens an `obsidian://` link; signed/notarized Mac build plus a Windows build on a real machine | De-risks K10 early. Windows is beta in tinyjs, and file watching is the critical capability | S | todo |
 | K10 | **Companion app (tinyjs)**: first run, "one next thing", safe kit updates, local-only (`~/.ai-kickstart/`). Design brief: `design/app-claude-design-package`. Build after the M1 pilot shows where people actually stall | It solves first-contact verification and K1 (updates) better than docs can | L | idea |
 

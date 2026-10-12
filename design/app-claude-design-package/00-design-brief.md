@@ -4,6 +4,8 @@ A small, downloadable **desktop companion** for the AI Kickstart kit (see the we
 
 It is **not** an AI client, a chat app or a note editor. The AI tool and Obsidian do the real work; the app is the friendly guide that sits beside them.
 
+It is the **functional** side of AI Kickstart. All explanations, guides and reference material live on the website (**ai-kickstart.me**), and the app links there instead of repeating them.
+
 ## Binding (do not deviate)
 
 - **Voice:** warm, plain, second person, short sentences. Technical terms explained the first time. The same voice as the website.

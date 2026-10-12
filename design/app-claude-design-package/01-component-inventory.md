@@ -22,8 +22,10 @@ Framed as **jobs and problems**. How many screens, how they're grouped and how t
 - Phases P0–P7 with step statuses (`[ ]` `[/]` `[x]` `[-]` `[?]`), plus the personal backlog (ideas with value, effort and phase, ★ = first).
 - **Problem:** depth on demand. Most days, people need one next step, not eight phases.
 
-### Library at hand
-- Prompts (copy), the catalog (browse; picks → a copyable message), and the "Working with AI" tips. All bundled or read from the vault, so they work offline.
+### Point to the website for everything explanatory
+- Explanations, the full guide, the catalog, the prompt library and tips all live on **ai-kickstart.me**. The app links to the right place in context ("what's a harness plan?" → the website), rather than duplicating it.
+- **Exception:** the operational prompts the app hands over (first contact, "Continue my harness plan", interview rounds, update-merge prompts) are built in, so they work offline.
+- **Problem:** the app should feel complete for doing things, while never becoming a second documentation site.
 
 ### Update the kit safely
 - When a new kit version exists (optional check against the public releases), show **what's new in plain words**, preview exactly which files change, and apply the update **without touching the person's own notes**.
