@@ -17,9 +17,9 @@ git config core.hooksPath scripts/hooks                                    # pre
 1. **Website (once `site/` exists, backlog K9):** a Cloudflare Workers/Pages project connected to this repo (root `site/`, build `npm run build`, output `dist/`), with the custom domain ai-kickstart.me. Preview deploys per branch come for free. Don't enable any analytics beacon: the site promises no tracking.
 2. **CI scrub (optional, recommended):** Settings → Secrets and variables → Actions → New secret `SCRUB_PATTERN`, value = the terms joined with `|`:
    ```bash
-   grep -vE '^[[:space:]]*(#|$)' ~/.config/ai-kickstart/scrub-terms.txt | paste -sd'|' - | pbcopy
+   grep -vE '^[[:space:]]*(#|$)' ~/.config/ai-kickstart/scrub-terms.txt | paste -sd'|' - | tr -d '\n' | pbcopy
    ```
-   Without the secret, CI skips the scrub with a warning. The local hook remains the main guard.
+   `scrub.sh` also tolerates stray newlines/CRs and refuses a pattern that would match everything. Without the secret, CI skips the scrub with a warning. The local hook remains the main guard.
 3. **Issues:** keep them enabled. The templates in `.github/ISSUE_TEMPLATE/` collect friend feedback.
 
 ## Everyday commands

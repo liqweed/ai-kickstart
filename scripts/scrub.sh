@@ -27,6 +27,15 @@ else
   exit 2
 fi
 
+# Normalise: newlines/CRs become alternations, empty alternatives are dropped.
+# (A secret pasted via pbcopy ends with a newline; GNU grep treats that as an extra
+#  empty pattern that matches every line.)
+pattern="$(printf '%s' "$pattern" | tr '\r\n' '||' | sed -E 's/\|+/|/g; s/^\|//; s/\|$//')"
+if [[ -z "$pattern" ]] || printf '\n' | grep -qiE -- "$pattern"; then
+  echo "scrub: the term pattern is empty or matches empty text (an empty alternative?); refusing to run." >&2
+  exit 2
+fi
+
 # Tracked + untracked-but-not-ignored files. LICENSE is third-party legal text.
 files=()
 while IFS= read -r f; do

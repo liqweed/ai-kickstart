@@ -67,6 +67,7 @@ next_step: M1.1
 | 2026-10-12 | Private scrub list outside the repo; hook + optional CI secret | The list contains the very names it protects |
 | 2026-10-12 | Commits use the GitHub noreply identity | Avoids exposing a personal email in public history |
 | 2026-10-12 | Website = Astro static site on Cloudflare (ai-kickstart.me), not GitHub Pages | Pages too limited; Astro reads the kit's Markdown directly. See ARCHITECTURE D14 |
+| 2026-10-12 | App stack: tinyjs + Vite+ + TS + React + TanStack Query/Router + Base UI (unstyled) + plain-CSS tokens + Fallow; `site/` + `app/` + `packages/core/` | See ARCHITECTURE D15. Astryx rejected; React Aria runner-up |
 | 2026-10-12 | Companion app on tinyjs, targeting macOS **and** Windows in v1; progress stays in the vault's Markdown, `~/.ai-kickstart/` holds only app config + install baseline | Modest requirements; one source of truth the AI can also read. Spike first (K11) |
 
 ## Session log
