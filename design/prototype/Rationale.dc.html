@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>AI Kickstart · Design rationale</title>
+<link rel="stylesheet" href="kickstart.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>html,body{margin:0}</style>
+</helmet>
+<div data-kk="auto" style="min-height:100vh;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans)">
+<article style="max-width:760px;margin:0 auto;padding:48px 20px 64px;display:flex;flex-direction:column;gap:22px">
+  <a href="AI Kickstart Site.dc.html" style="font-size:15px">← Back to the site prototype</a>
+  <h1 style="margin:0;font:500 40px/1.1 var(--serif)">Design rationale</h1>
+  <p style="margin:0;color:var(--muted)">Short arguments for §3.1–§3.9 of the brief, each tied to the success criteria in 05.</p>
+
+  <section style="display:flex;flex-direction:column;gap:6px"><h2 style="margin:0;font:500 22px/1.3 var(--serif)">3.1 · Information architecture: one front door, one companion, one reference</h2>
+  <p style="margin:0">Eight sibling pages put “Why”, “The system” and “Harness plan” at the same level as “Setup”, so a beginner has to guess. I collapse them into five places with distinct jobs: <strong>Start</strong> (understand + choose), <strong>Your setup</strong> (a personalised companion), <strong>Ideas menu</strong>, <strong>Prompts</strong>, and <strong>How it works</strong> (all depth: interview, harness, system, principles). Friend-with-the-link: Start answers everything and ends in a choice. One setting up: Your setup is a single page for their OS and path, remembered. Sharer: Start explains itself in a WhatsApp preview. Returner: a header banner and What's new. Interview and harness keep anchors so they can still be linked.</p></section>
+
+  <section style="display:flex;flex-direction:column;gap:6px"><h2 style="margin:0;font:500 22px/1.3 var(--serif)">3.2 · The first ten seconds: promise + the choice itself</h2>
+  <p style="margin:0">At 1280×800 the headline, a two-sentence explanation and the “Find your first step” card share the first screen, so <em>what / who / next</em> are all visible. On 390 px the headline and plain-language paragraphs come first, and the choice card is one thumb-scroll away. The idea becomes concrete in the next band: the same two words, “Morning briefing.”, asked of a stranger and of an assistant that has read your notes. That before/after makes “a memory of you” tangible without mascots, screenshots or jargon.</p></section>
+
+  <section style="display:flex;flex-direction:column;gap:6px"><h2 style="margin:0;font:500 22px/1.3 var(--serif)">3.3 · Choosing the way in: infer one, ask one</h2>
+  <p style="margin:0">OS is inferred (shown as pre-selected, easy to change). Only one question is asked: how you'd like to use AI, phrased by what it feels like, not by tool category. Picking an answer <em>is</em> the navigation, so the comfort-2 Windows visitor reaches their setup in <strong>one</strong> interaction; same for the comfort-4 Mac user picking “From the terminal”. The difference is in what they get: path A has the most explanation and paste-instead-of-write checks; path C drops the “why” paragraphs and is terse. Download zip and read-online stay as secondary links; the app is labelled “coming later”, not a dead button. Windows is never a footnote: its steps have their own copy (Extract All, locked-down work laptops).</p></section>
+
+  <section style="display:flex;flex-direction:column;gap:6px"><h2 style="margin:0;font:500 22px/1.3 var(--serif)">3.4 · Setup as a companion</h2>
+  <p style="margin:0">Progress, OS and path live in localStorage. On return, a header strip says “Setup paused at step 3 of 5” with one button, and the setup page opens with the current step expanded and scrolled into place (≤ 1 interaction). Across devices, a plain link carries OS, path and step (<span style="font-family:var(--mono)">/setup#mac-b-3</span>): no account, nothing stored anywhere else. On a phone, “Send this to my computer” uses the system share sheet. Steps reuse the harness marks ([ ] [/] [x]) and its Done when / Check pattern, so Day 1 already teaches the system.</p></section>
+
+  <section style="display:flex;flex-direction:column;gap:6px"><h2 style="margin:0;font:500 22px/1.3 var(--serif)">3.5 · Prompts as first-class objects</h2>
+  <p style="margin:0">One component everywhere: a card with a name, a big Copy button (44 px target) and the prompt in monospace. Placeholders keep their angle brackets, get a dashed underline and highlight (distinguishable without colour), and are real text fields: type into them and the copy includes your words; leave them and the copy keeps &lt;Name&gt;. Two contexts show personalisation: in the library the stuck-on-a-step prompt is raw; inside a setup step it arrives pre-filled with your OS and AI tool, marked as editable.</p></section>
+
+  <section style="display:flex;flex-direction:column;gap:6px"><h2 style="margin:0;font:500 22px/1.3 var(--serif)">3.6 · The catalog: a menu</h2>
+  <p style="margin:0">Typeset like a restaurant menu: area headings with a rule, dish name, a one-line description and a small level tag (S, M, L, with the meaning in words and a tooltip). Ticking a line tints it and updates a tray. One filter only, by effort, because “what can I do today?” is the beginner's question; areas are a jump row, not a filter. The tray covers the empty state (“most people end up with 5–10”), the 12-picked state (“12 picked from 5 areas”) and the copy moment, with the full message previewable before copying.</p></section>
+
+  <section style="display:flex;flex-direction:column;gap:6px"><h2 style="margin:0;font:500 22px/1.3 var(--serif)">3.7 · Identity: evolve, and drop the violet</h2>
+  <p style="margin:0">Evolve. The warm editorial serif already says “written by a person”; I keep it (system serifs: Iowan, Palatino, Georgia, so zero font requests). Violet goes: it's the default colour of AI products and works against “not a startup”. In its place: warm paper and ink, one moss green for actions, a highlighter yellow reserved for things you fill in. Monospace is used only for real artefacts (file names, prompts, status marks), so “plain files you own” is visible in the type itself. The mark is a note with a seed in it. No illustration and almost no motion. All tokens are CSS custom properties with light and dark sets, ready for a webview app.</p></section>
+
+  <section style="display:flex;flex-direction:column;gap:6px"><h2 style="margin:0;font:500 22px/1.3 var(--serif)">3.8 · Progress without homework</h2>
+  <p style="margin:0">No percentages, streaks or badges. The plan is split into “The first month” (P0–P2) and “Whenever you're ready, if ever” (P3–P7). The journey row ends in a dashed line marked optional. Skipping is presented as a valid status. The one sentence, “Continue my harness plan.”, means nobody has to remember where they were.</p></section>
+
+  <section style="display:flex;flex-direction:column;gap:6px"><h2 style="margin:0;font:500 22px/1.3 var(--serif)">3.9 · Trust without legalese</h2>
+  <p style="margin:0">Trust is earned where the doubt appears: right before the download, as six plain questions (cost, where notes go, what's in the zip, what open source means, tracking, who made it). “Open source” is translated into “every file is public, anyone can read and check it”. The zip is described by size and contents. The privacy promise repeats in the footer, and the site keeps it: no cookies, no analytics, no third-party requests.</p></section>
+
+  <section style="display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line);padding-top:20px"><h2 style="margin:0;font:500 22px/1.3 var(--serif)">What transfers to a desktop app</h2>
+  <p style="margin:0"><strong>Transfers:</strong> the token set (colours in both modes, three font stacks, radii, 44 px targets); primitives: Prompt card with fillable placeholders, step card with status mark + Done when/Check, choice pills, menu row with checkbox, tray; the voice rules. <strong>Stays web-only:</strong> OS/path choosing (the app knows its OS), the trust band and before/after (persuasion is done by then), shareable setup links, hash routing and the What's new banner (an app would update itself).</p></section>
+
+
+  <section style="display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--line);padding-top:20px">
+  <h2 style="margin:0;font:500 28px/1.2 var(--serif)">Round 2 · Part A decisions</h2>
+
+  <div style="display:flex;flex-direction:column;gap:6px"><h3 style="margin:0;font:600 17px/1.4 var(--sans)">1 · The tray no longer covers the menu</h3>
+  <p style="margin:0">On wide screens the picks move out of the way: a sticky “Your picks” column beside the menu lists each pick with a remove button, so browsing and seeing your picks happen side by side. On narrow screens the tray shrinks to one row (count, See message, Copy). The full message opens in a dialog that shows exactly what will be copied, and Esc closes it. The menu never scrolls under anything taller than about 60 px.</p></div>
+
+  <div style="display:flex;flex-direction:column;gap:6px"><h3 style="margin:0;font:600 17px/1.4 var(--sans)">2 · One recommendation</h3>
+  <p style="margin:0">The desktop AI app stays Recommended, and the hint now says the same thing: “Not sure? Go with the desktop AI app.” It's the path where the AI writes the notes itself and the Day 1 check is unmistakable. The honest exceptions are in the options' own lines: the chat app “Good on a work laptop” (nothing to install), and the terminal only if you already use one. The app's chooser uses the same words.</p></div>
+
+  <div style="display:flex;flex-direction:column;gap:6px"><h3 style="margin:0;font:600 17px/1.4 var(--sans)">3 · Start knows you've finished</h3>
+  <p style="margin:0">Only the action card changes. Once all five steps are ticked, “Find your first step” becomes “Welcome back”: the everyday sentence as a large prompt, what's new (when the vault is behind), and two doors, Ideas menu and Prompts. The headline, explanation, two mornings and trust questions stay exactly where a first-time visitor expects them, which matters because the same browser is often lent to a friend. “Show the first steps” brings the chooser back. The header update banner is hidden on Start while the card says the same thing.</p></div>
+
+  <div style="display:flex;flex-direction:column;gap:8px"><h3 style="margin:0;font:600 17px/1.4 var(--sans)">4 · The mark</h3>
+  <p style="margin:0">The uploaded file was <span style="font-family:var(--mono);font-size:14px">kickstart-logo.svg</span> (not logo-mark.svg); it's clearly the mark, so I adopted it. It's now a shared component, <span style="font-family:var(--mono);font-size:14px">Mark.dc.html</span>, coloured by three tokens (frame, leaf, vein) so it flips cleanly to dark. The gradient became one flat green, which survives small sizes and both themes. Favicons crop the margin (viewBox 6–74) to gain about 20% at 16 px. At 16 px the thin vein disappears, but the framed sprout still reads; that's acceptable for a favicon. The macOS app icon puts the mark on a paper tile; Windows uses the bare mark. Files: <span style="font-family:var(--mono);font-size:14px">favicon.svg</span> (follows the OS theme), <span style="font-family:var(--mono);font-size:14px">favicon-16/32.png</span>, <span style="font-family:var(--mono);font-size:14px">app-icon-mac(-dark).svg</span>, <span style="font-family:var(--mono);font-size:14px">app-icon-512.png</span>.</p>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end"><div data-kk="light" style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px;background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--ink)"><dc-import name="Mark" style="width:16px;height:16px" hint-size="16px,16px"></dc-import><span style="font:12px var(--mono);color:var(--muted)">16px</span></div><div data-kk="light" style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px;background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--ink)"><dc-import name="Mark" style="width:32px;height:32px" hint-size="32px,32px"></dc-import><span style="font:12px var(--mono);color:var(--muted)">32px</span></div><div data-kk="light" style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px;background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--ink)"><dc-import name="Mark" style="width:64px;height:64px" hint-size="64px,64px"></dc-import><span style="font:12px var(--mono);color:var(--muted)">64px</span></div><div data-kk="dark" style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px;background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--ink)"><dc-import name="Mark" style="width:16px;height:16px" hint-size="16px,16px"></dc-import><span style="font:12px var(--mono);color:var(--muted)">16px</span></div><div data-kk="dark" style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px;background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--ink)"><dc-import name="Mark" style="width:32px;height:32px" hint-size="32px,32px"></dc-import><span style="font:12px var(--mono);color:var(--muted)">32px</span></div><div data-kk="dark" style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px;background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--ink)"><dc-import name="Mark" style="width:64px;height:64px" hint-size="64px,64px"></dc-import><span style="font:12px var(--mono);color:var(--muted)">64px</span></div>
+    <img src="app-icon-mac.svg" alt="macOS app icon, light" width="96" height="96"><img src="app-icon-mac-dark.svg" alt="macOS app icon, dark" width="96" height="96"></div></div>
+
+  <div style="display:flex;flex-direction:column;gap:6px"><h3 style="margin:0;font:600 17px/1.4 var(--sans)">5a · The link preview explains itself</h3>
+  <p style="margin:0">The image says what it is in five words a parent understands (“Give your AI a memory of you.”), then the two worries answered: free, and your notes stay on your computer. It has no screenshot or diagram to squint at in a 280 px bubble. The title repeats the promise, and the description front-loads cost and privacy, because some apps cut it to two lines. <a href="Share Preview.dc.html">See the preview and the chat mock-ups →</a></p></div>
+
+  <div style="display:flex;flex-direction:column;gap:6px"><h3 style="margin:0;font:600 17px/1.4 var(--sans)">5b · A one-row phone header</h3>
+  <p style="margin:0">Under 600 px the wordmark goes visually hidden (the button keeps “AI Kickstart, start page” as its name), and the five places sit in one horizontally scrolling row beside the mark. It's about 56 px tall instead of about 160. All five remain real buttons in the tab order and in the landmark, with nothing behind a menu. The current place scrolls into view, and the cut-off last label shows there's more.</p></div>
+
+  <div style="display:flex;flex-direction:column;gap:6px"><h3 style="margin:0;font:600 17px/1.4 var(--sans)">One stylesheet</h3>
+  <p style="margin:0">Tokens and primitives now live in <span style="font-family:var(--mono);font-size:14px">kickstart.css</span>, loaded by the site, the app, both rationale pages and the Prompt and Mark components. Primitives are plain classes with state in ARIA attributes (<span style="font-family:var(--mono);font-size:14px">aria-pressed</span>, <span style="font-family:var(--mono);font-size:14px">data-current</span>, <span style="font-family:var(--mono);font-size:14px">data-on</span>), so they map one-to-one onto Base UI's unstyled parts in the real app.</p></div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--line);padding-top:20px">
+  <h2 style="margin:0;font:500 28px/1.2 var(--serif)">Shared system</h2>
+  <dl style="margin:0;display:grid;grid-template-columns:minmax(120px,auto) 1fr;gap:10px 18px;font-size:16px">
+    <dt style="font-weight:600">Tokens</dt><dd style="margin:0">Colour roles in light and dark (outer, bg, card, sunk, ink, muted, line, line-strong, accent, accent-hover, on-accent, accent-soft, hl, hl-line, focus, plus mark frame/leaf/vein) · type stacks (serif, sans, mono) · radii (4, 8, 12, 14) · the 44 px target</dd>
+    <dt style="font-weight:600">Shared primitives</dt><dd style="margin:0">Mark · Prompt card (fillable placeholders, lg size, attach) · Step card + Done when / Check · status marks · choice pills · choice card + Recommended badge · menu row + level tag · buttons (primary, line, lg) · eyebrow · highlight note · focus, links and reduced motion</dd>
+    <dt style="font-weight:600">Site keeps</dt><dd style="margin:0">Responsive header and scrolling nav · OS/path chooser · two mornings · trust questions · picks column, tray and message dialog · shareable setup links</dd>
+    <dt style="font-weight:600">App keeps</dt><dd style="margin:0">Side rail · first-run strip with “Where:” labels · watching pulse · noticed line · recovery card · update file summary</dd>
+  </dl>
+  <p style="margin:0"><a href="App Rationale.dc.html">Companion app rationale →</a></p>
+  </section>
+  <section style="display:flex;flex-direction:column;gap:6px"><h2 style="margin:0;font:500 22px/1.3 var(--serif)">Prototype notes</h2>
+  <p style="margin:0;color:var(--muted)">Catalog and prompt data load from <span style="font-family:var(--mono)">kit-content.js</span>, standing in for build-time Markdown. Setup step wording per OS is drafted for review and should be checked against the kit's guide. The v1.2 changelog now uses the release summary from the app brief.</p></section>
+</article>
+</div>
+</x-dc>
+</body>
+</html>

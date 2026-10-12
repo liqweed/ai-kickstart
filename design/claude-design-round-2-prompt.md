@@ -1,6 +1,6 @@
 # Claude Design, round 2: website polish + companion app (same project)
 
-**Where:** the **same** Claude Design project as the website prototype (round 1, snapshot in [`website-prototype/`](website-prototype/)). Keeping one project means the app inherits the approved tokens and primitives directly, instead of rebuilding them from screenshots.
+**Where:** the **same** Claude Design project as the website prototype (round 1; the round-2 result is in [`prototype/`](prototype/)). Keeping one project means the app inherits the approved tokens and primitives directly, instead of rebuilding them from screenshots.
 
 **Upload first:**
 1. The whole [`app-claude-design-package/`](app-claude-design-package/) folder.

@@ -10,18 +10,28 @@
 <helmet>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI Kickstart · Give your AI a place to live</title>
+<meta name="description" content="A free starter kit for using AI at home and at work. Your notes stay on your own computer. No account, about an hour to set up.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ai-kickstart.me/">
+<meta property="og:title" content="AI Kickstart: give your AI a memory of you">
+<meta property="og:description" content="A free starter kit for using AI at home and at work. Your notes stay on your own computer. No account, about an hour to set up.">
+<meta property="og:image" content="https://ai-kickstart.me/share-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="AI Kickstart. Give your AI a memory of you. Free, and your notes stay on your computer.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="favicon-16.png" sizes="16x16" type="image/png">
+<link rel="stylesheet" href="kickstart.css">
 <style>
 html,body{margin:0;padding:0}
-[data-kk]{--serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua","URW Palladio L",Georgia,serif;--sans:system-ui,-apple-system,"Segoe UI",Ubuntu,Cantarell,"Noto Sans",sans-serif;--mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,"Liberation Mono",monospace;
---outer:oklch(0.92 0.01 80);--bg:oklch(0.975 0.008 85);--card:oklch(0.995 0.004 85);--sunk:oklch(0.945 0.011 85);--ink:oklch(0.24 0.015 60);--muted:oklch(0.44 0.015 60);--line:oklch(0.86 0.012 80);--line-strong:oklch(0.6 0.015 70);--accent:oklch(0.45 0.09 160);--accent-hover:oklch(0.38 0.09 160);--on-accent:oklch(0.985 0.005 85);--accent-soft:oklch(0.94 0.03 160);--hl:oklch(0.93 0.075 95);--hl-line:oklch(0.5 0.09 75);--focus:oklch(0.52 0.17 255);color-scheme:light}
-[data-kk="dark"]{--outer:oklch(0.15 0.006 70);--bg:oklch(0.205 0.008 70);--card:oklch(0.245 0.009 70);--sunk:oklch(0.175 0.007 70);--ink:oklch(0.93 0.01 85);--muted:oklch(0.77 0.012 80);--line:oklch(0.37 0.01 70);--line-strong:oklch(0.6 0.012 75);--accent:oklch(0.8 0.1 160);--accent-hover:oklch(0.87 0.09 160);--on-accent:oklch(0.2 0.02 160);--accent-soft:oklch(0.3 0.04 160);--hl:oklch(0.37 0.07 90);--hl-line:oklch(0.82 0.1 90);--focus:oklch(0.78 0.13 255);color-scheme:dark}
-@media (prefers-color-scheme:dark){[data-kk="auto"]{--outer:oklch(0.15 0.006 70);--bg:oklch(0.205 0.008 70);--card:oklch(0.245 0.009 70);--sunk:oklch(0.175 0.007 70);--ink:oklch(0.93 0.01 85);--muted:oklch(0.77 0.012 80);--line:oklch(0.37 0.01 70);--line-strong:oklch(0.6 0.012 75);--accent:oklch(0.8 0.1 160);--accent-hover:oklch(0.87 0.09 160);--on-accent:oklch(0.2 0.02 160);--accent-soft:oklch(0.3 0.04 160);--hl:oklch(0.37 0.07 90);--hl-line:oklch(0.82 0.1 90);--focus:oklch(0.78 0.13 255);color-scheme:dark}}
-[data-kk] a{color:var(--accent);text-underline-offset:3px}
-[data-kk] a:hover{color:var(--accent-hover)}
-[data-kk] :focus-visible{outline:3px solid var(--focus);outline-offset:2px}
-[data-kk] input::placeholder{color:var(--muted);opacity:1}
-[data-kk] input[type=checkbox]{accent-color:var(--accent)}
-@media (prefers-reduced-motion:reduce){[data-kk] *{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+.site-nav{scrollbar-width:none}
+.site-nav::-webkit-scrollbar{display:none}
+@container (max-width:600px){.site-word{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.site-nav{margin-left:0!important;flex:1}}
+.site-picks{display:none}
+@container (min-width:940px){.site-cat{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:36px;align-items:start}.site-picks{display:flex}.site-tray{display:none}}
+dialog.kk-dialog::backdrop{background:oklch(0.2 0.01 60 / .45)}
 </style>
 </helmet>
 <div data-kk="{{ theme }}" style="min-height:100vh;background:var(--outer);color:var(--ink)">
@@ -29,14 +39,14 @@ html,body{margin:0;padding:0}
 <a href="#main" style="position:absolute;left:-9999px;top:8px;background:var(--card);color:var(--ink);padding:10px 14px;border-radius:8px;z-index:20" style-focus="left:12px">Skip to content</a>
 
 <header style="position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line)">
-  <div style="max-width:1120px;margin:0 auto;padding:10px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 20px">
-    <button type="button" onClick="{{ goHome }}" aria-label="AI Kickstart, start page" style="display:flex;align-items:center;gap:10px;background:none;border:0;padding:6px 0;color:var(--ink);cursor:pointer;min-height:44px">
-      <span aria-hidden="true" style="position:relative;width:22px;height:22px;border:2px solid var(--ink);border-radius:5px;box-sizing:border-box"><span style="position:absolute;left:3px;bottom:3px;width:8px;height:8px;border-radius:50%;background:var(--accent)"></span></span>
-      <span style="font:600 20px/1 var(--serif);letter-spacing:.005em">AI Kickstart</span>
+  <div style="max-width:1120px;margin:0 auto;padding:6px 20px;display:flex;align-items:center;gap:6px 20px;box-sizing:border-box">
+    <button type="button" onClick="{{ goHome }}" aria-label="AI Kickstart, start page" style="flex:none;display:flex;align-items:center;gap:10px;background:none;border:0;padding:0;color:var(--ink);cursor:pointer;min-height:44px">
+      <dc-import name="Mark" style="width:30px;height:30px" hint-size="30px,30px"></dc-import>
+      <span class="site-word" style="font:600 20px/1 var(--serif);letter-spacing:.005em">AI Kickstart</span>
     </button>
-    <nav aria-label="Main" style="display:flex;flex-wrap:wrap;gap:2px 4px;margin-left:auto">
+    <nav aria-label="Main" class="site-nav" style="display:flex;gap:2px;margin-left:auto;min-width:0;overflow-x:auto">
       <sc-for list="{{ nav }}" as="n" hint-placeholder-count="5">
-        <button type="button" onClick="{{ n.onClick }}" aria-current="{{ n.current }}" style="min-height:44px;padding:0 12px;background:none;border:0;border-bottom:2px solid {{ n.line }};color:var(--ink);font:{{ n.weight }} 15px/1 var(--sans);cursor:pointer">{{ n.label }}</button>
+        <button type="button" onClick="{{ n.onClick }}" aria-current="{{ n.current }}" style="flex:none;white-space:nowrap;min-height:44px;padding:0 11px;background:none;border:0;border-bottom:2px solid {{ n.line }};color:var(--ink);font:{{ n.weight }} 15px/1 var(--sans);cursor:pointer">{{ n.label }}</button>
       </sc-for>
     </nav>
   </div>
@@ -45,7 +55,7 @@ html,body{margin:0;padding:0}
       <div style="max-width:1120px;margin:0 auto;padding:8px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px">
         <span style="font:600 14px/1 var(--mono)">[/]</span>
         <span style="flex:1;min-width:220px;font-size:15px">Setup paused at <strong>step {{ curNum }} of 5: {{ curTitle }}</strong> · {{ setupLabel }}</span>
-        <button type="button" onClick="{{ goSetup }}" style="min-height:40px;padding:0 16px;border-radius:8px;border:0;background:var(--accent);color:var(--on-accent);font:600 15px/1 var(--sans);cursor:pointer">Continue where I left off →</button>
+        <button type="button" class="kk-btn" onClick="{{ goSetup }}">Continue where I left off →</button>
       </div>
     </div>
   </sc-if>
@@ -70,6 +80,7 @@ html,body{margin:0;padding:0}
       <p style="margin:0;font-size:19px;line-height:1.55;text-wrap:pretty">Most people use AI like a brilliant stranger: every chat starts from zero. This kit turns it into an assistant that knows your life, follows your rules, and gets a little better every week.</p>
       <p style="margin:0;color:var(--muted);text-wrap:pretty">It's a folder of plain notes on your own computer, a friendly interview, and a step-by-step plan. No account, nothing to pay. Setup takes about an hour.</p>
     </div>
+    <sc-if value="{{ showChooser }}" hint-placeholder-val="{{ true }}">
     <div id="start" style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:18px">
       <sc-if value="{{ isPhone }}">
         <div style="background:var(--hl);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:10px">
@@ -85,22 +96,22 @@ html,body{margin:0;padding:0}
         <p id="os-q" style="margin:0;font:600 15px/1.4 var(--sans)">1 · Your computer <span style="font-weight:400;color:var(--muted)">{{ osHint }}</span></p>
         <div style="display:flex;flex-wrap:wrap;gap:8px">
           <sc-for list="{{ osOptions }}" as="o" hint-placeholder-count="4">
-            <button type="button" onClick="{{ o.onClick }}" aria-pressed="{{ o.pressed }}" style="min-height:44px;padding:0 14px;border-radius:999px;border:{{ o.border }};background:{{ o.bg }};color:var(--ink);font:{{ o.weight }} 15px/1 var(--sans);cursor:pointer">{{ o.check }}{{ o.label }}</button>
+            <button type="button" class="kk-pill kk-pill--lg" onClick="{{ o.onClick }}" aria-pressed="{{ o.pressed }}">{{ o.check }}{{ o.label }}</button>
           </sc-for>
         </div>
       </div>
       <div role="group" aria-labelledby="path-q" style="display:flex;flex-direction:column;gap:8px">
         <p id="path-q" style="margin:0;font:600 15px/1.4 var(--sans)">2 · How would you like to use AI?</p>
         <sc-for list="{{ pathOptions }}" as="p" hint-placeholder-count="3">
-          <button type="button" onClick="{{ p.onClick }}" style="display:flex;align-items:center;gap:12px;text-align:left;padding:12px 14px;border-radius:10px;border:{{ p.border }};background:var(--bg);color:var(--ink);cursor:pointer;font:inherit" style-hover="border-color:var(--accent)">
-            <span style="flex:1;display:flex;flex-direction:column;gap:2px">
-              <span style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font:600 16px/1.3 var(--sans)">{{ p.title }}<sc-if value="{{ p.rec }}"><span style="font:600 12px/1 var(--sans);padding:4px 7px;border-radius:999px;background:var(--accent-soft);color:var(--ink)">Recommended</span></sc-if></span>
-              <span style="font-size:14px;line-height:1.45;color:var(--muted)">{{ p.sub }}</span>
+          <button type="button" class="kk-choice" data-on="{{ p.pressed }}" onClick="{{ p.onClick }}">
+            <span class="kk-choice__text">
+              <span class="kk-choice__title">{{ p.title }}<sc-if value="{{ p.rec }}"><span class="kk-badge">Recommended</span></sc-if></span>
+              <span class="kk-choice__sub">{{ p.sub }}</span>
             </span>
             <span aria-hidden="true" style="font:20px/1 var(--sans);color:var(--accent)">→</span>
           </button>
         </sc-for>
-        <p style="margin:2px 0 0;font-size:14px;color:var(--muted)">Not sure? Pick the chat app. You can switch any time without losing anything.</p>
+        <p style="margin:2px 0 0;font-size:14px;color:var(--muted);text-wrap:pretty">Not sure? Go with the desktop AI app. Pick the chat app instead if you can't install apps on this computer (a work laptop, say) or want to try the kit before installing anything. You can switch any time without losing anything.</p>
       </div>
       <div style="border-top:1px dashed var(--line);padding-top:14px;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:15px">
         <span style="color:var(--muted)">Rather look first?</span>
@@ -108,6 +119,28 @@ html,body{margin:0;padding:0}
         <a href="#/guide" onClick="{{ goGuide }}">Read how it works</a>
       </div>
     </div>
+    </sc-if>
+    <sc-if value="{{ setupFinished }}">
+    <div id="start" style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:16px">
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <p style="margin:0;font:600 14px/1.4 var(--mono)">[x] Setup done · {{ setupLabel }}</p>
+        <h2 style="margin:0;font:500 24px/1.2 var(--serif)">Welcome back</h2>
+        <p style="margin:0;font-size:15px;color:var(--muted)">Start every session, in any AI tool, with this one sentence. Your plan remembers where you were.</p>
+      </div>
+      <dc-import name="Prompt" label="The main one" text="Continue my harness plan." size="lg" note="Paste into your AI at the start of a session" hint-size="100%,140px"></dc-import>
+      <sc-if value="{{ cardUpdate }}">
+        <div class="kk-note" style="display:flex;flex-direction:column;gap:8px">
+          <p style="margin:0;font-size:16px"><strong>{{ latest }} is out.</strong> Your vault has {{ installed }}. New: an “Updating your kit” guide, a better weekly review, 6 tips and plan step P4.0. Your notes are safe either way.</p>
+          <a href="#/new" onClick="{{ goNew }}" style="align-self:flex-start;font-weight:600">What's new in {{ latest }} →</a>
+        </div>
+      </sc-if>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr));gap:8px">
+        <button type="button" class="kk-choice" onClick="{{ goCatalog }}"><span class="kk-choice__text"><span class="kk-choice__title">Ideas menu</span><span class="kk-choice__sub">103 ideas. Tick what fits your life.</span></span><span aria-hidden="true" style="color:var(--accent)">→</span></button>
+        <button type="button" class="kk-choice" onClick="{{ goPrompts }}"><span class="kk-choice__text"><span class="kk-choice__title">Prompts</span><span class="kk-choice__sub">Ready to copy, for everyday things.</span></span><span aria-hidden="true" style="color:var(--accent)">→</span></button>
+      </div>
+      <p style="margin:0;border-top:1px dashed var(--line);padding-top:12px;font-size:15px;color:var(--muted)">Setting up another computer, or helping a friend? <button type="button" onClick="{{ showChooserAgain }}" style="background:none;border:0;padding:0;font:inherit;color:var(--accent);text-decoration:underline;text-underline-offset:3px;cursor:pointer">Show the first steps</button></p>
+    </div>
+    </sc-if>
   </section>
 
   <section aria-labelledby="ba" style="background:var(--sunk);border-block:1px solid var(--line)">
@@ -199,7 +232,7 @@ html,body{margin:0;padding:0}
         <div style="display:flex;flex-direction:column;gap:4px"><dt style="font:600 16px/1.4 var(--sans)">Who made it?</dt><dd style="margin:0;font-size:16px;color:var(--muted)">Designed and shared by Ophir Radnitz</dd></div>
       </dl>
       <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:8px">
-        <button type="button" onClick="{{ toStart }}" style="min-height:48px;padding:0 20px;border-radius:8px;border:0;background:var(--accent);color:var(--on-accent);font:600 16px/1 var(--sans);cursor:pointer" style-hover="background:var(--accent-hover)">Find my first step</button>
+        <button type="button" class="kk-btn kk-btn--lg" onClick="{{ toStart }}">Find my first step</button>
         <a href="https://github.com/liqweed/ai-kickstart/releases/latest" style="display:inline-flex;align-items:center;min-height:48px;padding:0 20px;border-radius:8px;border:1.5px solid var(--ink);color:var(--ink);font:600 16px/1 var(--sans);text-decoration:none">Download the kit</a>
         <span style="display:inline-flex;align-items:center;min-height:48px;padding:0 4px;font-size:15px;color:var(--muted)">Companion app: coming later</span>
       </div>
@@ -217,11 +250,11 @@ html,body{margin:0;padding:0}
     <div style="display:flex;flex-direction:column;gap:10px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--card)">
       <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px">
         <span style="font:600 14px/1 var(--sans);min-width:90px">Computer</span>
-        <sc-for list="{{ osOptions }}" as="o" hint-placeholder-count="4"><button type="button" onClick="{{ o.onSet }}" aria-pressed="{{ o.pressed }}" style="min-height:40px;padding:0 12px;border-radius:999px;border:{{ o.border }};background:{{ o.bg }};color:var(--ink);font:{{ o.weight }} 14px/1 var(--sans);cursor:pointer">{{ o.check }}{{ o.label }}</button></sc-for>
+        <sc-for list="{{ osOptions }}" as="o" hint-placeholder-count="4"><button type="button" class="kk-pill" onClick="{{ o.onSet }}" aria-pressed="{{ o.pressed }}">{{ o.check }}{{ o.label }}</button></sc-for>
       </div>
       <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px">
         <span style="font:600 14px/1 var(--sans);min-width:90px">AI</span>
-        <sc-for list="{{ pathOptions }}" as="p" hint-placeholder-count="3"><button type="button" onClick="{{ p.onSet }}" aria-pressed="{{ p.pressed }}" style="min-height:40px;padding:0 12px;border-radius:999px;border:{{ p.border }};background:{{ p.bg }};color:var(--ink);font:{{ p.weight }} 14px/1 var(--sans);cursor:pointer">{{ p.check }}{{ p.short }}</button></sc-for>
+        <sc-for list="{{ pathOptions }}" as="p" hint-placeholder-count="3"><button type="button" class="kk-pill" onClick="{{ p.onSet }}" aria-pressed="{{ p.pressed }}">{{ p.check }}{{ p.short }}</button></sc-for>
       </div>
     </div>
 
@@ -243,30 +276,27 @@ html,body{margin:0;padding:0}
       <p aria-live="polite" style="margin:0;font:600 15px/1.4 var(--mono)">{{ progressText }}</p>
       <ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px">
         <sc-for list="{{ steps }}" as="s" hint-placeholder-count="5">
-          <li id="{{ s.anchor }}" style="background:var(--card);border:{{ s.border }};border-radius:12px;scroll-margin-top:90px">
-            <button type="button" onClick="{{ s.toggle }}" aria-expanded="{{ s.isOpen }}" style="width:100%;display:flex;align-items:center;gap:14px;padding:14px 16px;background:none;border:0;color:var(--ink);text-align:left;cursor:pointer;font:inherit;min-height:56px">
-              <span style="flex:none;font:600 15px/1 var(--mono);min-width:30px">{{ s.mark }}</span>
+          <li id="{{ s.anchor }}" class="kk-step" data-current="{{ s.cur }}" style="scroll-margin-top:90px">
+            <button type="button" class="kk-step__head" onClick="{{ s.toggle }}" aria-expanded="{{ s.isOpen }}">
+              <span class="kk-mark" style="flex:none;min-width:30px">{{ s.mark }}</span>
               <span style="flex:1;display:flex;flex-direction:column;gap:2px">
-                <span style="font:600 13px/1.2 var(--sans);color:var(--muted)">Step {{ s.num }} · {{ s.status }}</span>
-                <span style="font:500 20px/1.3 var(--serif)">{{ s.title }}</span>
+                <span class="kk-step__kicker">Step {{ s.num }} · {{ s.status }}</span>
+                <span class="kk-step__title">{{ s.title }}</span>
               </span>
               <span aria-hidden="true" style="color:var(--muted)">{{ s.chev }}</span>
             </button>
             <sc-if value="{{ s.isOpen }}">
-              <div style="padding:0 16px 18px 60px;display:flex;flex-direction:column;gap:14px">
+              <div class="kk-step__body">
                 <sc-if value="{{ s.hasWhy }}"><p style="margin:0;font-size:16px;color:var(--muted);text-wrap:pretty">{{ s.why }}</p></sc-if>
                 <ol style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px">
                   <sc-for list="{{ s.body }}" as="b"><li style="font-size:16px;text-wrap:pretty">{{ b }}</li></sc-for>
                 </ol>
                 <sc-if value="{{ s.hasLink }}"><a href="https://github.com/liqweed/ai-kickstart/releases/latest" style="align-self:flex-start;display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:8px;border:1.5px solid var(--accent);font:600 15px/1 var(--sans);text-decoration:none">Download the kit (zip, ~110 KB)</a></sc-if>
                 <sc-if value="{{ s.hasPrompt }}"><dc-import name="Prompt" label="First contact" text="{{ s.prompt }}" note="{{ s.promptNote }}" hint-size="100%,220px"></dc-import></sc-if>
-                <div style="display:grid;grid-template-columns:auto 1fr;gap:6px 12px;padding:12px 14px;background:var(--sunk);border-radius:8px;font-size:15px">
-                  <span style="font:600 14px/1.5 var(--mono)">Done when:</span><span>{{ s.doneWhen }}</span>
-                  <span style="font:600 14px/1.5 var(--mono)">Check:</span><span>{{ s.check }}</span>
-                </div>
+                <div class="kk-proof"><span class="kk-proof__k">Done when:</span><span>{{ s.doneWhen }}</span><span class="kk-proof__k">Check:</span><span>{{ s.check }}</span></div>
                 <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
-                  <sc-if value="{{ s.notDone }}"><button type="button" onClick="{{ s.markDone }}" style="min-height:46px;padding:0 18px;border-radius:8px;border:0;background:var(--accent);color:var(--on-accent);font:600 16px/1 var(--sans);cursor:pointer" style-hover="background:var(--accent-hover)">Checked. Next step →</button></sc-if>
-                  <sc-if value="{{ s.isDone }}"><button type="button" onClick="{{ s.undo }}" style="min-height:44px;padding:0 14px;border-radius:8px;border:1.5px solid var(--line-strong);background:transparent;color:var(--ink);font:600 15px/1 var(--sans);cursor:pointer">Untick this step</button></sc-if>
+                  <sc-if value="{{ s.notDone }}"><button type="button" class="kk-btn kk-btn--lg" onClick="{{ s.markDone }}">Checked. Next step →</button></sc-if>
+                  <sc-if value="{{ s.isDone }}"><button type="button" class="kk-btn kk-btn--line" onClick="{{ s.undo }}">Untick this step</button></sc-if>
                 </div>
                 <details style="border-top:1px dashed var(--line);padding-top:10px">
                   <summary style="cursor:pointer;font:600 15px/1.4 var(--sans);min-height:32px">Stuck? Ask your AI for help</summary>
@@ -315,41 +345,65 @@ html,body{margin:0;padding:0}
     </div>
     <div role="group" aria-label="Show by effort" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
       <span style="font:600 14px/1 var(--sans);margin-right:4px">Show</span>
-      <sc-for list="{{ levelOptions }}" as="l" hint-placeholder-count="4"><button type="button" onClick="{{ l.onClick }}" aria-pressed="{{ l.pressed }}" style="min-height:40px;padding:0 14px;border-radius:999px;border:{{ l.border }};background:{{ l.bg }};color:var(--ink);font:{{ l.weight }} 14px/1 var(--sans);cursor:pointer">{{ l.check }}{{ l.label }}</button></sc-for>
+      <sc-for list="{{ levelOptions }}" as="l" hint-placeholder-count="4"><button type="button" class="kk-pill" onClick="{{ l.onClick }}" aria-pressed="{{ l.pressed }}">{{ l.check }}{{ l.label }}</button></sc-for>
     </div>
     <nav aria-label="Areas" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin:0 -20px;padding-inline:20px">
       <sc-for list="{{ areas }}" as="a" hint-placeholder-count="8"><button type="button" onClick="{{ a.jump }}" style="flex:none;min-height:40px;padding:0 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:14px/1 var(--sans);cursor:pointer;white-space:nowrap">{{ a.e }} {{ a.name }}{{ a.pickedTag }}</button></sc-for>
     </nav>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:28px 32px;align-items:start;padding-bottom:28px">
-      <sc-for list="{{ areas }}" as="a" hint-placeholder-count="6">
-        <section id="{{ a.anchor }}" aria-labelledby="{{ a.hid }}" style="display:flex;flex-direction:column;gap:2px;scroll-margin-top:90px">
-          <h2 id="{{ a.hid }}" style="margin:0 0 6px;display:flex;align-items:baseline;gap:10px;font:500 21px/1.3 var(--serif);border-bottom:1px solid var(--ink);padding-bottom:8px"><span aria-hidden="true">{{ a.e }}</span><span style="flex:1">{{ a.name }}</span><span style="font:13px/1 var(--sans);color:var(--muted)">{{ a.countText }}</span></h2>
-          <sc-for list="{{ a.items }}" as="i">
-            <label style="display:grid;grid-template-columns:22px 1fr auto;gap:2px 12px;align-items:start;padding:9px 6px;border-radius:8px;cursor:pointer;background:{{ i.bg }}" style-hover="background:var(--sunk)">
-              <input type="checkbox" checked="{{ i.checked }}" onChange="{{ i.onToggle }}" style="width:20px;height:20px;margin:2px 0 0">
-              <span style="display:flex;flex-direction:column;gap:1px"><span style="font:600 16px/1.35 var(--sans)">{{ i.n }}</span><span style="font-size:14px;line-height:1.45;color:var(--muted)">{{ i.d }}</span></span>
-              <span title="{{ i.levelWord }}" style="font:600 12px/1 var(--mono);padding:4px 6px;border:1px solid var(--line-strong);border-radius:4px;margin-top:2px">{{ i.l }}</span>
-            </label>
-          </sc-for>
-        </section>
-      </sc-for>
-    </div>
-  </section>
-  <div style="position:sticky;bottom:0;z-index:5;background:var(--card);border-top:2px solid var(--ink)">
-    <div style="max-width:1120px;margin:0 auto;padding:12px 20px;display:flex;flex-direction:column;gap:10px;box-sizing:border-box">
-      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px">
-        <p aria-live="polite" style="margin:0;flex:1;min-width:220px;font-size:15px">{{ trayText }}</p>
+    <div class="site-cat">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:28px 32px;align-items:start;padding-bottom:28px">
+        <sc-for list="{{ areas }}" as="a" hint-placeholder-count="6">
+          <section id="{{ a.anchor }}" aria-labelledby="{{ a.hid }}" style="display:flex;flex-direction:column;gap:2px;scroll-margin-top:90px">
+            <h2 id="{{ a.hid }}" style="margin:0 0 6px;display:flex;align-items:baseline;gap:10px;font:500 21px/1.3 var(--serif);border-bottom:1px solid var(--ink);padding-bottom:8px"><span aria-hidden="true">{{ a.e }}</span><span style="flex:1">{{ a.name }}</span><span style="font:13px/1 var(--sans);color:var(--muted)">{{ a.countText }}</span></h2>
+            <sc-for list="{{ a.items }}" as="i">
+              <label class="kk-row" data-on="{{ i.on }}">
+                <input class="kk-row__check" type="checkbox" checked="{{ i.checked }}" onChange="{{ i.onToggle }}">
+                <span class="kk-row__text"><span class="kk-row__name">{{ i.n }}</span><span class="kk-row__desc">{{ i.d }}</span></span>
+                <span class="kk-tag" title="{{ i.levelWord }}">{{ i.l }}</span>
+              </label>
+            </sc-for>
+          </section>
+        </sc-for>
+      </div>
+      <aside class="site-picks" aria-labelledby="picks-h" style="position:sticky;top:76px;max-height:calc(100vh - 96px);flex-direction:column;gap:12px;padding:16px;margin-bottom:28px;background:var(--card);border:1px solid var(--line);border-top:3px solid var(--ink);border-radius:12px;box-sizing:border-box">
+        <div style="display:flex;flex-direction:column;gap:2px">
+          <h2 id="picks-h" style="margin:0;font:500 21px/1.3 var(--serif)">Your picks</h2>
+          <p aria-live="polite" style="margin:0;font-size:14px;color:var(--muted);text-wrap:pretty">{{ trayText }}</p>
+        </div>
         <sc-if value="{{ hasPicks }}">
-          <div style="display:flex;flex-wrap:wrap;gap:8px">
-            <button type="button" onClick="{{ toggleMsg }}" aria-expanded="{{ showMsg }}" style="min-height:44px;padding:0 14px;border-radius:8px;border:1.5px solid var(--line-strong);background:transparent;color:var(--ink);font:600 15px/1 var(--sans);cursor:pointer">{{ msgLabel }}</button>
-            <button type="button" onClick="{{ clearPicks }}" style="min-height:44px;padding:0 14px;border-radius:8px;border:1.5px solid var(--line-strong);background:transparent;color:var(--ink);font:600 15px/1 var(--sans);cursor:pointer">Clear</button>
-            <button type="button" onClick="{{ copyPicks }}" style="min-height:44px;padding:0 18px;border-radius:8px;border:0;background:var(--accent);color:var(--on-accent);font:600 15px/1 var(--sans);cursor:pointer">{{ copyPicksLabel }}</button>
+          <ul style="list-style:none;margin:0;padding:0;overflow-y:auto;min-height:0;flex:1;display:flex;flex-direction:column;border-top:1px solid var(--line)">
+            <sc-for list="{{ pickList }}" as="p"><li style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--line)"><span style="flex:1;min-width:0;display:flex;flex-direction:column"><span style="font:600 15px/1.35 var(--sans)">{{ p.n }}</span><span style="font-size:13px;line-height:1.4;color:var(--muted)">{{ p.area }}</span></span><button type="button" onClick="{{ p.remove }}" aria-label="{{ p.removeAria }}" style="flex:none;width:36px;height:36px;border-radius:8px;border:0;background:transparent;color:var(--muted);font:20px/1 var(--sans);cursor:pointer" style-hover="background:var(--sunk);color:var(--ink)">×</button></li></sc-for>
+          </ul>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <button type="button" class="kk-btn" onClick="{{ copyPicks }}">{{ copyPicksLabel }}</button>
+            <div style="display:flex;gap:8px"><button type="button" class="kk-btn kk-btn--line" style="flex:1" onClick="{{ openMsg }}">Preview message</button><button type="button" class="kk-btn kk-btn--line" onClick="{{ clearPicks }}">Clear</button></div>
           </div>
         </sc-if>
-      </div>
-      <sc-if value="{{ showMsgBox }}"><pre style="margin:0;max-height:34vh;overflow:auto;padding:12px 14px;background:var(--sunk);border-radius:8px;font:14px/1.55 var(--mono);white-space:pre-wrap">{{ pickMessage }}</pre></sc-if>
+      </aside>
+    </div>
+  </section>
+  <div class="site-tray" style="position:sticky;bottom:0;z-index:5;background:var(--card);border-top:2px solid var(--ink)">
+    <div style="max-width:1120px;margin:0 auto;padding:8px 20px;display:flex;align-items:center;gap:8px 10px;box-sizing:border-box">
+      <p aria-live="polite" style="margin:0;flex:1;min-width:0;font-size:15px;line-height:1.3">{{ trayShort }}</p>
+      <sc-if value="{{ hasPicks }}">
+        <button type="button" class="kk-btn kk-btn--line" style="padding:0 12px" onClick="{{ openMsg }}">See message</button>
+        <button type="button" class="kk-btn" style="padding:0 14px" onClick="{{ copyPicks }}">{{ copyShort }}</button>
+      </sc-if>
     </div>
   </div>
+  <dialog id="pick-dialog" class="kk-dialog" aria-labelledby="pick-dlg-h" style="width:min(640px,calc(100% - 32px));max-height:calc(100vh - 64px);padding:0;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);box-sizing:border-box">
+    <div style="display:flex;flex-direction:column;max-height:calc(100vh - 66px)">
+      <div style="display:flex;align-items:flex-start;gap:12px;padding:16px 16px 12px 20px;border-bottom:1px solid var(--line)">
+        <div style="flex:1;display:flex;flex-direction:column;gap:2px"><h2 id="pick-dlg-h" style="margin:0;font:500 22px/1.25 var(--serif)">Your message for Round 2</h2><p style="margin:0;font-size:14px;color:var(--muted)">This is exactly what gets copied. Paste it when your AI starts Round 2.</p></div>
+        <button type="button" onClick="{{ closeMsg }}" aria-label="Close" style="flex:none;width:44px;height:44px;border-radius:8px;border:0;background:transparent;color:var(--ink);font:22px/1 var(--sans);cursor:pointer">×</button>
+      </div>
+      <pre style="margin:0;flex:1;min-height:0;overflow:auto;padding:16px 20px;font:14px/1.6 var(--mono);white-space:pre-wrap">{{ pickMessage }}</pre>
+      <div style="display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px;padding:12px 16px;border-top:1px solid var(--line)">
+        <button type="button" class="kk-btn kk-btn--line" onClick="{{ clearAndClose }}">Clear picks</button>
+        <button type="button" class="kk-btn" onClick="{{ copyPicks }}">{{ copyPicksLabel }}</button>
+      </div>
+    </div>
+  </dialog>
 </sc-if>
 
 <sc-if value="{{ isPrompts }}">
@@ -531,7 +585,7 @@ html,body{margin:0;padding:0}
     </section>
     <ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column">
       <sc-if value="{{ hasV12 }}">
-        <li style="display:grid;grid-template-columns:80px 1fr;gap:12px;padding:16px 0;border-top:1px solid var(--line)"><span style="font:600 16px/1.5 var(--mono)">v1.2</span><div style="display:flex;flex-direction:column;gap:4px"><span style="font-weight:600">Latest</span><span style="color:var(--muted);font-size:15px">Scenario placeholder. Real release notes are generated from the kit's changelog at build time.</span></div></li>
+        <li style="display:grid;grid-template-columns:80px 1fr;gap:12px;padding:16px 0;border-top:1px solid var(--line)"><span style="font:600 16px/1.5 var(--mono)">v1.2</span><div style="display:flex;flex-direction:column;gap:4px"><span style="font-weight:600">Latest</span><ul style="margin:0;padding-left:20px;font-size:16px"><li>New guide: Updating your kit</li><li>An improved weekly-review skill</li><li>6 new tips</li><li>New harness step P4.0: Choose what to connect first</li></ul></div></li>
       </sc-if>
       <li style="display:grid;grid-template-columns:80px 1fr;gap:12px;padding:16px 0;border-top:1px solid var(--line)"><span style="font:600 16px/1.5 var(--mono)">v1.1</span><div style="display:flex;flex-direction:column;gap:4px"><span style="font-weight:600">October 2026</span><ul style="margin:0;padding-left:20px;font-size:16px"><li>New note: Working with AI: Tips &amp; Insights (top 10, habits, prompting, trust, privacy, pitfalls)</li><li>New harness step P3.5</li><li>Round 5 now asks about habits</li></ul></div></li>
       <li style="display:grid;grid-template-columns:80px 1fr;gap:12px;padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)"><span style="font:600 16px/1.5 var(--mono)">v1.0</span><div><span style="font-weight:600">First release</span></div></li>
@@ -552,6 +606,7 @@ html,body{margin:0;padding:0}
       <a href="https://github.com/liqweed/ai-kickstart">Source on GitHub</a>
       <a href="https://github.com/liqweed/ai-kickstart/issues/new/choose">Give feedback</a>
       <a href="Rationale.dc.html">Design rationale</a>
+      <a href="AI Kickstart App.dc.html">Companion app prototype</a>
     </nav>
   </div>
 </footer>
@@ -562,8 +617,8 @@ html,body{margin:0;padding:0}
 <script type="text/x-dc" data-dc-script data-props="{&quot;scenario&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;1 · First visit, Mac&quot;,&quot;2 · Windows work laptop, chat app&quot;,&quot;3 · First visit on a phone&quot;,&quot;4 · Mid-setup return&quot;,&quot;5 · Catalog with 12 picks&quot;,&quot;6 · Returning, new version&quot;],&quot;default&quot;:&quot;1 · First visit, Mac&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
 const OS = { mac: 'Mac', windows: 'Windows', linux: 'Linux', phone: 'Phone or tablet' };
 const PATHS = {
-  a: { title: 'In a chat app', short: 'Chat app', sub: 'Claude or ChatGPT. The easiest start: the AI gives you text to paste into your notes.', tool: 'a chat app (Claude or ChatGPT)' },
-  b: { title: 'With a desktop AI app', short: 'Desktop AI app', rec: true, sub: 'It works inside one folder you choose, and reads and writes your notes there directly.', tool: 'a desktop AI app' },
+  a: { title: 'In a chat app', short: 'Chat app', sub: 'Claude or ChatGPT, with nothing extra to install. The AI gives you text, and you paste it into your notes. Good on a work laptop.', tool: 'a chat app (Claude or ChatGPT)' },
+  b: { title: 'With a desktop AI app', short: 'Desktop AI app', rec: true, sub: 'It works inside one folder you choose, and reads and writes your notes there directly. The smoothest way to use the kit.', tool: 'a desktop AI app' },
   c: { title: 'From the terminal', short: 'Terminal agent', sub: 'If you already use Claude Code, Codex, Gemini CLI or similar.', tool: 'a terminal agent' },
 };
 const VIEWS = ['home', 'setup', 'catalog', 'prompts', 'guide', 'new'];
@@ -617,7 +672,7 @@ function buildSteps(os, path) {
 
 class Component extends DCLogic {
   KEY = 'aik.site.v1';
-  state = { view: 'home', os: 'mac', path: null, done: [], picks: [], level: 'all', showMsg: false, copiedPicks: false, linkMsg: '', installed: null, latest: 'v1.1', phone: false, open: null, kit: null, announce: '' };
+  state = { view: 'home', os: 'mac', path: null, done: [], picks: [], level: 'all', showMsg: false, copiedPicks: false, linkMsg: '', installed: null, latest: 'v1.1', phone: false, open: null, kit: null, announce: '', chooser: false };
 
   componentDidMount() {
     import(new URL('kit-content.js', document.baseURI).href).then(m => this.setState({ kit: m.KIT })).catch(e => console.warn('kit content', e));
@@ -637,12 +692,12 @@ class Component extends DCLogic {
   }
   applyScenario(sc) {
     this.sc = sc;
-    const base = { os: 'mac', path: null, done: [], picks: [], installed: null, latest: 'v1.1', phone: false, view: 'home', open: null, showMsg: false, level: 'all' };
+    const base = { os: 'mac', path: null, done: [], picks: [], installed: null, latest: 'v1.1', phone: false, view: 'home', open: null, showMsg: false, level: 'all', chooser: false };
     const s = { '1': {}, '2': { os: 'windows', path: 'a', view: 'setup' }, '3': { os: 'phone', phone: true },
-      '4': { path: 'b', done: ['kit', 'obsidian'] }, '5': { picks: PICKS12, view: 'catalog', showMsg: true },
+      '4': { path: 'b', done: ['kit', 'obsidian'] }, '5': { picks: PICKS12, view: 'catalog' },
       '6': { path: 'b', done: ['kit', 'obsidian', 'vault', 'connect', 'hello'], installed: 'v1.1', latest: 'v1.2' } }[sc] || {};
     const st = { ...base, ...s };
-    this.setState(st, () => { this.setHash(st.view, true); window.scrollTo(0, 0); });
+    this.setState(st, () => { this.setHash(st.view, true); window.scrollTo(0, 0); this.navIntoView(); });
   }
   hashFor(v) { return v === 'setup' && this.state.path ? `#/setup/${this.state.os}-${this.state.path}` : '#/' + v; }
   setHash(v, replace) { try { history[replace ? 'replaceState' : 'pushState'](null, '', this.hashFor(v)); } catch (e) {} }
@@ -655,11 +710,12 @@ class Component extends DCLogic {
   }
   go(view, anchor) {
     this.setState({ view, showMsg: view === 'catalog' ? this.state.showMsg : false }, () => {
-      this.setHash(view);
+      this.setHash(view); this.navIntoView();
       if (anchor) this.jump(anchor); else window.scrollTo(0, 0);
       if (view === 'setup') this.scrollToCurrent();
     });
   }
+  navIntoView() { requestAnimationFrame(() => { const b = document.querySelector('.site-nav [aria-current="page"]'); if (!b) return; const n = b.parentElement, r = b.getBoundingClientRect(), nr = n.getBoundingClientRect(); if (r.left < nr.left || r.right > nr.right) n.scrollLeft += r.left - nr.left - 8; }); }
   jump(id) { requestAnimationFrame(() => { const el = document.getElementById(id); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 84 }); }); }
   curStep() { const steps = buildSteps(this.state.os, this.state.path || 'b'); return steps.find(s => !this.state.done.includes(s.id)); }
   scrollToCurrent() { const c = this.curStep(); if (c && this.state.done.length) this.jump('step-' + c.id); }
@@ -707,7 +763,7 @@ class Component extends DCLogic {
         pickedTag: picked ? ` · ${picked} ✓` : '',
         countText: `${a.items.length} ideas${picked ? ' · ' + picked + ' picked' : ''}`,
         show: items.length > 0,
-        items: items.map(it => { const on = picksSet.has(it.id); return { n: it.n, d: it.d, l: it.l, checked: on, bg: on ? 'var(--accent-soft)' : 'transparent',
+        items: items.map(it => { const on = picksSet.has(it.id); return { n: it.n, d: it.d, l: it.l, checked: on, on: on ? 'true' : 'false',
           levelWord: it.l.replace('S', 'Starter').replace('M', 'Connected').replace('L', 'Builder'),
           onToggle: () => this.setState(st => ({ picks: st.picks.includes(it.id) ? st.picks.filter(x => x !== it.id) : [...st.picks, it.id] })) }; }) };
     }).filter(a => a.show);
@@ -715,6 +771,8 @@ class Component extends DCLogic {
     const n = S.picks.length;
     const hasPath = !!S.path;
     const osName = OS[S.os];
+    const finished = !!S.path && !cur;
+    const pickList = k ? S.picks.map(id => { const [a, i] = id.split('-').map(Number); const ar = k.catalog[a], it = ar && ar.items[i]; return it ? { n: it.n, area: ar.name, removeAria: 'Remove ' + it.n, remove: () => this.setState(st => ({ picks: st.picks.filter(x => x !== id), announce: it.n + ' removed' })) } : null; }).filter(Boolean) : [];
     return {
       theme: this.props.theme ?? 'auto',
       frameW: S.phone ? '390px' : 'none',
@@ -726,14 +784,24 @@ class Component extends DCLogic {
       toStart: () => { this.jump('start'); },
       showResume: hasPath && S.done.length > 0 && !!cur && view !== 'setup',
       curNum: curIdx + 1, curTitle: cur ? cur.title : '', setupLabel: `${osName} · ${hasPath ? PATHS[S.path].short : ''}`,
-      showUpdate: !!S.installed && S.installed !== S.latest && view !== 'new',
+      showUpdate: !!S.installed && S.installed !== S.latest && view !== 'new' && !(view === 'home' && finished && !S.chooser),
+      setupFinished: finished && !S.chooser, showChooser: !finished || S.chooser,
+      cardUpdate: finished && !!S.installed && S.installed !== S.latest,
+      showChooserAgain: () => this.setState({ chooser: true }),
+      goPrompts: () => this.go('prompts'),
+      pickList,
+      trayShort: n ? `${n} picked · saved on this device` : 'Tick ideas you like. They collect here.',
+      copyShort: S.copiedPicks ? 'Copied ✓' : 'Copy',
+      openMsg: () => { const d = document.getElementById('pick-dialog'); if (d && !d.open) d.showModal(); },
+      closeMsg: () => { const d = document.getElementById('pick-dialog'); if (d && d.open) d.close(); },
+      clearAndClose: () => { const d = document.getElementById('pick-dialog'); if (d && d.open) d.close(); this.setState({ picks: [], announce: 'Picks cleared' }); },
       latest: S.latest, installed: S.installed || '',
       isPhone: S.phone,
       shareLabel: S.linkMsg || (S.phone ? 'Send this to my computer' : 'Copy link'),
       shareLink: () => this.share(),
       osHint: S.phone ? '(setup needs a computer)' : '(guessed from your browser)',
       osOptions: Object.keys(OS).map(id => ({ label: OS[id], ...this.pill(S.os === id), onClick: () => this.setState({ os: id }), onSet: () => this.setState({ os: id }, () => this.setHash('setup', true)) })),
-      pathOptions: Object.keys(PATHS).map(id => ({ ...PATHS[id], rec: !!PATHS[id].rec, ...this.pill(S.path === id), border: S.path === id ? '2px solid var(--accent)' : '1px solid var(--line-strong)', onClick: () => this.choosePath(id), onSet: () => this.setState({ path: id, open: null }, () => this.setHash('setup', true)) })),
+      pathOptions: Object.keys(PATHS).map(id => ({ ...PATHS[id], rec: !!PATHS[id].rec, ...this.pill(S.path === id), onClick: () => this.choosePath(id), onSet: () => this.setState({ path: id, open: null }, () => this.setHash('setup', true)) })),
       hasPath, noPath: !hasPath,
       progressText: cur ? `[/] ${S.done.length} of 5 done · now: step ${curIdx + 1}, ${cur.title}` : '[x] 5 of 5 done',
       allDone: hasPath && !cur,
@@ -742,7 +810,7 @@ class Component extends DCLogic {
         const isOpen = S.open ? S.open === s.id : !!isCur;
         return { anchor: 'step-' + s.id, num: i + 1, title: s.title, isDone, notDone: !isDone, isOpen,
           mark: isDone ? '[x]' : isCur ? '[/]' : '[ ]', status: isDone ? 'done' : isCur ? 'you are here' : 'up next', chev: isOpen ? '−' : '+',
-          border: isCur ? '2px solid var(--accent)' : '1px solid var(--line)',
+          cur: isCur ? 'true' : 'false',
           why: s.why, hasWhy: !!s.why && S.path !== 'c', body: s.body, hasLink: !!s.link,
           hasPrompt: !!s.prompt, prompt: s.prompt || '', promptNote: s.promptNote || '',
           doneWhen: s.doneWhen, check: s.check,

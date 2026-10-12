@@ -2,12 +2,12 @@
 
 **Goal:** one square **mark** (no text) for AI Kickstart. It's used as the favicon (16/32 px), the companion app icon (up to 1024 px), the website header (about 22 px next to the "AI Kickstart" wordmark, which stays in system serif type) and the social preview.
 
-**Where it comes from:** the round-1 website prototype ([`website-prototype/`](website-prototype/)) uses "a note with a seed in it" as a placeholder: a rounded square outline with a green dot. Its identity is warm paper and ink, one moss green for actions, highlighter yellow for things you fill in, and no AI clichés. The mark should carry the kit's three ideas: **plain notes you own · small steps that grow over time · you stay in charge**.
+**Where it comes from:** the round-1 website prototype (git history; round 2 in [`prototype/`](prototype/) adopted the logo) uses "a note with a seed in it" as a placeholder: a rounded square outline with a green dot. Its identity is warm paper and ink, one moss green for actions, highlighter yellow for things you fill in, and no AI clichés. The mark should carry the kit's three ideas: **plain notes you own · small steps that grow over time · you stay in charge**.
 
 ## How to run it
 
 - **Model:** Arrow 2 **Telos**. QuiverAI recommends it for "logos with tight geometry". Generate 4 or more per prompt.
-- **Reference image (optional, palette and mood only):** `website-prototype/screenshots/s1-light-fold.jpg`. Give it one role: "palette and mood reference only; do not copy layout or text".
+- **Reference image (optional, palette and mood only):** `prototype/screenshots/site-s1-light.jpg`. Give it one role: "palette and mood reference only; do not copy layout or text".
 - Run the three concept prompts below, pick a winner, then run the **refinement** prompt on it.
 - Save the winner as `design/logo/logo-mark.svg`, plus a one-colour version `logo-mark-mono.svg`. Then upload it to Claude Design round 2.
 

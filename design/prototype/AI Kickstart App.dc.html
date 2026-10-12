@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>AI Kickstart · Companion app</title>
+<link rel="stylesheet" href="kickstart.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>
+html,body{margin:0}
+@keyframes kkpulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.8)}}
+</style>
+</helmet>
+<div data-kk="{{ theme }}" style="min-height:100vh;background:var(--outer);color:var(--ink);font:16px/1.55 var(--sans);padding:28px 24px 40px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:16px;overflow-x:auto">
+
+<div data-screen-label="App window" style="width:{{ winW }};height:{{ winH }};flex:none;display:flex;flex-direction:column;background:var(--bg);border:1px solid var(--line-strong);border-radius:{{ winRadius }};box-shadow:0 24px 60px oklch(0 0 0 / .22), 0 2px 6px oklch(0 0 0 / .12);overflow:hidden">
+  <sc-if value="{{ isMac }}">
+    <div style="flex:none;height:38px;display:flex;align-items:center;gap:8px;padding:0 14px;background:var(--sunk);border-bottom:1px solid var(--line);position:relative;user-select:none">
+      <span aria-hidden="true" style="width:12px;height:12px;border-radius:50%;background:#ff5f57;box-shadow:inset 0 0 0 .5px oklch(0 0 0 / .25)"></span>
+      <span aria-hidden="true" style="width:12px;height:12px;border-radius:50%;background:#febc2e;box-shadow:inset 0 0 0 .5px oklch(0 0 0 / .25)"></span>
+      <span aria-hidden="true" style="width:12px;height:12px;border-radius:50%;background:#28c840;box-shadow:inset 0 0 0 .5px oklch(0 0 0 / .25)"></span>
+      <span style="position:absolute;left:0;right:0;text-align:center;font:600 13px/1 var(--sans);color:var(--muted);pointer-events:none">AI Kickstart</span>
+    </div>
+  </sc-if>
+  <sc-if value="{{ isWin }}">
+    <div style="flex:none;height:32px;display:flex;align-items:center;background:var(--sunk);border-bottom:1px solid var(--line);user-select:none">
+      <span style="display:flex;align-items:center;gap:8px;padding:0 12px;flex:1;font:12px/1 var(--sans);color:var(--ink)"><dc-import name="Mark" style="width:16px;height:16px" hint-size="16px,16px"></dc-import>AI Kickstart</span>
+      <span aria-hidden="true" style="width:46px;text-align:center;font:13px/32px var(--sans);color:var(--muted)">—</span>
+      <span aria-hidden="true" style="width:46px;text-align:center;font:12px/32px var(--sans);color:var(--muted)">▢</span>
+      <span aria-hidden="true" style="width:46px;text-align:center;font:13px/32px var(--sans);color:var(--muted)">✕</span>
+    </div>
+  </sc-if>
+
+  <div style="flex:1;min-height:0;display:flex">
+    <sc-if value="{{ hasRail }}">
+      <nav aria-label="App" style="flex:none;width:200px;box-sizing:border-box;background:var(--sunk);border-right:1px solid var(--line);padding:14px 10px 12px;display:flex;flex-direction:column;gap:4px;overflow-y:auto">
+        <div style="display:flex;align-items:center;gap:10px;padding:2px 8px 14px">
+          <dc-import name="Mark" style="width:26px;height:26px;flex:none" hint-size="26px,26px"></dc-import>
+          <span style="display:flex;flex-direction:column;min-width:0"><span style="font:600 15px/1.25 var(--sans);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Sam's Vault</span><span style="font-size:13px;line-height:1.3;color:var(--muted)">{{ railSub }}</span></span>
+        </div>
+        <sc-for list="{{ nav }}" as="n" hint-placeholder-count="4">
+          <button type="button" onClick="{{ n.go }}" aria-current="{{ n.current }}" style="display:flex;align-items:center;gap:8px;min-height:40px;padding:0 10px;border:0;border-left:3px solid {{ n.line }};border-radius:0 8px 8px 0;background:{{ n.bg }};color:var(--ink);font:{{ n.weight }} 15px/1 var(--sans);text-align:left;cursor:pointer" style-hover="background:var(--card)"><span style="flex:1">{{ n.label }}</span><sc-if value="{{ n.hasTag }}"><span style="font:600 12px/1 var(--mono);padding:3px 6px;border:1px solid var(--line-strong);border-radius:4px">{{ n.tag }}</span></sc-if></button>
+        </sc-for>
+        <div style="flex:1;min-height:12px"></div>
+        <a href="{{ obsPlanHref }}" style="display:flex;align-items:center;min-height:36px;padding:0 10px;font-size:14px">Open in Obsidian ↗</a>
+        <a href="https://ai-kickstart.me/" style="display:flex;align-items:center;min-height:36px;padding:0 10px;font-size:14px">ai-kickstart.me ↗</a>
+        <button type="button" onClick="{{ goSettings }}" style="margin-top:6px;display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--ink);text-align:left;cursor:pointer;font:inherit">
+          <span style="font:600 13px/1.3 var(--sans)">Local only</span>
+          <span style="font-size:12px;line-height:1.35;color:var(--muted)">{{ honestyLine }}</span>
+        </button>
+      </nav>
+    </sc-if>
+
+    <main style="flex:1;min-width:0;overflow-y:auto">
+      <div style="max-width:{{ mainMax }};margin:0 auto;padding:{{ mainPad }};box-sizing:border-box;display:flex;flex-direction:column;gap:18px">
+
+        <sc-if value="{{ isFirst }}">
+          <div style="display:flex;align-items:center;gap:10px">
+            <dc-import name="Mark" style="width:24px;height:24px" hint-size="24px,24px"></dc-import>
+            <span style="flex:1;font:600 17px/1 var(--serif)">AI Kickstart</span>
+            <span style="font-size:13px;color:var(--muted)">Local only. Nothing leaves this {{ computer }}.</span>
+          </div>
+          <ol aria-label="Setup steps" style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px">
+            <sc-for list="{{ strip }}" as="s" hint-placeholder-count="5">
+              <li aria-current="{{ s.current }}" style="display:flex;flex-direction:column;gap:3px;padding-top:8px;border-top:3px solid {{ s.line }}"><span class="kk-mark" style="font-size:13px">{{ s.mark }}</span><span style="font:{{ s.weight }} 13px/1.3 var(--sans)">{{ s.label }}</span></li>
+            </sc-for>
+          </ol>
+          <p style="margin:0;align-self:flex-start;font:600 13px/1 var(--sans);padding:6px 10px;border-radius:999px;border:1px solid var(--line-strong)">Where: {{ whereLabel }}</p>
+        </sc-if>
+
+        <sc-if value="{{ hasNoticed }}">
+          <div role="status" style="display:flex;align-items:center;gap:10px;padding:8px 8px 8px 14px;border:1px solid var(--accent);border-radius:10px;background:var(--accent-soft)">
+            <span class="kk-mark" style="font-size:13px">[x]</span>
+            <span style="flex:1;font-size:15px;line-height:1.4">{{ noticed }}</span>
+            <button type="button" onClick="{{ dismissNoticed }}" style="flex:none;min-height:36px;padding:0 12px;border-radius:8px;border:0;background:transparent;color:var(--ink);font:600 14px/1 var(--sans);cursor:pointer">OK</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ hasRc }}">
+          <section aria-labelledby="rc-h" class="kk-card" style="padding:24px;display:flex;flex-direction:column;gap:12px;border-top:3px solid var(--ink)">
+            <p class="kk-mark" style="margin:0;font-size:14px">[?] {{ rc.kicker }}</p>
+            <h1 id="rc-h" style="margin:0;font:500 27px/1.2 var(--serif);text-wrap:balance">{{ rc.title }}</h1>
+            <p style="margin:0;text-wrap:pretty">{{ rc.what }}</p>
+            <p style="margin:0;padding:10px 12px;background:var(--sunk);border-radius:8px;font-size:15px;text-wrap:pretty"><strong>{{ rc.safeHead }}</strong> {{ rc.safe }}</p>
+            <sc-if value="{{ rc.isButton }}"><button type="button" class="kk-btn kk-btn--lg" style="align-self:flex-start" onClick="{{ rc.act }}">{{ rc.action }}</button></sc-if>
+            <sc-if value="{{ rc.isLink }}"><a class="kk-btn kk-btn--lg" style="align-self:flex-start" href="{{ rc.href }}">{{ rc.action }} ↗</a></sc-if>
+            <sc-if value="{{ rc.isPrompt }}"><dc-import name="Prompt" label="{{ rc.action }}" text="{{ rc.prompt }}" note="Paste into your AI" hint-size="100%,170px"></dc-import></sc-if>
+            <p style="margin:0;display:flex;align-items:center;gap:10px;font-size:14px;color:var(--muted)"><sc-if value="{{ rc.watch }}">{{ watchDot }}</sc-if>{{ rc.after }}</p>
+          </section>
+        </sc-if>
+
+        <sc-if value="{{ showF1 }}">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <h1 style="margin:0;font:500 30px/1.15 var(--serif)">Let's set up your vault</h1>
+            <p style="margin:0;color:var(--muted);text-wrap:pretty">A vault is a folder of plain notes that you and your AI share. This app makes one from the kit, then keeps your place in the plan. <a href="https://ai-kickstart.me/guide#system">More about vaults ↗</a></p>
+          </div>
+          <div role="group" aria-label="How to start" style="display:flex;flex-direction:column;gap:8px">
+            <button type="button" class="kk-choice" data-on="{{ createOn }}" aria-pressed="{{ createOn }}" onClick="{{ pickCreate }}"><span class="kk-choice__text"><span class="kk-choice__title">{{ createCheck }}Make a new vault</span><span class="kk-choice__sub">From the copy of the kit inside this app. Best if you're starting fresh.</span></span></button>
+            <button type="button" class="kk-choice" data-on="{{ existingOn }}" aria-pressed="{{ existingOn }}" onClick="{{ pickExisting }}"><span class="kk-choice__text"><span class="kk-choice__title">{{ existingCheck }}Use a kit I already unzipped</span><span class="kk-choice__sub">Point to the vault folder you downloaded from the website.</span></span></button>
+          </div>
+          <sc-if value="{{ isCreate }}">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px">
+              <p style="margin:0;flex:1;min-width:240px;font-size:15px">It goes in your <strong>Documents</strong> folder, named <strong>Sam's Vault</strong>. <span style="font:13px var(--mono);color:var(--muted)">~/Documents/Sam's Vault</span></p>
+              <button type="button" class="kk-btn kk-btn--line" onClick="{{ noop }}">Change…</button>
+            </div>
+            <button type="button" class="kk-btn kk-btn--lg" style="align-self:flex-start" onClick="{{ doCreate }}">Create my vault</button>
+          </sc-if>
+          <sc-if value="{{ isExisting }}">
+            <div class="kk-card" style="padding:14px 16px;display:flex;flex-direction:column;gap:4px">
+              <p style="margin:0;font-weight:600"><span class="kk-mark">[x]</span> Found a kit vault: Sam's Vault</p>
+              <p style="margin:0;font-size:15px;color:var(--muted)">In Documents · kit v1.1 · plan not started yet · <span style="font:13px var(--mono)">~/Documents/Sam's Vault</span></p>
+              <p style="margin:0;font-size:15px">The app only reads it. Nothing in it changes.</p>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:10px"><button type="button" class="kk-btn kk-btn--lg" onClick="{{ doCreate }}">Use this vault</button><button type="button" class="kk-btn kk-btn--line kk-btn--lg" onClick="{{ noop }}">Choose a different folder…</button></div>
+          </sc-if>
+        </sc-if>
+
+        <sc-if value="{{ showF2 }}">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <h1 style="margin:0;font:500 30px/1.15 var(--serif)">Open it in Obsidian</h1>
+            <p style="margin:0;color:var(--muted);text-wrap:pretty">Obsidian is the free notes app where you'll read and tidy your notes. It's already on this {{ computer }}.</p>
+          </div>
+          <div class="kk-step" data-current="true">
+            <div class="kk-step__head"><span class="kk-mark" style="min-width:30px">{{ obsMark }}</span><span style="flex:1;display:flex;flex-direction:column;gap:2px"><span class="kk-step__kicker">In Obsidian</span><span class="kk-step__title">Open Sam's Vault</span></span></div>
+            <div class="kk-step__body">
+              <div class="kk-proof"><span class="kk-proof__k">Done when:</span><span>AGENTS.md, _system and the numbered folders show in Obsidian's sidebar.</span><span class="kk-proof__k">Check:</span><span>This app checks for you. It notices when Obsidian opens the folder.</span></div>
+              <sc-if value="{{ obsIdle }}"><a class="kk-btn kk-btn--lg" style="align-self:flex-start" href="{{ obsOpenHref }}" onClick="{{ openObs }}">Open Sam's Vault in Obsidian ↗</a></sc-if>
+              <sc-if value="{{ obsWaiting }}"><p style="margin:0;display:flex;align-items:center;gap:10px;font-size:15px">{{ watchDot }} Waiting for Obsidian to open the folder…</p></sc-if>
+              <sc-if value="{{ obsDone }}"><p style="margin:0;font-weight:600">Obsidian opened your vault. Leave it open; you'll use it in a moment.</p><button type="button" class="kk-btn kk-btn--lg" style="align-self:flex-start" onClick="{{ toF3 }}">Next: your AI →</button></sc-if>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showF3 }}">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <h1 style="margin:0;font:500 30px/1.15 var(--serif)">Which AI will you use?</h1>
+            <p style="margin:0;color:var(--muted)">This tunes the prompts and help. You can change it later in Settings. <a href="https://ai-kickstart.me/#start">Compare them on the website ↗</a></p>
+          </div>
+          <div role="group" aria-label="Your AI" style="display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ paths }}" as="p" hint-placeholder-count="3">
+              <button type="button" class="kk-choice" data-on="{{ p.on }}" aria-pressed="{{ p.on }}" onClick="{{ p.pick }}"><span class="kk-choice__text"><span class="kk-choice__title">{{ p.check }}{{ p.title }}<sc-if value="{{ p.rec }}"><span class="kk-badge">Recommended</span></sc-if></span><span class="kk-choice__sub">{{ p.sub }}</span></span></button>
+            </sc-for>
+          </div>
+          <div class="kk-proof" style="grid-template-columns:auto 1fr"><span class="kk-proof__k">Then:</span><span>{{ connectText }}</span></div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px"><button type="button" class="kk-btn kk-btn--lg" onClick="{{ toF4 }}">It's connected. Next →</button><button type="button" class="kk-btn kk-btn--line kk-btn--lg" onClick="{{ noop }}">Show the folder in {{ finder }}</button></div>
+        </sc-if>
+
+        <sc-if value="{{ showF4 }}">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <h1 style="margin:0;font:500 30px/1.15 var(--serif)">Say hello to your AI</h1>
+            <p style="margin:0;color:var(--muted);text-wrap:pretty">Paste this into {{ pathTool }}. It reads two notes, answers in three lines, and writes a test note. That note is how this app knows it worked.</p>
+          </div>
+          <dc-import name="Prompt" label="First contact" text="{{ firstPrompt }}" note="{{ pasteNote }}" copied="{{ helloCopied }}" hint-size="100%,220px"></dc-import>
+          <div role="status" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border:1.5px dashed var(--accent);border-radius:12px">
+            <span style="margin-top:7px;display:flex">{{ watchDot }}</span>
+            <span style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Watching your vault for <span style="font-family:var(--mono);font-size:15px">_inbox/hello.md</span></span><span style="font-size:14px;color:var(--muted)">{{ watchSub }}</span></span>
+          </div>
+          <details>
+            <summary style="cursor:pointer;font:600 15px/1.4 var(--sans);min-height:32px">Nothing after a few minutes?</summary>
+            <div style="margin-top:10px"><dc-import name="Prompt" label="Help me with a setup step I'm stuck on" text="I'm on harness step &lt;P0.x&gt; and I'm stuck: &lt;what happened&gt;. I use &lt;Mac / Windows / Linux&gt; and &lt;AI tool&gt;. Explain what to do in plain words, one step at a time, and wait for me after each step." fills="{{ stuckFills }}" hint-size="100%,200px"></dc-import></div>
+          </details>
+        </sc-if>
+
+        <sc-if value="{{ showF5 }}">
+          <div style="display:flex;flex-direction:column;gap:8px;padding:22px;border:2px solid var(--accent);border-radius:14px;background:var(--card)">
+            <p class="kk-mark" style="margin:0;font-size:15px">[x] hello.md is in your vault</p>
+            <h1 style="margin:0;font:500 44px/1.05 var(--serif)">It works!</h1>
+            <p style="margin:0">Your AI wrote <span style="font-family:var(--mono);font-size:15px">_inbox/hello.md</span>. All three are talking to each other:</p>
+            <ul style="list-style:none;margin:4px 0 0;padding:0;display:flex;flex-direction:column;gap:4px;font-size:15px">
+              <li><span class="kk-mark">[x]</span> This app made Sam's Vault</li>
+              <li><span class="kk-mark">[x]</span> Obsidian opened it</li>
+              <li><span class="kk-mark">[x]</span> Your AI can read and write there</li>
+            </ul>
+            <p style="margin:4px 0 0;font-size:14px;color:var(--muted)">Delete hello.md in Obsidian whenever you like. It has done its job.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <p style="margin:0">Next, when you have about 20 minutes: Round 1 of the interview. Voice is welcome.</p>
+            <dc-import name="Prompt" label="Start the interview" text="Start round 1 of my kickstart interview. Keep it friendly and one question at a time. I may answer by voice." hint-size="100%,150px"></dc-import>
+            <button type="button" class="kk-btn kk-btn--line" style="align-self:flex-start" onClick="{{ finishFirst }}">Done for now</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showStep }}">
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <p style="margin:0;font:600 14px/1.4 var(--mono);color:var(--muted)">{{ cur.mark }} {{ cur.phaseLine }}</p>
+            <h1 style="margin:0;font:500 30px/1.15 var(--serif)">{{ cur.title }}</h1>
+            <p style="margin:0;color:var(--muted);text-wrap:pretty">{{ cur.lead }}</p>
+          </div>
+          <dc-import name="Prompt" label="Your next prompt" text="Continue my harness plan." note="{{ pasteNote }}" size="lg" hint-size="100%,130px"></dc-import>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px;align-items:start">
+            <section aria-labelledby="lo-h" style="display:flex;flex-direction:column;gap:8px;padding:14px 16px;background:var(--sunk);border-radius:12px">
+              <h2 id="lo-h" style="margin:0;font:600 14px/1.3 var(--sans)">Where you left off · {{ lastDate }}</h2>
+              <dl style="margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:15px">
+                <dt class="kk-proof__k">Next:</dt><dd style="margin:0">P2.4, soften the email tone, test again.</dd>
+                <dt class="kk-proof__k">Notes:</dt><dd style="margin:0">Sam prefers bullet summaries.</dd>
+              </dl>
+              <button type="button" onClick="{{ goPlan }}" style="align-self:flex-start;background:none;border:0;padding:4px 0;font:600 14px var(--sans);color:var(--accent);cursor:pointer;text-decoration:underline;text-underline-offset:3px">The whole session note</button>
+            </section>
+            <section aria-labelledby="cu-h" style="display:flex;flex-direction:column;gap:8px">
+              <h2 id="cu-h" style="margin:0;font:600 14px/1.3 var(--sans)">Coming up · Round 5 check-in, due tomorrow</h2>
+              <p style="margin:0;font-size:15px;color:var(--muted)">About 10 minutes: what's working, what to prune. It'll wait here until you want it.</p>
+              <sc-if value="{{ hasUpdate }}"><button type="button" onClick="{{ goUpdates }}" style="align-self:flex-start;background:none;border:0;padding:4px 0;font:600 14px var(--sans);color:var(--accent);cursor:pointer;text-decoration:underline;text-underline-offset:3px">Kit v1.2 is ready. Have a look when you have five minutes.</button></sc-if>
+            </section>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showBack }}">
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <p class="kk-eyebrow">Welcome back</p>
+            <h1 style="margin:0;font:500 32px/1.15 var(--serif)">Good to see you again.</h1>
+            <p style="margin:0;color:var(--muted);text-wrap:pretty">Your plan is exactly as you left it on {{ lastDate }}. Nothing moved without you. Here's where you were:</p>
+          </div>
+          <div class="kk-step" data-current="true">
+            <div class="kk-step__head" style="align-items:flex-start"><span class="kk-mark" style="min-width:30px;margin-top:3px">[/]</span><span style="flex:1;display:flex;flex-direction:column;gap:3px"><span class="kk-step__kicker">P2 First wins · in progress</span><span class="kk-step__title">P2.4 Meeting notes → actions</span><span style="font-size:15px"><strong style="font-family:var(--mono);font-size:14px">Next:</strong> soften the email tone, test again.</span></span></div>
+          </div>
+          <dc-import name="Prompt" label="Pick up where you left off" text="Continue my harness plan." note="Your AI reads the same plan and carries on from here." size="lg" hint-size="100%,130px"></dc-import>
+          <div style="display:flex;flex-direction:column;gap:8px;padding-top:6px;border-top:1px dashed var(--line)">
+            <p style="margin:0;font-size:15px">Or restart gently: the Round 5 check-in is due about now, and it suits a break. About 10 minutes on what's working.</p>
+            <dc-import name="Prompt" label="Check-in" text="Start round 5 of my kickstart interview." hint-size="100%,120px"></dc-import>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showInterview }}">
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <p style="margin:0;font:600 14px/1.4 var(--mono);color:var(--muted)">[/] P1 Get to know you · the interview</p>
+            <h1 style="margin:0;font:500 30px/1.15 var(--serif)">{{ iv.title }}</h1>
+            <p style="margin:0;color:var(--muted)">{{ iv.lead }}</p>
+          </div>
+          <ol aria-label="Interview rounds" style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px">
+            <sc-for list="{{ rounds }}" as="r" hint-placeholder-count="5">
+              <li aria-current="{{ r.current }}" style="display:flex;flex-direction:column;gap:2px;padding:8px 10px;border:{{ r.border }};border-radius:10px;background:var(--card)"><span class="kk-mark" style="font-size:13px">{{ r.mark }}</span><span style="font:600 13px/1.3 var(--sans)">Round {{ r.n }}</span><span style="font-size:12px;line-height:1.3;color:var(--muted)">{{ r.when }}</span></li>
+            </sc-for>
+          </ol>
+          <dc-import name="Prompt" label="Your next prompt" text="{{ iv.prompt }}" fills="{{ iv.fills }}" note="{{ pasteNote }}" size="lg" hint-size="100%,150px"></dc-import>
+          <sc-if value="{{ iv.hasNote }}"><p style="margin:0;font-size:15px;color:var(--muted);text-wrap:pretty">Round 2 isn't saved yet, because your AI saves each round when it ends. Starting it again is fine: your Round 1 answers carry over. Round 2 uses the ideas menu, so you could <a href="https://ai-kickstart.me/#/catalog">browse it on the website ↗</a> first.</p></sc-if>
+        </sc-if>
+
+        <sc-if value="{{ showPhase }}">
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <p style="margin:0;font:600 14px/1.4 var(--mono);color:var(--muted)">[x] P2 · noticed a moment ago</p>
+            <h1 style="margin:0;font:500 32px/1.15 var(--serif)">First wins: complete.</h1>
+            <p style="margin:0;color:var(--muted)">Six steps, settled your way: five done, and one you chose to skip.</p>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:18px;align-items:start">
+            <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid var(--ink)">
+              <sc-for list="{{ p2 }}" as="s" hint-placeholder-count="6"><li style="display:grid;grid-template-columns:34px 1fr;gap:0 6px;padding:7px 0;border-bottom:1px solid var(--line)"><span class="kk-mark" style="font-size:14px;line-height:1.5">{{ s.mark }}</span><span style="display:flex;flex-direction:column"><span style="font-size:15px;line-height:1.4">{{ s.id }} {{ s.t }}{{ s.starTxt }}</span><sc-if value="{{ s.isSkip }}"><span style="font-size:13px;color:var(--muted)">Skipped. You decided you didn't want one.</span></sc-if></span></li></sc-for>
+            </ul>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <h2 style="margin:0;font:600 14px/1.3 var(--sans)">Next, whenever you like · P3 Capture &amp; memory</h2>
+              <dc-import name="Prompt" label="Your next prompt" text="Continue my harness plan." note="{{ pasteNote }}" size="lg" hint-size="100%,140px"></dc-import>
+              <p style="margin:0;font-size:14px;color:var(--muted)">From P3 on, it's all optional. Using what you've built is a fine place to stay.</p>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showPlan }}">
+          <div style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px 16px">
+            <div style="flex:1;min-width:260px;display:flex;flex-direction:column;gap:4px">
+              <h1 style="margin:0;font:500 30px/1.15 var(--serif)">Your plan</h1>
+              <p style="margin:0;font-size:15px;color:var(--muted)">Read from HARNESS-PLAN.md. Your AI ticks steps there; this app only reads. <a href="https://ai-kickstart.me/#/guide">What's a harness plan? ↗</a></p>
+            </div>
+            <a class="kk-btn kk-btn--line" href="{{ obsPlanHref }}">Open the plan in Obsidian ↗</a>
+          </div>
+          <section aria-labelledby="ph-h" style="display:flex;flex-direction:column;gap:8px">
+            <h2 id="ph-h" style="margin:0;font:500 21px/1.3 var(--serif);border-bottom:1px solid var(--ink);padding-bottom:6px">Phases</h2>
+            <sc-for list="{{ phases }}" as="ph" hint-placeholder-count="5">
+              <div class="kk-step" data-current="{{ ph.current }}">
+                <div class="kk-step__head" style="min-height:48px;padding:10px 14px"><span class="kk-mark" style="min-width:34px">{{ ph.id }}</span><span style="flex:1;font:600 16px/1.3 var(--sans)">{{ ph.name }}</span><span style="font-size:14px;color:var(--muted)">{{ ph.status }}</span></div>
+                <sc-if value="{{ ph.open }}">
+                  <ul style="list-style:none;margin:0;padding:0 14px 12px 62px;display:flex;flex-direction:column">
+                    <sc-for list="{{ p2 }}" as="s"><li style="display:grid;grid-template-columns:34px 1fr auto;gap:0 6px;padding:6px 0;border-top:1px solid var(--line);font-size:15px"><span class="kk-mark" style="font-size:14px;line-height:1.5">{{ s.mark }}</span><span>{{ s.id }} {{ s.t }}{{ s.starTxt }}</span><span style="font-size:13px;color:var(--muted)">{{ s.word }}</span></li></sc-for>
+                  </ul>
+                </sc-if>
+              </div>
+            </sc-for>
+            <p style="margin:0;font-size:14px;color:var(--muted)">P4 to P7 are for whenever you're ready, if ever.</p>
+          </section>
+          <section aria-labelledby="iv-h" style="display:flex;flex-direction:column;gap:8px">
+            <h2 id="iv-h" style="margin:0;font:500 21px/1.3 var(--serif);border-bottom:1px solid var(--ink);padding-bottom:6px">Interview</h2>
+            <ol style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px">
+              <sc-for list="{{ rounds }}" as="r" hint-placeholder-count="5"><li style="display:flex;flex-direction:column;gap:2px;padding:8px 10px;border:{{ r.border }};border-radius:10px;background:var(--card)"><span class="kk-mark" style="font-size:13px">{{ r.mark }}</span><span style="font:600 13px/1.3 var(--sans)">Round {{ r.n }}</span><span style="font-size:12px;line-height:1.3;color:var(--muted)">{{ r.when }}</span></li></sc-for>
+            </ol>
+          </section>
+          <section aria-labelledby="bl-h" style="display:flex;flex-direction:column;gap:4px">
+            <h2 id="bl-h" style="margin:0 0 4px;font:500 21px/1.3 var(--serif);border-bottom:1px solid var(--ink);padding-bottom:6px">Your backlog</h2>
+            <sc-for list="{{ backlog }}" as="b" hint-placeholder-count="5">
+              <div class="kk-row" data-on="{{ b.first }}" style="cursor:default;grid-template-columns:34px 1fr auto">
+                <span class="kk-row__lead">{{ b.mark }}</span>
+                <span class="kk-row__text"><span class="kk-row__name">{{ b.id }}{{ b.star }} · {{ b.idea }}</span><span class="kk-row__desc">{{ b.area }} · value {{ b.value }} of 3 · {{ b.phase }} · {{ b.status }}</span></span>
+                <span class="kk-tag" title="{{ b.effortWord }}">{{ b.effort }}</span>
+              </div>
+            </sc-for>
+            <p style="margin:4px 0 0;font-size:14px;color:var(--muted)">★ = first. S, M, L = effort. To add an idea, tell your AI: <span style="font-family:var(--mono);font-size:13px">Add to harness: &lt;idea&gt;.</span></p>
+          </section>
+          <section aria-labelledby="sl-h" style="display:flex;flex-direction:column;gap:8px">
+            <h2 id="sl-h" style="margin:0;font:500 21px/1.3 var(--serif);border-bottom:1px solid var(--ink);padding-bottom:6px">Last session</h2>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <p style="margin:0;font-weight:600">{{ lastDate }} · P2.4 Meeting notes → actions (started)</p>
+              <dl style="margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:15px">
+                <dt class="kk-proof__k">Did:</dt><dd style="margin:0">drafted the skill from Round 3's spec; tested on one real meeting.</dd>
+                <dt class="kk-proof__k">Checked:</dt><dd style="margin:0">output had owners and dates; the follow-up email was too formal.</dd>
+                <dt class="kk-proof__k">Next:</dt><dd style="margin:0">P2.4, soften the email tone, test again.</dd>
+                <dt class="kk-proof__k">Notes:</dt><dd style="margin:0">Sam prefers bullet summaries.</dd>
+              </dl>
+            </div>
+          </section>
+        </sc-if>
+
+        <sc-if value="{{ showUpdReview }}">
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <p style="margin:0;font:600 14px/1.4 var(--mono);color:var(--muted)">Kit v1.1 → v1.2</p>
+            <h1 style="margin:0;font:500 30px/1.15 var(--serif)">A new version of the kit is ready</h1>
+            <p style="margin:0;color:var(--muted);text-wrap:pretty">New: an “Updating your kit” guide, a better weekly-review skill, 6 new tips, and plan step P4.0 “Choose what to connect first”. <a href="https://ai-kickstart.me/#/new">Release notes ↗</a></p>
+          </div>
+          <section aria-labelledby="fs-h" class="kk-card" style="padding:4px 16px">
+            <h2 id="fs-h" class="kk-sr">What happens to your files</h2>
+            <ul style="list-style:none;margin:0;padding:0">
+              <li style="display:grid;grid-template-columns:44px 1fr;gap:2px 8px;padding:10px 0;border-bottom:1px solid var(--line)"><span style="font:600 22px/1.1 var(--serif)">14</span><span><strong>kit files you haven't changed</strong> get the new version.</span></li>
+              <li style="display:grid;grid-template-columns:44px 1fr;gap:2px 8px;padding:10px 0;border-bottom:1px solid var(--line)"><span style="font:600 22px/1.1 var(--serif)">1</span><span><strong>kit file you changed</strong>, your weekly-review skill. You choose below.</span></li>
+              <li style="display:grid;grid-template-columns:44px 1fr;gap:2px 8px;padding:10px 0;border-bottom:1px solid var(--line)"><span style="font:600 22px/1.1 var(--serif)">1</span><span><strong>of your own notes gets something new</strong>: your plan gains step P4.0. The app won't edit it; your AI adds it afterwards.</span></li>
+              <li style="display:grid;grid-template-columns:44px 1fr;gap:2px 8px;padding:10px 0"><span class="kk-mark" style="line-height:1.5">[x]</span><span><strong>Everything else you wrote stays exactly as it is.</strong></span></li>
+            </ul>
+          </section>
+          <section aria-labelledby="cf-h" style="display:flex;flex-direction:column;gap:8px">
+            <h2 id="cf-h" style="margin:0;font:600 16px/1.35 var(--sans)">Your weekly-review skill: you added a “plan family dinners” step. What should happen?</h2>
+            <div role="group" aria-labelledby="cf-h" style="display:flex;flex-direction:column;gap:6px">
+              <sc-for list="{{ choices }}" as="c" hint-placeholder-count="3">
+                <button type="button" class="kk-choice" data-on="{{ c.on }}" aria-pressed="{{ c.on }}" onClick="{{ c.pick }}" style="padding-block:9px"><span class="kk-choice__text"><span class="kk-choice__title" style="font-size:15px">{{ c.check }}{{ c.title }}<sc-if value="{{ c.rec }}"><span class="kk-badge">Recommended</span></sc-if></span><span class="kk-choice__sub">{{ c.sub }}</span></span></button>
+              </sc-for>
+            </div>
+          </section>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px">
+            <button type="button" class="kk-btn kk-btn--lg" onClick="{{ applyUpd }}">Update to v1.2</button>
+            <button type="button" class="kk-btn kk-btn--line kk-btn--lg" onClick="{{ goNext }}">Not now</button>
+            <button type="button" onClick="{{ toggleFiles }}" aria-expanded="{{ filesOpen }}" style="background:none;border:0;padding:6px 0;font:600 15px var(--sans);color:var(--accent);cursor:pointer;text-decoration:underline;text-underline-offset:3px">{{ filesLabel }}</button>
+          </div>
+          <sc-if value="{{ showFiles }}">
+            <div class="kk-card" style="padding:14px 16px;display:flex;flex-direction:column;gap:12px;font-size:15px">
+              <div><p style="margin:0 0 4px;font-weight:600">Get the new version · 14 kit files</p><p style="margin:0;color:var(--muted)">Fingerprints match the kit as installed, so you haven't changed them. Including <span style="font:13px var(--mono);color:var(--ink)">_system/kickstart/round-5-checkin.md</span> and 13 more.</p></div>
+              <div><p style="margin:0 0 4px;font-weight:600">You choose · 1 kit file you edited</p><p style="margin:0"><span style="font:13px var(--mono)">_system/skills/weekly-review/SKILL.md</span> · {{ choiceShort }}</p></div>
+              <div><p style="margin:0 0 4px;font-weight:600">Your AI adds it · 1 note of yours</p><p style="margin:0"><span style="font:13px var(--mono)">_system/HARNESS-PLAN.md</span> · gains P4.0. Not changed by this app.</p></div>
+            </div>
+          </sc-if>
+          <p style="margin:0;font-size:14px;color:var(--muted)">The app learned about v1.2 from the public list of releases. That's its only use of the internet; you can switch it off in Settings.</p>
+        </sc-if>
+
+        <sc-if value="{{ showUpdApplying }}">
+          <div role="status" style="display:flex;flex-direction:column;gap:10px;padding:24px 0">
+            <h1 style="margin:0;font:500 28px/1.2 var(--serif)">Updating your kit…</h1>
+            <p style="margin:0;display:flex;align-items:center;gap:10px">{{ watchDot }} Replacing 14 kit files you haven't changed. Your notes aren't touched.</p>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showUpdDone }}">
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <p style="margin:0;font:600 14px/1.4 var(--mono);color:var(--muted)">[x] Kit v1.2</p>
+            <h1 style="margin:0;font:500 30px/1.15 var(--serif)">You're up to date</h1>
+            <p style="margin:0;color:var(--muted);text-wrap:pretty">{{ doneLine }}</p>
+          </div>
+          <h2 style="margin:0;font:600 16px/1.35 var(--sans)">{{ handoffHead }}</h2>
+          <dc-import name="Prompt" label="Add step P4.0 to your plan" text="{{ planMergePrompt }}" attach="{{ planAttach }}" attach-label="When you copy, the text of step P4.0 from v1.2 is added below the prompt." note="{{ pasteNote }}" hint-size="100%,230px"></dc-import>
+          <sc-if value="{{ needsSkillMerge }}"><dc-import name="Prompt" label="Merge your weekly-review skill" text="{{ skillMergePrompt }}" attach="{{ skillAttach }}" attach-label="When you copy, the full v1.2 weekly-review skill is added below the prompt." note="{{ pasteNote }}" hint-size="100%,250px"></dc-import></sc-if>
+          <p style="margin:0;display:flex;align-items:center;gap:10px;font-size:14px;color:var(--muted)">{{ watchDot }} The app will notice when P4.0 appears in your plan.</p>
+        </sc-if>
+
+        <sc-if value="{{ showUpdNone }}">
+          <h1 style="margin:0;font:500 30px/1.15 var(--serif)">Updates</h1>
+          <p style="margin:0">You're on kit {{ kitV }}, the latest. {{ updNoneLine }}</p>
+        </sc-if>
+
+        <sc-if value="{{ showSettings }}">
+          <h1 style="margin:0;font:500 30px/1.15 var(--serif)">Settings</h1>
+          <section aria-labelledby="s-v" style="display:flex;flex-direction:column;gap:8px">
+            <h2 id="s-v" style="margin:0;font:500 20px/1.3 var(--serif);border-bottom:1px solid var(--ink);padding-bottom:6px">Your vault</h2>
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px">
+              <p style="margin:0;flex:1;min-width:240px"><strong>Sam's Vault</strong> · in Documents · kit {{ kitV }} · added 14 October 2026<br><span style="font:13px var(--mono);color:var(--muted)">~/Documents/Sam's Vault</span></p>
+              <button type="button" class="kk-btn kk-btn--line" onClick="{{ noop }}">Change location…</button>
+            </div>
+            <button type="button" onClick="{{ noop }}" style="align-self:flex-start;background:none;border:0;padding:4px 0;font:600 15px var(--sans);color:var(--accent);cursor:pointer;text-decoration:underline;text-underline-offset:3px">Add another vault</button>
+          </section>
+          <section aria-labelledby="s-ai" style="display:flex;flex-direction:column;gap:8px">
+            <h2 id="s-ai" style="margin:0;font:500 20px/1.3 var(--serif);border-bottom:1px solid var(--ink);padding-bottom:6px">Your AI</h2>
+            <div role="group" aria-labelledby="s-ai" style="display:flex;flex-wrap:wrap;gap:8px">
+              <sc-for list="{{ paths }}" as="p" hint-placeholder-count="3"><button type="button" class="kk-pill" aria-pressed="{{ p.on }}" onClick="{{ p.pick }}">{{ p.check }}{{ p.short }}</button></sc-for>
+            </div>
+            <p style="margin:0;font-size:14px;color:var(--muted)">Tunes the wording of the prompts this app hands you.</p>
+          </section>
+          <section aria-labelledby="s-u" style="display:flex;flex-direction:column;gap:8px">
+            <h2 id="s-u" style="margin:0;font:500 20px/1.3 var(--serif);border-bottom:1px solid var(--ink);padding-bottom:6px">Check for new versions</h2>
+            <div role="group" aria-labelledby="s-u" style="display:flex;gap:8px">
+              <button type="button" class="kk-pill" aria-pressed="{{ updOn }}" onClick="{{ setUpdOn }}">{{ updOnCheck }}On</button>
+              <button type="button" class="kk-pill" aria-pressed="{{ updOff }}" onClick="{{ setUpdOff }}">{{ updOffCheck }}Off</button>
+            </div>
+            <p style="margin:0;font-size:15px;text-wrap:pretty">When on, the app reads the kit's public list of releases on GitHub once a day. Nothing about you or your notes is sent. It's the only time the app uses the internet.</p>
+          </section>
+          <section aria-labelledby="s-a" style="display:flex;flex-direction:column;gap:6px">
+            <h2 id="s-a" style="margin:0;font:500 20px/1.3 var(--serif);border-bottom:1px solid var(--ink);padding-bottom:6px">Light and dark</h2>
+            <p style="margin:0;font-size:15px">Follows your {{ computer }}'s setting.</p>
+          </section>
+          <section aria-labelledby="s-d" style="display:flex;flex-direction:column;gap:8px">
+            <h2 id="s-d" style="margin:0;font:500 20px/1.3 var(--serif);border-bottom:1px solid var(--ink);padding-bottom:6px">What this app keeps, and where</h2>
+            <p style="margin:0;font-size:15px">A small folder in your home folder, <span style="font:13px var(--mono)">~/.ai-kickstart/</span>, holding:</p>
+            <ul style="margin:0;padding-left:20px;font-size:15px;display:flex;flex-direction:column;gap:2px">
+              <li>where your vault is</li>
+              <li>which kit version it has</li>
+              <li>a fingerprint of each kit file as installed, so the app can tell which ones you've changed</li>
+              <li>whether update checks are on, and the last version you saw</li>
+              <li>which AI you chose</li>
+            </ul>
+            <p style="margin:0;font-size:15px">Nothing from your notes is copied there. Your progress is read from your vault each time.</p>
+            <sc-if value="{{ notConfirming }}"><button type="button" class="kk-btn kk-btn--line" style="align-self:flex-start" onClick="{{ askRemove }}">Remove app data…</button></sc-if>
+            <sc-if value="{{ confirmRemove }}">
+              <div class="kk-note" style="display:flex;flex-direction:column;gap:10px">
+                <p style="margin:0">This forgets where your vault is and resets these settings. <strong>Your vault and every note in it stay exactly where they are.</strong></p>
+                <div style="display:flex;gap:8px"><button type="button" class="kk-btn" onClick="{{ doRemove }}">Remove app data</button><button type="button" class="kk-btn kk-btn--line" onClick="{{ cancelRemove }}">Keep it</button></div>
+              </div>
+            </sc-if>
+          </section>
+          <section aria-labelledby="s-ab" style="display:flex;flex-direction:column;gap:4px;font-size:15px">
+            <h2 id="s-ab" style="margin:0 0 4px;font:500 20px/1.3 var(--serif);border-bottom:1px solid var(--ink);padding-bottom:6px">About</h2>
+            <p style="margin:0">AI Kickstart companion · kit {{ kitV }}</p>
+            <p style="margin:0">Designed and shared by Ophir Radnitz</p>
+            <p style="margin:0"><a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0 ↗</a> · <a href="https://github.com/liqweed/ai-kickstart">Source on GitHub ↗</a> · <a href="https://ai-kickstart.me/">ai-kickstart.me ↗</a></p>
+          </section>
+        </sc-if>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;font-size:14px;color:var(--muted)">
+  <span>Prototype · {{ scenarioName }}</span>
+  <sc-for list="{{ proto }}" as="b"><button type="button" onClick="{{ b.on }}" style="min-height:36px;padding:0 12px;border-radius:8px;border:1px dashed var(--line-strong);background:var(--bg);color:var(--ink);font:600 13px/1 var(--sans);cursor:pointer">{{ b.label }}</button></sc-for>
+  <a href="App Rationale.dc.html">App rationale →</a>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;scenario&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;1 · Fresh install, first run&quot;,&quot;2 · Kit already unzipped&quot;,&quot;3 · Waiting for first contact&quot;,&quot;4 · Mid-interview&quot;,&quot;5 · Sam today&quot;,&quot;6 · Back after three weeks&quot;,&quot;7 · Phase just completed&quot;,&quot;8 · Update available&quot;,&quot;9 · Vault missing&quot;,&quot;10 · Obsidian not installed&quot;,&quot;12 · Plan can’t be read&quot;,&quot;13 · No permission to write&quot;,&quot;14 · Update download failed&quot;],&quot;default&quot;:&quot;5 · Sam today&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;platform&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;macOS&quot;,&quot;Windows&quot;],&quot;default&quot;:&quot;macOS&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;size&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;800 × 560&quot;,&quot;1280 × 800&quot;],&quot;default&quot;:&quot;800 × 560&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const PATHS = {
+  A: { title: 'In a chat app', short: 'Chat app', sub: 'Claude or ChatGPT, with nothing extra to install. The AI gives you text, and you paste it into your notes. Good on a work laptop.', tool: 'your chat app', note: 'Paste into a new chat in your Project',
+    connect: 'In Claude or ChatGPT, create a Project and add two files from your vault to it: AGENTS.md and _system/index.md. Then start a new chat inside that Project.' },
+  B: { title: 'With a desktop AI app', short: 'Desktop AI app', rec: true, sub: 'It works inside one folder you choose, and reads and writes your notes there directly. The smoothest way to use the kit.', tool: 'your desktop AI app', note: 'Paste into your desktop AI app',
+    connect: 'In your desktop AI app, choose Sam\u2019s Vault as the folder it may work in. Only this folder. If it asks to read and write files there, allow it.' },
+  C: { title: 'From the terminal', short: 'Terminal agent', sub: 'If you already use Claude Code, Codex, Gemini CLI or similar.', tool: 'your agent', note: 'Paste into your agent',
+    connect: 'Open a terminal in the vault folder and start your agent there.' },
+};
+const FIRST = `Hi! This folder is my new Obsidian vault, set up from the AI Kickstart kit. Please read AGENTS.md and _system/index.md (nothing else yet), then tell me in three short lines: 1) what this vault is for, 2) how you'll help me, 3) what we should do first. Then create a test note at _inbox/hello.md that says "It works!" so I can check that you can write here.`;
+const P2 = [
+  { id: 'P2.1', t: 'Daily briefing', m: '[-]' }, { id: 'P2.2', t: 'Weekly review', m: '[x]' },
+  { id: 'P2.3', t: 'Sunday meal plan + shopping list', star: true, m: '[x]' }, { id: 'P2.4', t: 'Meeting notes → actions', m: '[/]' },
+  { id: 'P2.5', t: 'Subscriptions audit', m: '[ ]' }, { id: 'P2.6', t: 'Use-it check', m: '[ ]' } ];
+const WORD = { '[-]': 'skipped, your call', '[x]': 'done', '[/]': 'in progress', '[ ]': 'to do', '[?]': 'blocked' };
+const ROUNDS = [ { n: 1, d: '14 Oct' }, { n: 2, d: '16 Oct' }, { n: 3, d: '19 Oct' }, { n: 4, d: '21 Oct' }, { n: 5, d: 'check-in · ~4 Nov' } ];
+const BACKLOG = [
+  ['B1', true, 'Food & household', 'Sunday meal plan + shopping list', 3, 'S', 'P2', 'done'],
+  ['B2', false, 'Work: communication', 'Meeting notes → actions + follow-up', 3, 'S', 'P2', 'in progress'],
+  ['B3', false, 'Money & admin', 'Subscriptions audit', 2, 'S', 'P2', 'todo'],
+  ['B4', false, 'Kids & family', 'School portal weekly digest', 3, 'M', 'P4', 'todo'],
+  ['B5', false, 'Home', 'Home manual (appliances, warranties)', 2, 'S', 'P3', 'todo'] ];
+const PLAN_MERGE = `My AI Kickstart kit was just updated from v1.1 to v1.2. The new version adds one step to the harness plan: P4.0 "Choose what to connect first". Its text is below. Please add it to _system/HARNESS-PLAN.md in phase P4, before the other P4 steps, exactly as written. Don't change anything else in the plan. Show me the change before saving.`;
+const SKILL_MERGE = `I edited my weekly-review skill (_system/skills/weekly-review/SKILL.md), and kit v1.2 has an improved version of it. The new version is below. Please merge the two: keep everything I added, including my "plan family dinners" step, and bring in the improvements from the new version. Show me the merged file and what changed before saving.`;
+const SCN = ['1 · Fresh install, first run', '2 · Kit already unzipped', '3 · Waiting for first contact', '4 · Mid-interview', '5 · Sam today', '6 · Back after three weeks', '7 · Phase just completed', '8 · Update available', '9 · Vault missing', '10 · Obsidian not installed', '12 · Plan can\u2019t be read', '13 · No permission to write', '14 · Update download failed'];
+
+class Component extends DCLogic {
+  state = {};
+  componentDidMount() { this.apply(this.scn()); }
+  componentDidUpdate() { if (this.scn() !== this.sc) this.apply(this.scn()); }
+  componentWillUnmount() { clearTimeout(this.t); }
+  scn() { return parseInt(String(this.props.scenario ?? '5'), 10) || 5; }
+  apply(n) {
+    this.sc = n; clearTimeout(this.t);
+    const base = { view: 'next', f: 1, mode: 'create', obs: 'ok', obsState: 'idle', ai: 'B', home: 'step', roundsDone: 4, ticked: false,
+      noticed: null, lastDate: '30 October', upd: 'review', choice: 'merge', files: false, hasUpdate: false, kitV: 'v1.1', rc: null, confirmRemove: false, updateCheck: true };
+    const s = { 1: { view: 'first' }, 2: { view: 'first', mode: 'existing' }, 3: { view: 'first', f: 4, obsState: 'done' }, 4: { home: 'interview', roundsDone: 1 },
+      5: {}, 6: { home: 'back', lastDate: '9 October' }, 7: { home: 'phase', noticed: 'P2.6 Use-it check was ticked in your plan, so First wins is complete.' },
+      8: { hasUpdate: true, view: 'updates' }, 9: { rc: 'vault' }, 10: { view: 'first', f: 2, obs: 'missing', rc: 'obsidian' }, 12: { rc: 'plan' },
+      13: { view: 'first', rc: 'perm' }, 14: { hasUpdate: true, view: 'updates', rc: 'updfail' } }[n] || {};
+    this.setState({ ...base, ...s });
+  }
+  later(fn, ms) { clearTimeout(this.t); this.t = setTimeout(fn, ms); }
+  go(view) { this.setState({ view, confirmRemove: false }); }
+  runUpdate() { this.setState({ rc: null, upd: 'applying' }); this.later(() => this.setState({ upd: 'done', kitV: 'v1.2', hasUpdate: false }), 1600); }
+
+  renderVals() {
+    const S = this.state, mac = (this.props.platform ?? 'macOS') !== 'Windows';
+    const big = String(this.props.size ?? '800 × 560').startsWith('1280');
+    const P = PATHS[S.ai || 'B'];
+    const computer = mac ? 'Mac' : 'PC';
+    const first = S.view === 'first';
+    const rcDefs = {
+      vault: { kicker: 'Can\u2019t find your vault', title: 'Sam\u2019s Vault isn\u2019t where it used to be', what: 'The app looked in Documents and the folder isn\u2019t there. It was probably moved or renamed.',
+        safeHead: 'Your notes are safe.', safe: 'This app never deletes anything. Wherever the folder is now, it\u2019s unchanged.', action: 'Find my vault\u2026', isButton: true,
+        act: () => this.setState({ rc: null, noticed: 'Found Sam\u2019s Vault in its new place. You\u2019re right where you left off.' }), after: 'Point to the folder in its new place, and you\u2019ll be right back where you were.' },
+      obsidian: { kicker: 'Obsidian isn\u2019t installed', title: `Obsidian isn\u2019t on this ${computer} yet`, what: 'It\u2019s the free notes app where you\u2019ll read your vault. Installing it takes a couple of minutes.',
+        safeHead: 'Nothing is lost.', safe: 'Your vault is made and waiting. You can stop here and carry on later.', action: 'Get Obsidian from obsidian.md', isLink: true, href: 'https://obsidian.md/download',
+        after: 'Come back here when it\u2019s installed. The app notices and carries on.', watch: true },
+      plan: { kicker: 'Can\u2019t read your plan', title: 'Your plan note has an unexpected shape', what: 'HARNESS-PLAN.md changed in a way this app can\u2019t follow, so it can\u2019t show your next step right now.',
+        safeHead: 'Nothing is lost.', safe: 'The note is still there and your AI can still read it, so \u201cContinue my harness plan.\u201d works as usual.', action: 'Ask your AI to tidy it', isPrompt: true,
+        prompt: 'Check my harness plan in _system/HARNESS-PLAN.md. It should keep the kit\u2019s layout: the frontmatter, the Now table, the phases, the backlog and the session log. Fix only the layout, without changing what it says, and show me the changes before saving.',
+        after: 'When the note is back in shape, this page updates by itself.', watch: true },
+      perm: { kicker: 'No permission', title: 'The app can\u2019t make a folder in Documents', what: mac ? 'Your Mac didn\u2019t give it permission to write there.' : 'Windows didn\u2019t give it permission to write there.',
+        safeHead: 'Nothing was created or changed.', safe: 'You can pick any folder you own.', action: 'Choose another place\u2026', isButton: true,
+        act: () => this.setState({ rc: null, f: 2 }), after: 'Your Desktop, or a new folder in your home folder, usually works.' },
+      updfail: { kicker: 'Update didn\u2019t finish', title: 'The new version didn\u2019t download', what: 'The connection dropped partway, so the app stopped before changing anything.',
+        safeHead: 'Nothing changed.', safe: 'You\u2019re still on kit v1.1, and every file is exactly as it was.', action: 'Try again', isButton: true, act: () => this.runUpdate(), after: 'It downloads first and checks the files before replacing anything.' },
+    };
+    const rc = S.rc ? rcDefs[S.rc] : null;
+    const p2 = P2.map(s => {
+      let m = s.m;
+      if (S.home === 'phase' && s.m !== '[-]') m = '[x]';
+      else if (S.ticked && s.id === 'P2.4') m = '[x]';
+      return { ...s, mark: m, word: WORD[m], isSkip: m === '[-]', starTxt: s.star ? ' ★' : '' };
+    });
+    const curS = p2.find(s => s.mark === '[/]') || p2.find(s => s.mark === '[ ]');
+    const doneN = p2.filter(s => s.mark === '[x]' || s.mark === '[-]').length;
+    const fStep = S.f || 1;
+    const stripDefs = ['Your vault', 'Obsidian', 'Your AI', 'Say hello', 'It works'];
+    const where = ['In this app', 'In this app, then Obsidian', 'In this app, then ' + P.tool.replace('your ', 'your '), 'In ' + P.tool, 'All three'][fStep - 1];
+    const choiceDefs = [
+      ['merge', 'Ask my AI to merge them', 'Your version stays for now. You get a prompt that brings in the improvements and keeps your step.', true],
+      ['keep', 'Keep mine', 'Your version stays as it is. The improvements are skipped.'],
+      ['new', 'Take the new one', 'The new version replaces yours, and your \u201cplan family dinners\u201d step goes away.'] ];
+    const shortC = { merge: 'stays yours; your AI merges it afterwards', keep: 'stays yours, unchanged', new: 'replaced by the new version' }[S.choice];
+    const onV = (v) => S.view === v;
+    const rounds = ROUNDS.map(r => {
+      const done = r.n <= S.roundsDone, isCur = r.n === S.roundsDone + 1 && r.n < 5;
+      return { n: r.n, mark: done ? '[x]' : isCur ? '[/]' : '[ ]', when: done ? r.d : isCur ? 'next' : r.n === 5 ? r.d : 'later',
+        current: isCur ? 'step' : 'false', border: isCur ? '2px solid var(--accent)' : '1px solid var(--line)' };
+    });
+    const homeOk = onV('next') && !rc;
+    const proto = [];
+    if (first && fStep === 4) proto.push({ label: 'Simulate: hello.md appears', on: () => this.setState({ f: 5 }) });
+    if (S.rc === 'obsidian') proto.push({ label: 'Simulate: Obsidian installed', on: () => this.setState({ rc: null, obs: 'ok' }) });
+    if (homeOk && S.home === 'step' && !S.ticked) proto.push({ label: 'Simulate: your AI ticks P2.4', on: () => this.setState({ ticked: true, noticed: 'P2.4 Meeting notes → actions was ticked in your plan. Next up: P2.5.' }) });
+    proto.push({ label: 'Restart scenario', on: () => this.apply(this.sc) });
+    const nav = [['next', 'Next'], ['plan', 'Plan'], ['updates', 'Updates'], ['settings', 'Settings']].map(([v, label]) => ({
+      label, go: () => this.go(v), current: onV(v) ? 'page' : 'false', line: onV(v) ? 'var(--accent)' : 'transparent', bg: onV(v) ? 'var(--card)' : 'transparent', weight: onV(v) ? 600 : 400,
+      hasTag: v === 'updates' && S.hasUpdate, tag: 'v1.2 ready' }));
+    const obsHref = 'obsidian://open?vault=' + encodeURIComponent('Sam\u2019s Vault');
+    return {
+      theme: this.props.theme ?? 'auto', isMac: mac, isWin: !mac, computer, finder: mac ? 'Finder' : 'File Explorer',
+      winW: big ? '1280px' : '800px', winH: big ? '800px' : '560px', winRadius: mac ? '12px' : '8px',
+      hasRail: !first, mainMax: first ? '640px' : big ? '820px' : '100%', mainPad: big ? '36px 40px 48px' : '24px 28px 32px',
+      railSub: 'kit ' + S.kitV, honestyLine: S.updateCheck ? 'Update check is on. Nothing else uses the internet.' : 'Update check is off. Nothing uses the internet.',
+      nav, goSettings: () => this.go('settings'), goPlan: () => this.go('plan'), goUpdates: () => this.go('updates'), goNext: () => this.go('next'),
+      obsPlanHref: obsHref + '&file=' + encodeURIComponent('_system/HARNESS-PLAN'), obsOpenHref: obsHref,
+      isFirst: first, whereLabel: where,
+      strip: stripDefs.map((label, i) => { const n = i + 1, done = n < fStep || (n === 5 && fStep === 5), cur = n === fStep && n < 5;
+        return { label, mark: done ? '[x]' : cur ? '[/]' : '[ ]', current: cur ? 'step' : 'false', line: done ? 'var(--ink)' : cur ? 'var(--accent)' : 'var(--line)', weight: cur ? 600 : 400 }; }),
+      hasNoticed: !!S.noticed && !rc && !first && !(S.view === 'next' && S.home === 'phase'), noticed: S.noticed || '', dismissNoticed: () => this.setState({ noticed: null }),
+      hasRc: !!rc, rc: rc || {},
+      watchDot: React.createElement('span', { 'aria-hidden': true, style: { width: 10, height: 10, borderRadius: '50%', background: 'var(--accent)', display: 'inline-block', flex: 'none', animation: 'kkpulse 1.6s ease-in-out infinite' } }),
+      showF1: first && fStep === 1 && !rc, createOn: S.mode === 'create' ? 'true' : 'false', existingOn: S.mode === 'existing' ? 'true' : 'false',
+      createCheck: S.mode === 'create' ? '✓ ' : '', existingCheck: S.mode === 'existing' ? '✓ ' : '',
+      isCreate: S.mode === 'create', isExisting: S.mode === 'existing',
+      pickCreate: () => this.setState({ mode: 'create' }), pickExisting: () => this.setState({ mode: 'existing' }),
+      doCreate: () => this.setState({ f: 2 }), noop: () => {},
+      showF2: first && fStep === 2 && !rc, obsMark: S.obsState === 'done' ? '[x]' : '[/]',
+      obsIdle: S.obsState === 'idle', obsWaiting: S.obsState === 'waiting', obsDone: S.obsState === 'done',
+      openObs: (e) => { e && e.preventDefault(); this.setState({ obsState: 'waiting' }); this.later(() => this.setState({ obsState: 'done' }), 1800); },
+      toF3: () => this.setState({ f: 3 }),
+      showF3: first && fStep === 3,
+      paths: Object.keys(PATHS).map(id => ({ ...PATHS[id], rec: !!PATHS[id].rec, on: S.ai === id ? 'true' : 'false', check: S.ai === id ? '✓ ' : '', pick: () => this.setState({ ai: id }) })),
+      connectText: P.connect, toF4: () => this.setState({ f: 4 }),
+      showF4: first && fStep === 4, pathTool: P.tool, firstPrompt: FIRST, pasteNote: P.note, helloCopied: this.sc === 3,
+      watchSub: S.ai === 'A' ? 'Your chat app can\u2019t write files, so create the note in Obsidian yourself and paste in its text. The app notices either way.' : 'Usually under a minute after you paste. You can leave this window open behind your AI.',
+      stuckFills: { 'P0.x': 'P0.3', 'Mac / Windows / Linux': mac ? 'Mac' : 'Windows', 'AI tool': P.tool.replace('your ', 'a ') },
+      showF5: first && fStep === 5, finishFirst: () => this.setState({ view: 'next', home: 'interview', roundsDone: 0, noticed: null }),
+      showStep: homeOk && S.home === 'step', lastDate: S.lastDate, hasUpdate: S.hasUpdate,
+      cur: curS ? { mark: curS.mark, phaseLine: `P2 First wins · step ${curS.id} · ${doneN} of 6 settled`, title: curS.t,
+        lead: curS.mark === '[/]' ? `Started ${S.lastDate}. Your AI reads the plan and carries on from there.` : 'A fresh step. Paste this, and your AI will start it with you.' } : {},
+      showBack: homeOk && S.home === 'back',
+      showInterview: homeOk && S.home === 'interview', rounds,
+      iv: S.roundsDone === 0
+        ? { title: 'Round 1: Getting to know you', lead: '15 to 20 minutes, one question at a time. Skip anything, and voice is welcome.', prompt: 'Start round 1 of my kickstart interview. Keep it friendly and one question at a time. I may answer by voice.', fills: {}, hasNote: false }
+        : { title: 'Round 2: Where could help feel good?', lead: 'About 20 minutes, one question at a time. Voice is welcome.', prompt: 'Start round <2 / 3 / 4> of my kickstart interview.', fills: { '2 / 3 / 4': '2' }, hasNote: true },
+      showPhase: homeOk && S.home === 'phase', p2,
+      showPlan: onV('plan') && !rc,
+      phases: [['P0', 'Foundations', '5 of 5 done'], ['P1', 'Get to know you', '5 of 5 done'], ['P2', 'First wins', `${doneN} of 6 settled`], ['P3', 'Capture & memory', '0 of 5 · when you\u2019re ready'],
+        ['P4', 'Connections', 'not started'], ['P5', 'Scripts & tools', 'not started'], ['P6', 'Automations', 'not started'], ['P7', 'Evolve', 'not started']]
+        .map(([id, name, status]) => ({ id, name, status, open: id === 'P2', current: id === 'P2' ? 'true' : 'false' })),
+      backlog: BACKLOG.map(([id, star, area, idea, value, effort, phase, status]) => ({ id, star: star ? ' ★' : '', first: star ? 'true' : 'false', area, idea, value, effort, phase, status,
+        mark: { done: '[x]', 'in progress': '[/]', todo: '[ ]' }[status], effortWord: { S: 'Small effort', M: 'Medium effort', L: 'Large effort' }[effort] })),
+      showUpdReview: onV('updates') && !rc && S.hasUpdate && S.upd === 'review',
+      choices: choiceDefs.map(([id, title, sub, rec]) => ({ title, sub, rec: !!rec, on: S.choice === id ? 'true' : 'false', check: S.choice === id ? '✓ ' : '', pick: () => this.setState({ choice: id }) })),
+      choiceShort: shortC,
+      applyUpd: () => this.runUpdate(),
+      toggleFiles: () => this.setState({ files: !S.files }), filesOpen: S.files ? 'true' : 'false', showFiles: S.files, filesLabel: S.files ? 'Hide the file list' : 'See all 16 files',
+      showUpdApplying: onV('updates') && !rc && S.upd === 'applying',
+      showUpdDone: onV('updates') && !rc && S.upd === 'done',
+      doneLine: { merge: '14 kit files have the new version. Your notes weren\u2019t touched, and your weekly-review skill is still yours for now.', keep: '14 kit files have the new version. Your notes weren\u2019t touched, and your weekly-review skill stays as you made it.', new: '15 kit files have the new version, including weekly-review. Your notes weren\u2019t touched.' }[S.choice],
+      handoffHead: S.choice === 'merge' ? 'Two things to finish with your AI, whenever you like' : 'One thing to finish with your AI, whenever you like',
+      planMergePrompt: PLAN_MERGE, planAttach: '--- P4.0 from kit v1.2 ---\n(the step text from the release, inserted by the app)',
+      needsSkillMerge: S.choice === 'merge', skillMergePrompt: SKILL_MERGE, skillAttach: '--- weekly-review/SKILL.md from kit v1.2 ---\n(the file text from the release, inserted by the app)',
+      showUpdNone: onV('updates') && !rc && !S.hasUpdate && S.upd !== 'done' && S.upd !== 'applying', kitV: S.kitV,
+      updNoneLine: S.updateCheck ? 'The app checks the public list of releases once a day.' : 'Update checks are off, so the app won\u2019t look for new versions.',
+      showSettings: onV('settings'),
+      updOn: S.updateCheck ? 'true' : 'false', updOff: S.updateCheck ? 'false' : 'true', updOnCheck: S.updateCheck ? '✓ ' : '', updOffCheck: S.updateCheck ? '' : '✓ ',
+      setUpdOn: () => this.setState({ updateCheck: true }), setUpdOff: () => this.setState({ updateCheck: false }),
+      notConfirming: !S.confirmRemove, confirmRemove: !!S.confirmRemove,
+      askRemove: () => this.setState({ confirmRemove: true }), cancelRemove: () => this.setState({ confirmRemove: false }), doRemove: () => this.apply(1),
+      scenarioName: SCN.find(x => parseInt(x, 10) === this.sc) || '', proto,
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -6,7 +6,7 @@ Two briefs, built with the "frame the problem, don't pre-bake the answer" method
 |---|---|---|
 | [`website-claude-design-package/`](website-claude-design-package/) | ai-kickstart.me | **First** |
 | [`app-claude-design-package/`](app-claude-design-package/) | Desktop companion app (tinyjs) | **Second**, in the **same** project, after the website identity is approved |
-| [`website-prototype/`](website-prototype/) | Round-1 export, approved 2026-10-12, with review notes | Reference for K9 |
+| [`prototype/`](prototype/) | Round-2 export: website + app in one project, one stylesheet, approved 2026-10-12, with review notes | Reference for K9 and K10 |
 | [`claude-design-round-2-prompt.md`](claude-design-round-2-prompt.md) | Round 2: website fixes + the app as new pages | Paste into the same project |
 | [`logo-quiver-prompt.md`](logo-quiver-prompt.md) | Logo mark (favicon, app icon) via QuiverAI | Before round 2 if possible |
 
@@ -16,7 +16,7 @@ Two briefs, built with the "frame the problem, don't pre-bake the answer" method
 2. **Review against reality** (Phase 2). Check the prototype against `03` and the live kit, and note gaps.
 3. **Correct additively** (Phase 3). Send *"keep A, B, C; add D, E"*. **Never re-run the same brief.**
 4. **App, in the same project.** Upload `app-claude-design-package/` into the website's Claude Design project and paste [`claude-design-round-2-prompt.md`](claude-design-round-2-prompt.md). The approved site's tokens and primitives are then binding for the app, with no screenshot hand-off. *(Fallback for a separate project: export screenshots and tokens into `app-claude-design-package/assets/website/`.)*
-5. **Import.** Export the project into `website-prototype/` (and an `app-prototype/` folder), and record the review in its README. Then repeat steps 2–3 as needed.
+5. **Import.** Export the project into `prototype/` (site and app together, since they share `kickstart.css`), and record the review in its README. Then repeat steps 2–3 as needed.
 
 ## Anti-prescription audit (done before handing over)
 

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><link rel="stylesheet" href="kickstart.css"></helmet>
+<div class="kk-prompt" data-size="{{ size }}">
+  <div class="kk-prompt__head">
+    <div class="kk-prompt__meta">
+      <span class="kk-prompt__label">{{ label }}</span>
+      <sc-if value="{{ hasNote }}"><span class="kk-prompt__note">{{ note }}</span></sc-if>
+    </div>
+    <button type="button" class="kk-prompt__copy" data-copied="{{ copiedAttr }}" onClick="{{ copy }}" aria-label="{{ copyAria }}">{{ copyLabel }}</button>
+  </div>
+  <div class="kk-prompt__text"><sc-for list="{{ segs }}" as="s" hint-placeholder-count="1"><sc-if value="{{ s.isText }}">{{ s.text }}</sc-if><sc-if value="{{ s.isPh }}"><span class="kk-ph">&lt;<input type="text" value="{{ s.value }}" placeholder="{{ s.name }}" size="{{ s.size }}" onChange="{{ s.onChange }}" aria-label="{{ s.aria }}">&gt;</span></sc-if></sc-for></div>
+  <sc-if value="{{ hasAttach }}"><p class="kk-prompt__attach">+ {{ attachLabel }}</p></sc-if>
+  <sc-if value="{{ hasPh }}"><p class="kk-prompt__hint">Dashed parts in &lt;angle brackets&gt; are yours. Type into them, or copy as-is and fill in later.</p></sc-if>
+  <span aria-live="polite" class="kk-sr">{{ live }}</span>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:480,&quot;height&quot;:260},&quot;label&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Gift&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;text&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&lt;Name&gt;'s birthday is on &lt;date&gt;. Using their people profile, suggest 5 gift ideas at around &lt;budget&gt;, ranked, with where to get them.&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;note&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;size&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;md&quot;,&quot;lg&quot;],&quot;default&quot;:&quot;md&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;attach&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;string&quot;},&quot;attachLabel&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;string&quot;},&quot;copied&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;boolean&quot;},&quot;onCopied&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;},&quot;fills&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Record&lt;string,string&gt;&quot;}}">
+class Component extends DCLogic {
+  state = { vals: {}, copied: false };
+  segs() {
+    const t = this.props.text || '', out = [], re = /<([^<>\n]+)>/g; let last = 0, m;
+    while ((m = re.exec(t))) { if (m.index > last) out.push({ t: 'x', v: t.slice(last, m.index) }); out.push({ t: 'p', v: m[1] }); last = re.lastIndex; }
+    if (last < t.length) out.push({ t: 'x', v: t.slice(last) });
+    return out;
+  }
+  val(n) { const v = this.state.vals[n]; if (v !== undefined) return v; return (this.props.fills || {})[n] || ''; }
+  async copy() {
+    let txt = this.segs().map(s => s.t === 'x' ? s.v : (this.val(s.v).trim() || '<' + s.v + '>')).join('');
+    if (this.props.attach) txt += '\n\n' + this.props.attach;
+    let ok = false;
+    try { await navigator.clipboard.writeText(txt); ok = true; } catch (e) {
+      const ta = document.createElement('textarea'); ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select(); try { ok = document.execCommand('copy'); } catch (_) {} ta.remove();
+    }
+    this.setState({ copied: ok });
+    if (ok && this.props.onCopied) this.props.onCopied();
+    clearTimeout(this.t); this.t = setTimeout(() => this.setState({ copied: false }), 2600);
+  }
+  componentWillUnmount() { clearTimeout(this.t); }
+  renderVals() {
+    const segs = this.segs(), label = this.props.label || 'Prompt', c = this.state.copied || this.props.copied;
+    return {
+      label, note: this.props.note || '', hasNote: !!this.props.note, size: this.props.size || 'md',
+      hasPh: segs.some(s => s.t === 'p'),
+      hasAttach: !!this.props.attach, attachLabel: this.props.attachLabel || 'More text is added when you copy.',
+      segs: segs.map(s => {
+        const v = s.t === 'p' ? this.val(s.v) : '';
+        return { isText: s.t === 'x', isPh: s.t === 'p', text: s.v, name: s.v, value: v,
+          size: Math.max(v.length, s.v.length) + 1, aria: 'Fill in: ' + s.v,
+          onChange: e => { const nv = e.target.value; this.setState(st => ({ vals: { ...st.vals, [s.v]: nv } })); } };
+      }),
+      copy: () => this.copy(), copyLabel: c ? 'Copied ✓' : 'Copy', copyAria: 'Copy prompt: ' + label, copiedAttr: c ? 'true' : 'false',
+      live: this.state.copied ? 'Copied. Paste it into your AI.' : ''
+    };
+  }
+}
+</script>
+</body>
+</html>

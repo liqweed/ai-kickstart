@@ -17,9 +17,9 @@ next_step: M1.1
 | | |
 |---|---|
 | **Current phase** | M1 — First real users |
-| **Next step** | Logo (Quiver) → Claude Design round 2 (site fixes + app) · M1.1 (pilot) |
+| **Next step** | K9 Astro port of `design/prototype/` · M1.1 (pilot) |
 | **Blocked** | — |
-| **Last session** | 2026-10-12 — website prototype round 1 reviewed and imported |
+| **Last session** | 2026-10-12 — prototype round 2 (site fixes + app) reviewed and imported |
 
 ## M0 — Repository foundation
 
@@ -52,12 +52,12 @@ next_step: M1.1
 | K4 | Windows + plain-chat-app walkthrough test on a real machine | Most likely friend profile; the author's own setup is different | S | todo |
 | K5 | Mobile layout and print check of all guide pages | Many will open the link on a phone | S | todo |
 | K6 | Generate the catalog JS from the markdown (build step) | Removes the D7 duplication. Comes almost free with K9 (Astro content collections). The check guards it until then | M | todo |
-| K7 | Favicon + social preview image (inline/SVG, offline-safe) | Nicer when the link is shared in chats | S | doing: logo prompt `design/logo-quiver-prompt.md`; preview designed in round 2 |
+| K7 | Favicon + social preview image (inline/SVG, offline-safe) | Nicer when the link is shared in chats | S | doing: designed in round 2 (mark, favicons, `share-card.png`, title/description in `design/prototype/`); ship with K9 |
 | K8 | Translations (guide + vault) | Reach. Needs a structure decision first (D-level change) | L | idea |
-| K9 ★ | **Website at ai-kickstart.me**: run `design/website-claude-design-package` in Claude Design, then implement the approved prototype as an Astro static site in `site/` (content collections over `vault/` Markdown) on Cloudflare with the custom domain | The domain is bought; the site is the front door for friends | M | doing: round 1 approved (`design/website-prototype/`), round 2 prompt ready |
+| K9 ★ | **Website at ai-kickstart.me**: run `design/website-claude-design-package` in Claude Design, then implement the approved prototype as an Astro static site in `site/` (content collections over `vault/` Markdown) on Cloudflare with the custom domain | The domain is bought; the site is the front door for friends | M | doing: design approved after round 2 (`design/prototype/`); next: the Astro port |
 | K12 | When the website is live: shrink the zip's `guide/` to one offline `START-HERE` page pointing to ai-kickstart.me (the website owns all explanations) | One source of explanation; less to maintain | S | todo |
 | K11 | **tinyjs spike (Mac + Windows)**: a hello-world window that picks a folder, watches it for a new file, writes `~/.ai-kickstart/`, and opens an `obsidian://` link; signed/notarized Mac build plus a Windows build on a real machine | De-risks K10 early. Windows is beta in tinyjs, and file watching is the critical capability | S | todo |
-| K10 | **Companion app (tinyjs)**: first run, "one next thing", safe kit updates, local-only (`~/.ai-kickstart/`). Design brief: `design/app-claude-design-package`. Build after the M1 pilot shows where people actually stall | It solves first-contact verification and K1 (updates) better than docs can | L | idea |
+| K10 | **Companion app (tinyjs)**: first run, "one next thing", safe kit updates, local-only (`~/.ai-kickstart/`). Design brief: `design/app-claude-design-package`; approved prototype in `design/prototype/` (round 2). Build after the M1 pilot shows where people actually stall | It solves first-contact verification and K1 (updates) better than docs can | L | idea |
 
 ## Decisions log
 
@@ -72,6 +72,11 @@ next_step: M1.1
 | 2026-10-12 | Companion app on tinyjs, targeting macOS **and** Windows in v1; progress stays in the vault's Markdown, `~/.ai-kickstart/` holds only app config + install baseline | Modest requirements; one source of truth the AI can also read. Spike first (K11) |
 
 ## Session log
+
+### 2026-10-12 — K9/K10 Prototype round 2 reviewed
+- **Did:** rendered round 2 headlessly: site scenarios 1–6 (light/dark, 1280×800, phone 390×844), the share preview, and app scenarios 1, 3–9 (800×560 frame, macOS and Windows). Imported the export into `design/prototype/` (renamed from `website-prototype/`, since site and app now share `kickstart.css`) with 16 screenshots and the review. Updated the links in `design/`.
+- **Checked:** all five Part A fixes landed (picks column, one recommendation, "Welcome back" card, the Quiver mark, a one-row phone header + share card). The app uses no colour outside the shared tokens (only the window buttons). Its write rules match `04 §4`. No third-party requests besides the prototype runtime. The first-contact prompt matches `guide/setup.html`. Round 1's setup content drift is still open, carried into the README "For the port" list. The SVG marks embed a C2PA content-credentials block (no personal data), to keep or strip at port time.
+- **Next:** the K9 Astro port. K11 (tinyjs spike) can run in parallel.
 
 ### 2026-10-12 — K9 Website prototype, round 1 reviewed
 - **Did:** rendered all 6 Tweaks scenarios (light and dark, 1280×800 and 390×844) and the Prompts, How it works and What's new views. Approved the direction and imported the export plus screenshots into `design/website-prototype/`, with review notes. Wrote `design/claude-design-round-2-prompt.md` (5 site fixes + the app as new pages in the same project, sharing one stylesheet) and `design/logo-quiver-prompt.md`. Re-pointed the app brief's identity clause at "the same project".

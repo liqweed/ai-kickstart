@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>AI Kickstart app · Design rationale</title>
+<link rel="stylesheet" href="kickstart.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>html,body{margin:0}</style>
+</helmet>
+<div data-kk="auto" style="min-height:100vh;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans)">
+<article style="max-width:760px;margin:0 auto;padding:48px 20px 64px;display:flex;flex-direction:column;gap:22px">
+  <div style="display:flex;flex-wrap:wrap;gap:6px 18px;font-size:15px"><a href="AI Kickstart App.dc.html">← The app prototype</a><a href="Rationale.dc.html">Website rationale</a></div>
+  <h1 style="margin:0;font:500 40px/1.1 var(--serif)">Companion app: design rationale</h1>
+  <p style="margin:0;color:var(--muted)">Arguments for §3.1–§3.8 of the app brief, tied to its 05. Identity and primitives come from the approved website through <span style="font-family:var(--mono);font-size:14px">kickstart.css</span>.</p>
+
+  <section style="display:flex;flex-direction:column;gap:6px"><h2 style="margin:0;font:500 22px/1.3 var(--serif)">3.1 · Shape: one page with one prompt, and the plan behind it</h2>
+  <p style="margin:0">A dashboard assumes people come to look around. Sam opens this for ten seconds to grab a sentence. So the window opens on <strong>Next</strong>: one step, one prompt, one Copy button, with where you left off underneath. Everything else is one click behind it in a quiet side rail (Plan, Updates, Settings) so depth never competes with the next thing. The rail also carries the two exits that matter, Obsidian and the website, plus the standing “Local only” note. I rejected a menu-bar/tray-only shape: it can't host first run or the update review, and tinyjs on Windows is still beta, with some native calls not yet ported. I rejected a dock-beside-the-AI strip: at 800 px wide next to two other apps it squeezes the update review into a column. First run is the same window without the rail, so the person learns one place, not two.</p></section>
+
+  <section style="display:flex;flex-direction:column;gap:6px"><h2 style="margin:0;font:500 22px/1.3 var(--serif)">3.2 · First run in five steps</h2>
+  <p style="margin:0">Vault → Obsidian → Your AI → Say hello → It works. Five screens, under the six-step bar. A status strip using the harness marks ([x] [/] [ ]) sits on top, and every screen carries a <em>Where:</em> label (“In this app, then Obsidian”, “In your desktop AI app”), because the hard part of this hour is knowing which of three apps you should be looking at. Each “it worked” moment is detected rather than self-reported: Obsidian creates its settings folder when it opens a vault, and the AI's test note <span style="font-family:var(--mono);font-size:14px">_inbox/hello.md</span> appears in the folder. Waiting is shown as a dashed panel with a slow pulse and plain words (“Watching your vault for _inbox/hello.md”), plus the website's stuck-on-a-step prompt, pre-filled. Missing Obsidian is not a dead end: it becomes the standard recovery card (§3.8) with one action, and the app carries on by itself once it's installed. The success screen names all three apps and gives the next prompt, Round 1.</p></section>
+
+  <section style="display:flex;flex-direction:column;gap:6px"><h2 style="margin:0;font:500 22px/1.3 var(--serif)">3.3 · The one next thing, in four shapes</h2>
+  <p style="margin:0">Every home state puts the prompt above the fold at 800×560 with one-click Copy, but the screen around it changes with the situation:</p>
+  <ul style="margin:0;padding-left:22px;display:flex;flex-direction:column;gap:4px">
+    <li><strong>Mid-step (Sam today):</strong> step title, then the prompt, then two side notes: where you left off, and what's coming (the check-in due tomorrow). Momentum shape.</li>
+    <li><strong>Back after a gap:</strong> memory comes before action. The step card with its <em>Next</em> line sits above the prompt, then a gentler second door: the Round 5 check-in, which is literally designed for “how is it going”.</li>
+    <li><strong>Mid-interview:</strong> the five rounds become a row of marks, and the library prompt arrives with its placeholder already filled (<span style="font-family:var(--mono);font-size:14px">&lt;2&gt;</span>), still editable. It says plainly why Round 2 starts again, and links to the ideas menu on the website.</li>
+    <li><strong>Phase just completed:</strong> a two-column receipt. The finished phase is listed with its marks (including the skip), and the next phase sits beside it with the same prompt and an explicit “optional from here”.</li>
+  </ul></section>
+
+  <section style="display:flex;flex-direction:column;gap:6px"><h2 style="margin:0;font:500 22px/1.3 var(--serif)">3.4 · Progress without guilt</h2>
+  <p style="margin:0">Counts in words (“3 of 6 settled”), never percentages, bars or streaks. Skipped steps count as settled and read “skipped, your call”, because skipping is a decision the person made. The gap greeting never measures the gap: “Your plan is exactly as you left it on 9 October. Nothing moved without you.” Phases P4–P7 read “for whenever you're ready, if ever”. The only celebration is the phase receipt, a typographic moment with no confetti. No gamification at all, so nothing to argue for.</p></section>
+
+  <section style="display:flex;flex-direction:column;gap:6px"><h2 style="margin:0;font:500 22px/1.3 var(--serif)">3.5 · Noticing change at the right volume</h2>
+  <p style="margin:0">One line, in the window, only when the window is open: “P2.4 was ticked in your plan. Next up: P2.5.” It uses the [x] mark and an OK button, and the page underneath has already updated. No system notifications, sounds or badges, since the person is busy in another app and will see it when they come back. Only meaningful changes are mentioned: a step's status, a round file appearing, a phase completing, a backlog row added. Edits to ordinary notes are none of this app's business. Several changes since the last look are grouped into one sentence.</p></section>
+
+  <section style="display:flex;flex-direction:column;gap:6px"><h2 style="margin:0;font:500 22px/1.3 var(--serif)">3.6 · Updates as calm as a phone update</h2>
+  <p style="margin:0">One view answers the three questions before Update: how many files change (14 + 1 + 1), which one you edited (weekly-review), and that nothing else you wrote is touched. That's a counted list in big numerals, not a diff. The single conflict is decided right there, with three plain options. The default is <strong>Ask my AI to merge them</strong>, also marked Recommended, so the default and the recommendation never disagree. It loses nothing: your file stays yours until your AI merges it. “Take the new one” says honestly that your step goes away. The file names are one click away (“See all 16 files”). After the update, the finish-up work is handed over as prompts: P4.0 into <span style="font-family:var(--mono);font-size:14px">HARNESS-PLAN.md</span>, and, if chosen, the skill merge. The new text travels inside the copied prompt, so the app never writes to a person's file, and it watches for P4.0 to appear. “Not now” never comes back as a nag; the rail just says “v1.2 ready”.</p></section>
+
+  <section style="display:flex;flex-direction:column;gap:6px"><h2 style="margin:0;font:500 22px/1.3 var(--serif)">3.7 · Honesty in three places, at three volumes</h2>
+  <p style="margin:0">Loud once: first run says “Local only. Nothing leaves this Mac.” Quiet always: the rail's “Local only” note states whether the update check is on and doubles as the way into Settings. Exact on demand: Settings lists what <span style="font-family:var(--mono);font-size:14px">~/.ai-kickstart/</span> holds in plain words (the six fields from 03), the on/off switch for the only network use, and “Remove app data”, which says that your vault stays put. The update view also names where the news came from.</p></section>
+
+  <section style="display:flex;flex-direction:column;gap:6px"><h2 style="margin:0;font:500 22px/1.3 var(--serif)">3.8 · One recovery pattern</h2>
+  <p style="margin:0">Every error is the same card: the harness's own <span style="font-family:var(--mono);font-size:14px">[?]</span> blocked mark, a plain title, what happened, a shaded <em>what's safe</em> line, exactly one action, and what happens after. It covers vault missing (Find my vault…), Obsidian missing (Get Obsidian), plan unreadable (a prompt asking the AI to repair the layout, since the app may not write there), no write permission (Choose another place…) and a failed download (Try again, nothing changed). The Tweaks list adds the last three so the pattern can be checked for consistency.</p></section>
+
+  <section style="display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line);padding-top:20px"><h2 style="margin:0;font:500 22px/1.3 var(--serif)">Write rules (04 §4): audit</h2>
+  <ul style="margin:0;padding-left:22px;display:flex;flex-direction:column;gap:4px">
+    <li><strong>Creates a vault</strong> only at “Create my vault”. “Use this vault” only reads.</li>
+    <li><strong>Replaces kit files</strong> only after “Update to v1.2”, and only the 14 untouched ones (15 if “Take the new one”).</li>
+    <li><strong>Writes to ~/.ai-kickstart/</strong> for location, version, fingerprints, update check, last seen version and AI path. No other fields.</li>
+    <li><strong>Never writes</strong> HARNESS-PLAN.md, round files, the profile or hello.md. Ticks, merges and repairs are prompts for the AI. “Open in Obsidian” uses <span style="font-family:var(--mono);font-size:14px">obsidian://</span> links.</li>
+    <li><strong>Network:</strong> the update check (switchable) and the download it starts. Website links open the browser.</li>
+  </ul></section>
+
+  <section style="display:flex;flex-direction:column;gap:6px"><h2 style="margin:0;font:500 22px/1.3 var(--serif)">Primitives: shared, and extended</h2>
+  <p style="margin:0"><strong>Reused from the site unchanged:</strong> tokens (colour in light and dark, three type stacks, radii, the 44 px target), the mark, the prompt card with fillable placeholders, the step card with status marks and Done when / Check, choice pills, choice cards with the Recommended badge, menu rows, level tags, buttons, the eyebrow and the highlight note.</p>
+  <p style="margin:0"><strong>Extensions the app needed</strong> (all added to the shared sheet or props, so the site can use them too):</p>
+  <ul style="margin:0;padding-left:22px;display:flex;flex-direction:column;gap:4px">
+    <li><strong>Prompt card <code>size="lg"</code>:</strong> larger text and a filled Copy button for the one next prompt.</li>
+    <li><strong>Prompt card <code>attach</code>:</strong> extra text added on copy, shown as a dashed note (the update hand-offs).</li>
+    <li><strong>Prompt card <code>copied</code> / <code>onCopied</code>:</strong> so the first-run screen can react to the copy.</li>
+    <li><strong>Menu row <code>.kk-row__lead</code>:</strong> a status mark in place of the checkbox, for read-only backlog rows.</li>
+    <li><strong>Choice card <code>aria-pressed</code>:</strong> the same card used as a toggle (vault source, AI path, conflict decision).</li>
+  </ul>
+  <p style="margin:0"><strong>App-only, kept out of the shared sheet:</strong> window chrome (prototype only), the side rail, the first-run strip, the watching pulse, the noticed line and the recovery card layout.</p></section>
+
+  <section style="display:flex;flex-direction:column;gap:6px"><h2 style="margin:0;font:500 22px/1.3 var(--serif)">Prototype notes</h2>
+  <p style="margin:0;color:var(--muted)">Scenario 11 is covered by the theme, platform and size tweaks; the Windows look changes the chrome and wording (PC, File Explorer). The 13 untouched file names and the text of P4.0 come from the release itself, so they're shown as such rather than invented. Scenario 6's last-session date (9 October) is used as given, even though it's before the seed install date. “Simulate” buttons under the window stand in for file-system events.</p></section>
+</article>
+</div>
+</x-dc>
+</body>
+</html>
