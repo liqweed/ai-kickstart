@@ -40,5 +40,5 @@ Framed as **jobs and problems**. How many screens, how they're grouped and how t
 
 ## Already-canonical primitives (binding: reuse, don't reinvent)
 
-- **If `assets/website/` exists:** the website's approved primitives (prompt block, step/status marks, catalog item) are binding. Reuse them.
+- **If the approved website is in the same project or in `assets/website/`:** the website's approved primitives (prompt block, step/status marks, catalog item) are binding. Reuse them.
 - Otherwise: none.

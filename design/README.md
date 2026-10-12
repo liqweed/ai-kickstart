@@ -5,15 +5,18 @@ Two briefs, built with the "frame the problem, don't pre-bake the answer" method
 | Package | For | Run |
 |---|---|---|
 | [`website-claude-design-package/`](website-claude-design-package/) | ai-kickstart.me | **First** |
-| [`app-claude-design-package/`](app-claude-design-package/) | Desktop companion app (tinyjs) | **Second**, after the website identity is approved |
+| [`app-claude-design-package/`](app-claude-design-package/) | Desktop companion app (tinyjs) | **Second**, in the **same** project, after the website identity is approved |
+| [`website-prototype/`](website-prototype/) | Round-1 export, approved 2026-10-12, with review notes | Reference for K9 |
+| [`claude-design-round-2-prompt.md`](claude-design-round-2-prompt.md) | Round 2: website fixes + the app as new pages | Paste into the same project |
+| [`logo-quiver-prompt.md`](logo-quiver-prompt.md) | Logo mark (favicon, app icon) via QuiverAI | Before round 2 if possible |
 
 ## How to run
 
 1. **Website.** Upload the whole `website-claude-design-package/` folder to a new Claude Design project and ask it to build the prototype per `04 §6` and `05`.
 2. **Review against reality** (Phase 2). Check the prototype against `03` and the live kit, and note gaps.
 3. **Correct additively** (Phase 3). Send *"keep A, B, C; add D, E"*. **Never re-run the same brief.**
-4. **Hand the identity to the app brief.** Export screenshots and any tokens of the approved website into `app-claude-design-package/assets/website/`. The app's `00` and `01` then treat that identity as binding. Without that folder, the app brief leaves identity open.
-5. **App.** Upload `app-claude-design-package/` to a new project, then repeat steps 2–3.
+4. **App, in the same project.** Upload `app-claude-design-package/` into the website's Claude Design project and paste [`claude-design-round-2-prompt.md`](claude-design-round-2-prompt.md). The approved site's tokens and primitives are then binding for the app, with no screenshot hand-off. *(Fallback for a separate project: export screenshots and tokens into `app-claude-design-package/assets/website/`.)*
+5. **Import.** Export the project into `website-prototype/` (and an `app-prototype/` folder), and record the review in its README. Then repeat steps 2–3 as needed.
 
 ## Anti-prescription audit (done before handing over)
 

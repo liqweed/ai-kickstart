@@ -17,9 +17,9 @@ next_step: M1.1
 | | |
 |---|---|
 | **Current phase** | M1 — First real users |
-| **Next step** | M1.1 (pilot) · K9 (website brief → Claude Design) |
+| **Next step** | Logo (Quiver) → Claude Design round 2 (site fixes + app) · M1.1 (pilot) |
 | **Blocked** | — |
-| **Last session** | 2026-10-12 — repo scaffolded, v1.1 pushed |
+| **Last session** | 2026-10-12 — website prototype round 1 reviewed and imported |
 
 ## M0 — Repository foundation
 
@@ -52,9 +52,9 @@ next_step: M1.1
 | K4 | Windows + plain-chat-app walkthrough test on a real machine | Most likely friend profile; the author's own setup is different | S | todo |
 | K5 | Mobile layout and print check of all guide pages | Many will open the link on a phone | S | todo |
 | K6 | Generate the catalog JS from the markdown (build step) | Removes the D7 duplication. Comes almost free with K9 (Astro content collections). The check guards it until then | M | todo |
-| K7 | Favicon + social preview image (inline/SVG, offline-safe) | Nicer when the link is shared in chats | S | todo |
+| K7 | Favicon + social preview image (inline/SVG, offline-safe) | Nicer when the link is shared in chats | S | doing: logo prompt `design/logo-quiver-prompt.md`; preview designed in round 2 |
 | K8 | Translations (guide + vault) | Reach. Needs a structure decision first (D-level change) | L | idea |
-| K9 ★ | **Website at ai-kickstart.me**: run `design/website-claude-design-package` in Claude Design, then implement the approved prototype as an Astro static site in `site/` (content collections over `vault/` Markdown) on Cloudflare with the custom domain | The domain is bought; the site is the front door for friends | M | todo |
+| K9 ★ | **Website at ai-kickstart.me**: run `design/website-claude-design-package` in Claude Design, then implement the approved prototype as an Astro static site in `site/` (content collections over `vault/` Markdown) on Cloudflare with the custom domain | The domain is bought; the site is the front door for friends | M | doing: round 1 approved (`design/website-prototype/`), round 2 prompt ready |
 | K12 | When the website is live: shrink the zip's `guide/` to one offline `START-HERE` page pointing to ai-kickstart.me (the website owns all explanations) | One source of explanation; less to maintain | S | todo |
 | K11 | **tinyjs spike (Mac + Windows)**: a hello-world window that picks a folder, watches it for a new file, writes `~/.ai-kickstart/`, and opens an `obsidian://` link; signed/notarized Mac build plus a Windows build on a real machine | De-risks K10 early. Windows is beta in tinyjs, and file watching is the critical capability | S | todo |
 | K10 | **Companion app (tinyjs)**: first run, "one next thing", safe kit updates, local-only (`~/.ai-kickstart/`). Design brief: `design/app-claude-design-package`. Build after the M1 pilot shows where people actually stall | It solves first-contact verification and K1 (updates) better than docs can | L | idea |
@@ -68,9 +68,15 @@ next_step: M1.1
 | 2026-10-12 | Commits use the GitHub noreply identity | Avoids exposing a personal email in public history |
 | 2026-10-12 | Website = Astro static site on Cloudflare (ai-kickstart.me), not GitHub Pages | Pages too limited; Astro reads the kit's Markdown directly. See ARCHITECTURE D14 |
 | 2026-10-12 | App stack: tinyjs + Vite+ + TS + React + TanStack Query/Router + Base UI (unstyled) + plain-CSS tokens + Fallow; `site/` + `app/` + `packages/core/` | See ARCHITECTURE D15. Astryx rejected; React Aria runner-up |
+| 2026-10-12 | The app is designed in the **same** Claude Design project as the website (round 2), not a new one | The approved tokens and primitives stay in context; one shared stylesheet for site and app |
 | 2026-10-12 | Companion app on tinyjs, targeting macOS **and** Windows in v1; progress stays in the vault's Markdown, `~/.ai-kickstart/` holds only app config + install baseline | Modest requirements; one source of truth the AI can also read. Spike first (K11) |
 
 ## Session log
+
+### 2026-10-12 — K9 Website prototype, round 1 reviewed
+- **Did:** rendered all 6 Tweaks scenarios (light and dark, 1280×800 and 390×844) and the Prompts, How it works and What's new views. Approved the direction and imported the export plus screenshots into `design/website-prototype/`, with review notes. Wrote `design/claude-design-round-2-prompt.md` (5 site fixes + the app as new pages in the same project, sharing one stylesheet) and `design/logo-quiver-prompt.md`. Re-pointed the app brief's identity clause at "the same project".
+- **Checked:** the catalog data matches (16 areas / 103 functions, 36 prompts). The design itself makes no third-party requests (only Claude Design's `support.js` runtime loads React from unpkg). Found setup content drift against `guide/setup.html` and logged it for the port.
+- **Next:** the maintainer runs Quiver (logo), then round 2 in Claude Design, then imports the result. After that, K9 Astro port.
 
 ### 2026-10-12 — Direction: website + companion app
 - **Did:** wrote Claude Design briefs (`design/website-…`, `design/app-…`). Decided: website = Astro static on Cloudflare at ai-kickstart.me (D14); GitHub Pages dropped (`pages.yml` removed, M0.3 skipped); companion app on tinyjs for macOS + Windows, with progress kept in the vault's Markdown. Backlog: K9 (website), K10 (app), K11 (tinyjs spike).

@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Kickstart · Give your AI a place to live</title>
+<style>
+html,body{margin:0;padding:0}
+[data-kk]{--serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua","URW Palladio L",Georgia,serif;--sans:system-ui,-apple-system,"Segoe UI",Ubuntu,Cantarell,"Noto Sans",sans-serif;--mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,"Liberation Mono",monospace;
+--outer:oklch(0.92 0.01 80);--bg:oklch(0.975 0.008 85);--card:oklch(0.995 0.004 85);--sunk:oklch(0.945 0.011 85);--ink:oklch(0.24 0.015 60);--muted:oklch(0.44 0.015 60);--line:oklch(0.86 0.012 80);--line-strong:oklch(0.6 0.015 70);--accent:oklch(0.45 0.09 160);--accent-hover:oklch(0.38 0.09 160);--on-accent:oklch(0.985 0.005 85);--accent-soft:oklch(0.94 0.03 160);--hl:oklch(0.93 0.075 95);--hl-line:oklch(0.5 0.09 75);--focus:oklch(0.52 0.17 255);color-scheme:light}
+[data-kk="dark"]{--outer:oklch(0.15 0.006 70);--bg:oklch(0.205 0.008 70);--card:oklch(0.245 0.009 70);--sunk:oklch(0.175 0.007 70);--ink:oklch(0.93 0.01 85);--muted:oklch(0.77 0.012 80);--line:oklch(0.37 0.01 70);--line-strong:oklch(0.6 0.012 75);--accent:oklch(0.8 0.1 160);--accent-hover:oklch(0.87 0.09 160);--on-accent:oklch(0.2 0.02 160);--accent-soft:oklch(0.3 0.04 160);--hl:oklch(0.37 0.07 90);--hl-line:oklch(0.82 0.1 90);--focus:oklch(0.78 0.13 255);color-scheme:dark}
+@media (prefers-color-scheme:dark){[data-kk="auto"]{--outer:oklch(0.15 0.006 70);--bg:oklch(0.205 0.008 70);--card:oklch(0.245 0.009 70);--sunk:oklch(0.175 0.007 70);--ink:oklch(0.93 0.01 85);--muted:oklch(0.77 0.012 80);--line:oklch(0.37 0.01 70);--line-strong:oklch(0.6 0.012 75);--accent:oklch(0.8 0.1 160);--accent-hover:oklch(0.87 0.09 160);--on-accent:oklch(0.2 0.02 160);--accent-soft:oklch(0.3 0.04 160);--hl:oklch(0.37 0.07 90);--hl-line:oklch(0.82 0.1 90);--focus:oklch(0.78 0.13 255);color-scheme:dark}}
+[data-kk] a{color:var(--accent);text-underline-offset:3px}
+[data-kk] a:hover{color:var(--accent-hover)}
+[data-kk] :focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+[data-kk] input::placeholder{color:var(--muted);opacity:1}
+[data-kk] input[type=checkbox]{accent-color:var(--accent)}
+@media (prefers-reduced-motion:reduce){[data-kk] *{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+</style>
+</helmet>
+<div data-kk="{{ theme }}" style="min-height:100vh;background:var(--outer);color:var(--ink)">
+<div style="max-width:{{ frameW }};margin:0 auto;min-height:100vh;background:var(--bg);color:var(--ink);font:17px/1.6 var(--sans);container-type:inline-size;box-shadow:{{ frameShadow }};display:flex;flex-direction:column">
+<a href="#main" style="position:absolute;left:-9999px;top:8px;background:var(--card);color:var(--ink);padding:10px 14px;border-radius:8px;z-index:20" style-focus="left:12px">Skip to content</a>
+
+<header style="position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line)">
+  <div style="max-width:1120px;margin:0 auto;padding:10px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 20px">
+    <button type="button" onClick="{{ goHome }}" aria-label="AI Kickstart, start page" style="display:flex;align-items:center;gap:10px;background:none;border:0;padding:6px 0;color:var(--ink);cursor:pointer;min-height:44px">
+      <span aria-hidden="true" style="position:relative;width:22px;height:22px;border:2px solid var(--ink);border-radius:5px;box-sizing:border-box"><span style="position:absolute;left:3px;bottom:3px;width:8px;height:8px;border-radius:50%;background:var(--accent)"></span></span>
+      <span style="font:600 20px/1 var(--serif);letter-spacing:.005em">AI Kickstart</span>
+    </button>
+    <nav aria-label="Main" style="display:flex;flex-wrap:wrap;gap:2px 4px;margin-left:auto">
+      <sc-for list="{{ nav }}" as="n" hint-placeholder-count="5">
+        <button type="button" onClick="{{ n.onClick }}" aria-current="{{ n.current }}" style="min-height:44px;padding:0 12px;background:none;border:0;border-bottom:2px solid {{ n.line }};color:var(--ink);font:{{ n.weight }} 15px/1 var(--sans);cursor:pointer">{{ n.label }}</button>
+      </sc-for>
+    </nav>
+  </div>
+  <sc-if value="{{ showResume }}">
+    <div style="border-top:1px solid var(--line);background:var(--accent-soft)">
+      <div style="max-width:1120px;margin:0 auto;padding:8px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px">
+        <span style="font:600 14px/1 var(--mono)">[/]</span>
+        <span style="flex:1;min-width:220px;font-size:15px">Setup paused at <strong>step {{ curNum }} of 5: {{ curTitle }}</strong> · {{ setupLabel }}</span>
+        <button type="button" onClick="{{ goSetup }}" style="min-height:40px;padding:0 16px;border-radius:8px;border:0;background:var(--accent);color:var(--on-accent);font:600 15px/1 var(--sans);cursor:pointer">Continue where I left off →</button>
+      </div>
+    </div>
+  </sc-if>
+  <sc-if value="{{ showUpdate }}">
+    <div style="border-top:1px solid var(--line);background:var(--hl)">
+      <div style="max-width:1120px;margin:0 auto;padding:8px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px">
+        <span style="font:600 14px/1 var(--mono)">{{ latest }}</span>
+        <span style="flex:1;min-width:220px;font-size:15px">A new version is out. Your vault was set up with {{ installed }}. Your notes are safe either way.</span>
+        <button type="button" onClick="{{ goNew }}" style="min-height:40px;padding:0 16px;border-radius:8px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);font:600 15px/1 var(--sans);cursor:pointer">What's new →</button>
+      </div>
+    </div>
+  </sc-if>
+</header>
+
+<main id="main" style="flex:1">
+
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <section data-screen-label="Home" style="max-width:1120px;margin:0 auto;padding:44px 20px 48px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:36px 56px;align-items:start;box-sizing:border-box">
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <p style="margin:0;font:600 13px/1.4 var(--sans);letter-spacing:.07em;text-transform:uppercase;color:var(--accent)">A free starter kit · for your life, family, home and work</p>
+      <h1 style="margin:0;font:500 clamp(34px,5.2cqi,58px)/1.07 var(--serif);letter-spacing:-.012em;text-wrap:balance">Give your AI a place to live, a memory of you, and a plan.</h1>
+      <p style="margin:0;font-size:19px;line-height:1.55;text-wrap:pretty">Most people use AI like a brilliant stranger: every chat starts from zero. This kit turns it into an assistant that knows your life, follows your rules, and gets a little better every week.</p>
+      <p style="margin:0;color:var(--muted);text-wrap:pretty">It's a folder of plain notes on your own computer, a friendly interview, and a step-by-step plan. No account, nothing to pay. Setup takes about an hour.</p>
+    </div>
+    <div id="start" style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:18px">
+      <sc-if value="{{ isPhone }}">
+        <div style="background:var(--hl);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:10px">
+          <p style="margin:0;font-size:16px;line-height:1.5"><strong>You're on a phone.</strong> Read and choose here. The setup itself happens on a computer; the phone is for reading and quick notes later.</p>
+          <button type="button" onClick="{{ shareLink }}" style="align-self:flex-start;min-height:44px;padding:0 16px;border-radius:8px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);font:600 15px/1 var(--sans);cursor:pointer">{{ shareLabel }}</button>
+        </div>
+      </sc-if>
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <h2 style="margin:0;font:500 24px/1.2 var(--serif)">Find your first step</h2>
+        <p style="margin:0;font-size:15px;color:var(--muted)">Two quick choices. They're remembered on this device only.</p>
+      </div>
+      <div role="group" aria-labelledby="os-q" style="display:flex;flex-direction:column;gap:8px">
+        <p id="os-q" style="margin:0;font:600 15px/1.4 var(--sans)">1 · Your computer <span style="font-weight:400;color:var(--muted)">{{ osHint }}</span></p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <sc-for list="{{ osOptions }}" as="o" hint-placeholder-count="4">
+            <button type="button" onClick="{{ o.onClick }}" aria-pressed="{{ o.pressed }}" style="min-height:44px;padding:0 14px;border-radius:999px;border:{{ o.border }};background:{{ o.bg }};color:var(--ink);font:{{ o.weight }} 15px/1 var(--sans);cursor:pointer">{{ o.check }}{{ o.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+      <div role="group" aria-labelledby="path-q" style="display:flex;flex-direction:column;gap:8px">
+        <p id="path-q" style="margin:0;font:600 15px/1.4 var(--sans)">2 · How would you like to use AI?</p>
+        <sc-for list="{{ pathOptions }}" as="p" hint-placeholder-count="3">
+          <button type="button" onClick="{{ p.onClick }}" style="display:flex;align-items:center;gap:12px;text-align:left;padding:12px 14px;border-radius:10px;border:{{ p.border }};background:var(--bg);color:var(--ink);cursor:pointer;font:inherit" style-hover="border-color:var(--accent)">
+            <span style="flex:1;display:flex;flex-direction:column;gap:2px">
+              <span style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font:600 16px/1.3 var(--sans)">{{ p.title }}<sc-if value="{{ p.rec }}"><span style="font:600 12px/1 var(--sans);padding:4px 7px;border-radius:999px;background:var(--accent-soft);color:var(--ink)">Recommended</span></sc-if></span>
+              <span style="font-size:14px;line-height:1.45;color:var(--muted)">{{ p.sub }}</span>
+            </span>
+            <span aria-hidden="true" style="font:20px/1 var(--sans);color:var(--accent)">→</span>
+          </button>
+        </sc-for>
+        <p style="margin:2px 0 0;font-size:14px;color:var(--muted)">Not sure? Pick the chat app. You can switch any time without losing anything.</p>
+      </div>
+      <div style="border-top:1px dashed var(--line);padding-top:14px;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:15px">
+        <span style="color:var(--muted)">Rather look first?</span>
+        <a href="https://github.com/liqweed/ai-kickstart/releases/latest">Download the kit (zip, ~110 KB)</a>
+        <a href="#/guide" onClick="{{ goGuide }}">Read how it works</a>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="ba" style="background:var(--sunk);border-block:1px solid var(--line)">
+    <div style="max-width:1120px;margin:0 auto;padding:48px 20px;display:flex;flex-direction:column;gap:24px;box-sizing:border-box">
+      <h2 id="ba" style="margin:0;font:500 clamp(26px,3.4cqi,36px)/1.15 var(--serif);text-wrap:balance">Same two words, two different mornings</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:20px">
+        <figure style="margin:0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:12px">
+          <figcaption style="font:600 13px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)">Without the kit · a brilliant stranger</figcaption>
+          <p style="margin:0;align-self:flex-end;max-width:80%;background:var(--sunk);border-radius:12px;padding:8px 14px;font-family:var(--mono);font-size:15px">Morning briefing.</p>
+          <p style="margin:0;max-width:88%;font-size:16px">Happy to help! What's on your calendar today? And what are your priorities this week?</p>
+          <p style="margin:auto 0 0;font-size:14px;color:var(--muted)">Every chat starts from zero, so you explain yourself again.</p>
+        </figure>
+        <figure style="margin:0;background:var(--card);border:2px solid var(--accent);border-radius:12px;padding:19px;display:flex;flex-direction:column;gap:12px">
+          <figcaption style="font:600 13px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--accent)">With the kit · an assistant that knows you</figcaption>
+          <p style="margin:0;align-self:flex-end;max-width:80%;background:var(--sunk);border-radius:12px;padding:8px 14px;font-family:var(--mono);font-size:15px">Morning briefing.</p>
+          <div style="display:flex;flex-direction:column;gap:6px;font-size:16px">
+            <span style="font:13px/1.4 var(--mono);color:var(--muted)">reading your notes: GOALS.md · PROJECTS.md · calendar</span>
+            <span>Here's your day: today's calendar, your top 3, what's due, and one nudge from your goals.</span>
+          </div>
+          <p style="margin:auto 0 0;font-size:14px;color:var(--muted)">It knows because you told it once, and it's written down in notes you can read and change.</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="pieces" style="max-width:1120px;margin:0 auto;padding:56px 20px 24px;display:flex;flex-direction:column;gap:24px;box-sizing:border-box">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:680px">
+      <h2 id="pieces" style="margin:0;font:500 clamp(26px,3.4cqi,36px)/1.15 var(--serif)">Four pieces, all yours</h2>
+      <p style="margin:0;color:var(--muted);text-wrap:pretty">The interview fills your notes with what matters. The plan turns that into small steps. Skills and prompts do the repeat work.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:16px">
+      <article style="background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:10px">
+        <span style="align-self:flex-start;font:13px/1 var(--mono);padding:5px 8px;border:1px solid var(--line-strong);border-radius:4px">vault/</span>
+        <h3 style="margin:0;font:500 21px/1.25 var(--serif)">A vault you own</h3>
+        <p style="margin:0;font-size:16px">An Obsidian folder of plain notes on your own computer. The AI reads it for context and writes back what's worth keeping.</p>
+        <p style="margin:auto 0 0;font-size:14px;color:var(--muted)">Obsidian is a free notes app. “Vault” is its word for a folder of notes.</p>
+      </article>
+      <article style="background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:10px">
+        <span style="align-self:flex-start;font:13px/1 var(--mono);padding:5px 8px;border:1px solid var(--line-strong);border-radius:4px">5 rounds</span>
+        <h3 style="margin:0;font:500 21px/1.25 var(--serif)">A friendly interview</h3>
+        <p style="margin:0;font-size:16px">Five short rounds where the AI gets to know your life, your work and your devices, then suggests where it can help most.</p>
+        <p style="margin:auto 0 0;font-size:14px;color:var(--muted)">One question at a time. Skip or pause whenever you like.</p>
+      </article>
+      <article style="background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:10px">
+        <span style="align-self:flex-start;font:13px/1 var(--mono);padding:5px 8px;border:1px solid var(--line-strong);border-radius:4px">HARNESS-PLAN.md</span>
+        <h3 style="margin:0;font:500 21px/1.25 var(--serif)">A harness plan</h3>
+        <p style="margin:0;font-size:16px">A checklist the AI works through with you, one small verified step per session. You can stop, switch tools, and pick up later.</p>
+        <p style="margin:auto 0 0;font-size:14px;color:var(--muted)">It's a plain note. Each step says when it counts as done and how to check.</p>
+      </article>
+      <article style="background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:10px">
+        <span style="align-self:flex-start;font:13px/1 var(--mono);padding:5px 8px;border:1px solid var(--line-strong);border-radius:4px">skills/</span>
+        <h3 style="margin:0;font:500 21px/1.25 var(--serif)">Skills &amp; prompts</h3>
+        <p style="margin:0;font-size:16px">Ready-made playbooks (briefings, reviews, planning, saving notes) and copy-paste prompts for everything else.</p>
+        <p style="margin:auto 0 0;font-size:14px;color:var(--muted)">A skill is a written playbook the AI follows, like a recipe.</p>
+      </article>
+    </div>
+  </section>
+
+  <section aria-labelledby="journey" style="max-width:1120px;margin:0 auto;padding:40px 20px 56px;display:flex;flex-direction:column;gap:24px;box-sizing:border-box">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:680px">
+      <h2 id="journey" style="margin:0;font:500 clamp(26px,3.4cqi,36px)/1.15 var(--serif)">Small steps, at your pace</h2>
+      <p style="margin:0;color:var(--muted)">One hour to start. After that, short sessions whenever you feel like it. There's no deadline and nothing to keep up with.</p>
+    </div>
+    <ol style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px">
+      <li style="border-top:3px solid var(--ink);padding-top:12px;display:flex;flex-direction:column;gap:4px"><span style="font:600 14px/1.3 var(--mono)">Day 1 · ≈ 1 hour</span><span style="font:500 19px/1.3 var(--serif)">Set up</span><span style="font-size:15px;color:var(--muted)">Install Obsidian, open the kit's vault folder, connect an AI tool, say hello.</span></li>
+      <li style="border-top:3px solid var(--line-strong);padding-top:12px;display:flex;flex-direction:column;gap:4px"><span style="font:600 14px/1.3 var(--mono)">Week 1 · 4 × ~20 min</span><span style="font:500 19px/1.3 var(--serif)">The interview</span><span style="font-size:15px;color:var(--muted)">Rounds 1–4, one question at a time.</span></li>
+      <li style="border-top:3px solid var(--line-strong);padding-top:12px;display:flex;flex-direction:column;gap:4px"><span style="font:600 14px/1.3 var(--mono)">Weeks 2–4 · short sessions</span><span style="font:500 19px/1.3 var(--serif)">First wins</span><span style="font-size:15px;color:var(--muted)">Three things you'll actually use, picked from your answers.</span></li>
+      <li style="border-top:3px dashed var(--line-strong);padding-top:12px;display:flex;flex-direction:column;gap:4px"><span style="font:600 14px/1.3 var(--mono)">Month 2+ · optional</span><span style="font:500 19px/1.3 var(--serif)">Grow it</span><span style="font-size:15px;color:var(--muted)">Connect calendar or email (read-only first), small scripts, schedules.</span></li>
+    </ol>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:20px;align-items:center;margin-top:12px">
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <h3 style="margin:0;font:500 22px/1.25 var(--serif)">The one sentence to remember</h3>
+        <p style="margin:0;color:var(--muted);font-size:16px">Start any session, in any AI tool, with this. The plan remembers where you were.</p>
+      </div>
+      <dc-import name="Prompt" label="The main one" text="Continue my harness plan." note="Paste into your AI at the start of a session" hint-size="100%,130px"></dc-import>
+    </div>
+    <p style="margin:8px 0 0;font-size:16px">Curious what it could help with? <a href="#/catalog" onClick="{{ goCatalog }}">Browse the ideas menu</a>: 103 ideas in 16 areas, from meal plans to school portals.</p>
+  </section>
+
+  <section aria-labelledby="trust" style="background:var(--sunk);border-top:1px solid var(--line)">
+    <div style="max-width:1120px;margin:0 auto;padding:56px 20px;display:flex;flex-direction:column;gap:24px;box-sizing:border-box">
+      <h2 id="trust" style="margin:0;font:500 clamp(26px,3.4cqi,36px)/1.15 var(--serif)">Before you download anything</h2>
+      <dl style="margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:24px 32px">
+        <div style="display:flex;flex-direction:column;gap:4px"><dt style="font:600 16px/1.4 var(--sans)">What does it cost?</dt><dd style="margin:0;font-size:16px;color:var(--muted)">Nothing. There's no account, no sign-up and nothing to cancel later.</dd></div>
+        <div style="display:flex;flex-direction:column;gap:4px"><dt style="font:600 16px/1.4 var(--sans)">Where do my notes go?</dt><dd style="margin:0;font-size:16px;color:var(--muted)">Your notes stay on your computer. The AI reads the ones it needs for a task. You decide what goes in, and passwords and ID numbers never do.</dd></div>
+        <div style="display:flex;flex-direction:column;gap:4px"><dt style="font:600 16px/1.4 var(--sans)">What am I downloading?</dt><dd style="margin:0;font-size:16px;color:var(--muted)">A zip of about 110 KB, smaller than one photo. Inside: <span style="font-family:var(--mono);font-size:14px">README.md · LICENSE · START-HERE.html · guide/ · vault/</span>. Plain notes and web pages you can open and read first.</dd></div>
+        <div style="display:flex;flex-direction:column;gap:4px"><dt style="font:600 16px/1.4 var(--sans)">What does “open source” mean here?</dt><dd style="margin:0;font-size:16px;color:var(--muted)">Every file is public on <a href="https://github.com/liqweed/ai-kickstart">GitHub</a>, a website where projects like this are shared, so anyone can read and check it. The licence (CC BY 4.0) lets you share and adapt it, with credit.</dd></div>
+        <div style="display:flex;flex-direction:column;gap:4px"><dt style="font:600 16px/1.4 var(--sans)">Does this website track me?</dt><dd style="margin:0;font-size:16px;color:var(--muted)">No. No cookies, no analytics, and nothing loaded from anyone else's servers. Your choices here are saved in this browser only.</dd></div>
+        <div style="display:flex;flex-direction:column;gap:4px"><dt style="font:600 16px/1.4 var(--sans)">Who made it?</dt><dd style="margin:0;font-size:16px;color:var(--muted)">Designed and shared by Ophir Radnitz</dd></div>
+      </dl>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:8px">
+        <button type="button" onClick="{{ toStart }}" style="min-height:48px;padding:0 20px;border-radius:8px;border:0;background:var(--accent);color:var(--on-accent);font:600 16px/1 var(--sans);cursor:pointer" style-hover="background:var(--accent-hover)">Find my first step</button>
+        <a href="https://github.com/liqweed/ai-kickstart/releases/latest" style="display:inline-flex;align-items:center;min-height:48px;padding:0 20px;border-radius:8px;border:1.5px solid var(--ink);color:var(--ink);font:600 16px/1 var(--sans);text-decoration:none">Download the kit</a>
+        <span style="display:inline-flex;align-items:center;min-height:48px;padding:0 4px;font-size:15px;color:var(--muted)">Companion app: coming later</span>
+      </div>
+    </div>
+  </section>
+</sc-if>
+
+<sc-if value="{{ isSetup }}">
+  <section data-screen-label="Setup" style="max-width:860px;margin:0 auto;padding:36px 20px 56px;display:flex;flex-direction:column;gap:22px;box-sizing:border-box">
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <p style="margin:0;font:600 13px/1.4 var(--sans);letter-spacing:.07em;text-transform:uppercase;color:var(--accent)">Day 1 · about an hour, in any number of sittings</p>
+      <h1 style="margin:0;font:500 clamp(32px,4.6cqi,46px)/1.1 var(--serif)">Your setup</h1>
+      <p style="margin:0;color:var(--muted)">Keep this open next to Obsidian and your AI. Each step you tick is remembered on this device.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--card)">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px">
+        <span style="font:600 14px/1 var(--sans);min-width:90px">Computer</span>
+        <sc-for list="{{ osOptions }}" as="o" hint-placeholder-count="4"><button type="button" onClick="{{ o.onSet }}" aria-pressed="{{ o.pressed }}" style="min-height:40px;padding:0 12px;border-radius:999px;border:{{ o.border }};background:{{ o.bg }};color:var(--ink);font:{{ o.weight }} 14px/1 var(--sans);cursor:pointer">{{ o.check }}{{ o.label }}</button></sc-for>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px">
+        <span style="font:600 14px/1 var(--sans);min-width:90px">AI</span>
+        <sc-for list="{{ pathOptions }}" as="p" hint-placeholder-count="3"><button type="button" onClick="{{ p.onSet }}" aria-pressed="{{ p.pressed }}" style="min-height:40px;padding:0 12px;border-radius:999px;border:{{ p.border }};background:{{ p.bg }};color:var(--ink);font:{{ p.weight }} 14px/1 var(--sans);cursor:pointer">{{ p.check }}{{ p.short }}</button></sc-for>
+      </div>
+    </div>
+
+    <sc-if value="{{ isPhone }}">
+      <div style="background:var(--hl);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px">
+        <p style="margin:0"><strong>These steps happen on a computer.</strong> Send this page to yourself and open it there. Your choices travel inside the link.</p>
+        <button type="button" onClick="{{ shareLink }}" style="align-self:flex-start;min-height:44px;padding:0 16px;border-radius:8px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);font:600 15px/1 var(--sans);cursor:pointer">{{ shareLabel }}</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ noPath }}">
+      <div style="display:flex;flex-direction:column;gap:8px;padding:18px;border:2px solid var(--accent);border-radius:12px">
+        <h2 style="margin:0;font:500 22px/1.2 var(--serif)">First: how would you like to use AI?</h2>
+        <sc-for list="{{ pathOptions }}" as="p"><button type="button" onClick="{{ p.onSet }}" style="display:flex;flex-direction:column;gap:2px;text-align:left;padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;cursor:pointer"><span style="font-weight:600">{{ p.title }}</span><span style="font-size:14px;color:var(--muted)">{{ p.sub }}</span></button></sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ hasPath }}">
+      <p aria-live="polite" style="margin:0;font:600 15px/1.4 var(--mono)">{{ progressText }}</p>
+      <ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px">
+        <sc-for list="{{ steps }}" as="s" hint-placeholder-count="5">
+          <li id="{{ s.anchor }}" style="background:var(--card);border:{{ s.border }};border-radius:12px;scroll-margin-top:90px">
+            <button type="button" onClick="{{ s.toggle }}" aria-expanded="{{ s.isOpen }}" style="width:100%;display:flex;align-items:center;gap:14px;padding:14px 16px;background:none;border:0;color:var(--ink);text-align:left;cursor:pointer;font:inherit;min-height:56px">
+              <span style="flex:none;font:600 15px/1 var(--mono);min-width:30px">{{ s.mark }}</span>
+              <span style="flex:1;display:flex;flex-direction:column;gap:2px">
+                <span style="font:600 13px/1.2 var(--sans);color:var(--muted)">Step {{ s.num }} · {{ s.status }}</span>
+                <span style="font:500 20px/1.3 var(--serif)">{{ s.title }}</span>
+              </span>
+              <span aria-hidden="true" style="color:var(--muted)">{{ s.chev }}</span>
+            </button>
+            <sc-if value="{{ s.isOpen }}">
+              <div style="padding:0 16px 18px 60px;display:flex;flex-direction:column;gap:14px">
+                <sc-if value="{{ s.hasWhy }}"><p style="margin:0;font-size:16px;color:var(--muted);text-wrap:pretty">{{ s.why }}</p></sc-if>
+                <ol style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px">
+                  <sc-for list="{{ s.body }}" as="b"><li style="font-size:16px;text-wrap:pretty">{{ b }}</li></sc-for>
+                </ol>
+                <sc-if value="{{ s.hasLink }}"><a href="https://github.com/liqweed/ai-kickstart/releases/latest" style="align-self:flex-start;display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:8px;border:1.5px solid var(--accent);font:600 15px/1 var(--sans);text-decoration:none">Download the kit (zip, ~110 KB)</a></sc-if>
+                <sc-if value="{{ s.hasPrompt }}"><dc-import name="Prompt" label="First contact" text="{{ s.prompt }}" note="{{ s.promptNote }}" hint-size="100%,220px"></dc-import></sc-if>
+                <div style="display:grid;grid-template-columns:auto 1fr;gap:6px 12px;padding:12px 14px;background:var(--sunk);border-radius:8px;font-size:15px">
+                  <span style="font:600 14px/1.5 var(--mono)">Done when:</span><span>{{ s.doneWhen }}</span>
+                  <span style="font:600 14px/1.5 var(--mono)">Check:</span><span>{{ s.check }}</span>
+                </div>
+                <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+                  <sc-if value="{{ s.notDone }}"><button type="button" onClick="{{ s.markDone }}" style="min-height:46px;padding:0 18px;border-radius:8px;border:0;background:var(--accent);color:var(--on-accent);font:600 16px/1 var(--sans);cursor:pointer" style-hover="background:var(--accent-hover)">Checked. Next step →</button></sc-if>
+                  <sc-if value="{{ s.isDone }}"><button type="button" onClick="{{ s.undo }}" style="min-height:44px;padding:0 14px;border-radius:8px;border:1.5px solid var(--line-strong);background:transparent;color:var(--ink);font:600 15px/1 var(--sans);cursor:pointer">Untick this step</button></sc-if>
+                </div>
+                <details style="border-top:1px dashed var(--line);padding-top:10px">
+                  <summary style="cursor:pointer;font:600 15px/1.4 var(--sans);min-height:32px">Stuck? Ask your AI for help</summary>
+                  <div style="margin-top:10px"><dc-import name="Prompt" label="Help me with a setup step I'm stuck on" text="I'm on harness step &lt;P0.x&gt; and I'm stuck: &lt;what happened&gt;. I use &lt;Mac / Windows / Linux&gt; and &lt;AI tool&gt;. Explain what to do in plain words, one step at a time, and wait for me after each step." fills="{{ stuckFills }}" note="Pre-filled from your choices. Change anything." hint-size="100%,200px"></dc-import></div>
+                </details>
+              </div>
+            </sc-if>
+          </li>
+        </sc-for>
+      </ol>
+
+      <sc-if value="{{ allDone }}">
+        <div style="border:2px solid var(--accent);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:12px">
+          <h2 style="margin:0;font:500 26px/1.2 var(--serif)">Day 1 is done. That was the hardest part.</h2>
+          <p style="margin:0">Next, when you have about 20 minutes: round 1 of the interview. You can answer by voice, skip anything, and stop whenever you like.</p>
+          <dc-import name="Prompt" label="Start the interview" text="Start round 1 of my kickstart interview. Keep it friendly and one question at a time. I may answer by voice." hint-size="100%,150px"></dc-import>
+          <p style="margin:0;font-size:15px;color:var(--muted)">After that, every session starts the same way: <strong style="font-family:var(--mono);color:var(--ink)">Continue my harness plan.</strong></p>
+        </div>
+      </sc-if>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px;padding:18px;border:1px dashed var(--line-strong);border-radius:12px">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <h2 style="margin:0;font:500 20px/1.25 var(--serif)">Keeping your place</h2>
+          <p style="margin:0;font-size:15px;color:var(--muted)">Close this tab, make tea, come back: this browser opens straight to your step. To carry on from another device, use this link. It holds your choices and step, nothing else.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;justify-content:center">
+          <code style="font:14px/1.4 var(--mono);padding:10px 12px;background:var(--sunk);border-radius:6px;overflow-wrap:anywhere">{{ linkUrl }}</code>
+          <button type="button" onClick="{{ shareLink }}" style="align-self:flex-start;min-height:44px;padding:0 16px;border-radius:8px;border:1.5px solid var(--accent);background:transparent;color:var(--accent);font:600 15px/1 var(--sans);cursor:pointer">{{ shareLabel }}</button>
+        </div>
+      </div>
+    </sc-if>
+  </section>
+</sc-if>
+
+<sc-if value="{{ isCatalog }}">
+  <section data-screen-label="Ideas menu" style="max-width:1120px;margin:0 auto;padding:36px 20px 0;display:flex;flex-direction:column;gap:20px;box-sizing:border-box">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:720px">
+      <p style="margin:0;font:600 13px/1.4 var(--sans);letter-spacing:.07em;text-transform:uppercase;color:var(--accent)">A menu, not a to-do list</p>
+      <h1 style="margin:0;font:500 clamp(32px,4.6cqi,46px)/1.1 var(--serif)">What could AI do for you?</h1>
+      <p style="margin:0;text-wrap:pretty">103 ideas in 16 areas. Most people end up using 5–10 of them regularly. Tick anything that makes you think “oh, yes”, then copy your picks into Round 2 of the interview.</p>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px 20px;font-size:15px">
+      <span><strong style="font-family:var(--mono)">S</strong> Starter: just the AI, your notes and web search</span>
+      <span><strong style="font-family:var(--mono)">M</strong> Connected: needs an app connection</span>
+      <span><strong style="font-family:var(--mono)">L</strong> Builder: needs a small script or schedule</span>
+    </div>
+    <div role="group" aria-label="Show by effort" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+      <span style="font:600 14px/1 var(--sans);margin-right:4px">Show</span>
+      <sc-for list="{{ levelOptions }}" as="l" hint-placeholder-count="4"><button type="button" onClick="{{ l.onClick }}" aria-pressed="{{ l.pressed }}" style="min-height:40px;padding:0 14px;border-radius:999px;border:{{ l.border }};background:{{ l.bg }};color:var(--ink);font:{{ l.weight }} 14px/1 var(--sans);cursor:pointer">{{ l.check }}{{ l.label }}</button></sc-for>
+    </div>
+    <nav aria-label="Areas" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin:0 -20px;padding-inline:20px">
+      <sc-for list="{{ areas }}" as="a" hint-placeholder-count="8"><button type="button" onClick="{{ a.jump }}" style="flex:none;min-height:40px;padding:0 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:14px/1 var(--sans);cursor:pointer;white-space:nowrap">{{ a.e }} {{ a.name }}{{ a.pickedTag }}</button></sc-for>
+    </nav>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:28px 32px;align-items:start;padding-bottom:28px">
+      <sc-for list="{{ areas }}" as="a" hint-placeholder-count="6">
+        <section id="{{ a.anchor }}" aria-labelledby="{{ a.hid }}" style="display:flex;flex-direction:column;gap:2px;scroll-margin-top:90px">
+          <h2 id="{{ a.hid }}" style="margin:0 0 6px;display:flex;align-items:baseline;gap:10px;font:500 21px/1.3 var(--serif);border-bottom:1px solid var(--ink);padding-bottom:8px"><span aria-hidden="true">{{ a.e }}</span><span style="flex:1">{{ a.name }}</span><span style="font:13px/1 var(--sans);color:var(--muted)">{{ a.countText }}</span></h2>
+          <sc-for list="{{ a.items }}" as="i">
+            <label style="display:grid;grid-template-columns:22px 1fr auto;gap:2px 12px;align-items:start;padding:9px 6px;border-radius:8px;cursor:pointer;background:{{ i.bg }}" style-hover="background:var(--sunk)">
+              <input type="checkbox" checked="{{ i.checked }}" onChange="{{ i.onToggle }}" style="width:20px;height:20px;margin:2px 0 0">
+              <span style="display:flex;flex-direction:column;gap:1px"><span style="font:600 16px/1.35 var(--sans)">{{ i.n }}</span><span style="font-size:14px;line-height:1.45;color:var(--muted)">{{ i.d }}</span></span>
+              <span title="{{ i.levelWord }}" style="font:600 12px/1 var(--mono);padding:4px 6px;border:1px solid var(--line-strong);border-radius:4px;margin-top:2px">{{ i.l }}</span>
+            </label>
+          </sc-for>
+        </section>
+      </sc-for>
+    </div>
+  </section>
+  <div style="position:sticky;bottom:0;z-index:5;background:var(--card);border-top:2px solid var(--ink)">
+    <div style="max-width:1120px;margin:0 auto;padding:12px 20px;display:flex;flex-direction:column;gap:10px;box-sizing:border-box">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px">
+        <p aria-live="polite" style="margin:0;flex:1;min-width:220px;font-size:15px">{{ trayText }}</p>
+        <sc-if value="{{ hasPicks }}">
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <button type="button" onClick="{{ toggleMsg }}" aria-expanded="{{ showMsg }}" style="min-height:44px;padding:0 14px;border-radius:8px;border:1.5px solid var(--line-strong);background:transparent;color:var(--ink);font:600 15px/1 var(--sans);cursor:pointer">{{ msgLabel }}</button>
+            <button type="button" onClick="{{ clearPicks }}" style="min-height:44px;padding:0 14px;border-radius:8px;border:1.5px solid var(--line-strong);background:transparent;color:var(--ink);font:600 15px/1 var(--sans);cursor:pointer">Clear</button>
+            <button type="button" onClick="{{ copyPicks }}" style="min-height:44px;padding:0 18px;border-radius:8px;border:0;background:var(--accent);color:var(--on-accent);font:600 15px/1 var(--sans);cursor:pointer">{{ copyPicksLabel }}</button>
+          </div>
+        </sc-if>
+      </div>
+      <sc-if value="{{ showMsgBox }}"><pre style="margin:0;max-height:34vh;overflow:auto;padding:12px 14px;background:var(--sunk);border-radius:8px;font:14px/1.55 var(--mono);white-space:pre-wrap">{{ pickMessage }}</pre></sc-if>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isPrompts }}">
+  <section data-screen-label="Prompts" style="max-width:1120px;margin:0 auto;padding:36px 20px 56px;display:flex;flex-direction:column;gap:22px;box-sizing:border-box">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:720px">
+      <h1 style="margin:0;font:500 clamp(32px,4.6cqi,46px)/1.1 var(--serif)">Prompts to copy</h1>
+      <p style="margin:0;text-wrap:pretty">Copy one, paste it into your AI, done. Highlighted parts in <span style="font-family:var(--mono);background:var(--hl);border-bottom:2px dashed var(--hl-line);padding:0 3px">&lt;angle brackets&gt;</span> are yours to fill in: type straight into them before copying, or fill them in afterwards.</p>
+    </div>
+    <nav aria-label="Prompt groups" style="display:flex;flex-wrap:wrap;gap:8px">
+      <sc-for list="{{ promptGroups }}" as="g" hint-placeholder-count="6"><button type="button" onClick="{{ g.jump }}" style="min-height:40px;padding:0 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:14px/1 var(--sans);cursor:pointer">{{ g.name }} <span style="color:var(--muted)">{{ g.count }}</span></button></sc-for>
+    </nav>
+    <sc-for list="{{ promptGroups }}" as="g" hint-placeholder-count="2">
+      <section id="{{ g.anchor }}" style="display:flex;flex-direction:column;gap:14px;scroll-margin-top:90px;padding-top:10px">
+        <h2 style="margin:0;font:500 26px/1.2 var(--serif);border-bottom:1px solid var(--ink);padding-bottom:8px">{{ g.name }}</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,400px),1fr));gap:14px">
+          <sc-for list="{{ g.items }}" as="p"><dc-import name="Prompt" label="{{ p.label }}" text="{{ p.text }}" hint-size="100%,140px"></dc-import></sc-for>
+        </div>
+      </section>
+    </sc-for>
+  </section>
+</sc-if>
+
+<sc-if value="{{ isGuide }}">
+  <section data-screen-label="How it works" style="max-width:960px;margin:0 auto;padding:36px 20px 56px;display:flex;flex-direction:column;gap:40px;box-sizing:border-box">
+    <div style="display:flex;flex-direction:column;gap:10px;max-width:720px">
+      <p style="margin:0;font:600 13px/1.4 var(--sans);letter-spacing:.07em;text-transform:uppercase;color:var(--accent)">For the curious · none of this is needed to start</p>
+      <h1 style="margin:0;font:500 clamp(32px,4.6cqi,46px)/1.1 var(--serif)">How it works</h1>
+      <nav aria-label="On this page" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px">
+        <sc-for list="{{ guideToc }}" as="t" hint-placeholder-count="5"><button type="button" onClick="{{ t.jump }}" style="min-height:40px;padding:0 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:14px/1 var(--sans);cursor:pointer">{{ t.label }}</button></sc-for>
+      </nav>
+    </div>
+
+    <section id="g-interview" style="display:flex;flex-direction:column;gap:16px;scroll-margin-top:90px">
+      <h2 style="margin:0;font:500 30px/1.2 var(--serif)">The interview</h2>
+      <p style="margin:0;max-width:680px">Five rounds. Each one saves an answer file that ends with “Signals for next round”, so the next round picks up where you left off. Open questions come before the menu, so you aren't steered.</p>
+      <ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column">
+        <li style="display:grid;grid-template-columns:52px 1fr;gap:4px 16px;padding:14px 0;border-top:1px solid var(--line)"><span style="font:500 34px/1 var(--serif)">1</span><div style="display:flex;flex-direction:column;gap:3px"><span style="font:600 17px/1.35 var(--sans)">Getting to know you <span style="font:14px var(--mono);color:var(--muted)">· 15–20 min</span></span><span style="font-size:15px;color:var(--muted)">Landscape profile (household, work, devices, apps, comfort with tech, privacy lines) + a shortlist of areas</span></div></li>
+        <li style="display:grid;grid-template-columns:52px 1fr;gap:4px 16px;padding:14px 0;border-top:1px solid var(--line)"><span style="font:500 34px/1 var(--serif)">2</span><div style="display:flex;flex-direction:column;gap:3px"><span style="font:600 17px/1.35 var(--sans)">Where could help feel good? <span style="font:14px var(--mono);color:var(--muted)">· ~20 min</span></span><span style="font-size:15px;color:var(--muted)">Ranked top 3–5 areas + first draft of goals (open questions first, then the <a href="#/catalog" onClick="{{ goCatalog }}">ideas menu</a>)</span></div></li>
+        <li style="display:grid;grid-template-columns:52px 1fr;gap:4px 16px;padding:14px 0;border-top:1px solid var(--line)"><span style="font:500 34px/1 var(--serif)">3</span><div style="display:flex;flex-direction:column;gap:3px"><span style="font:600 17px/1.35 var(--sans)">Deep dives <span style="font:14px var(--mono);color:var(--muted)">· ~10 min per area</span></span><span style="font-size:15px;color:var(--muted)">Concrete backlog items in the harness plan</span></div></li>
+        <li style="display:grid;grid-template-columns:52px 1fr;gap:4px 16px;padding:14px 0;border-top:1px solid var(--line)"><span style="font:500 34px/1 var(--serif)">4</span><div style="display:flex;flex-direction:column;gap:3px"><span style="font:600 17px/1.35 var(--sans)">How you like to work with AI (+ synthesis) <span style="font:14px var(--mono);color:var(--muted)">· ~25 min</span></span><span style="font-size:15px;color:var(--muted)">Full profile, approved by you, plus the first three wins</span></div></li>
+        <li style="display:grid;grid-template-columns:52px 1fr;gap:4px 16px;padding:14px 0;border-top:1px dashed var(--line-strong);border-bottom:1px solid var(--line)"><span style="font:500 34px/1 var(--serif)">5</span><div style="display:flex;flex-direction:column;gap:3px"><span style="font:600 17px/1.35 var(--sans)">Check-in, repeatable <span style="font:14px var(--mono);color:var(--muted)">· ~10 min</span></span><span style="font-size:15px;color:var(--muted)">Two weeks later, then monthly: fixes, pruning, new ideas</span></div></li>
+      </ol>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <span style="font:600 15px/40px var(--sans);margin-right:4px">How it feels:</span>
+        <span style="font-size:15px;padding:8px 12px;border:1px solid var(--line);border-radius:999px">one question at a time</span>
+        <span style="font-size:15px;padding:8px 12px;border:1px solid var(--line);border-radius:999px">examples for everything</span>
+        <span style="font-size:15px;padding:8px 12px;border:1px solid var(--line);border-radius:999px">ramble away, voice is welcome</span>
+        <span style="font-size:15px;padding:8px 12px;border:1px solid var(--line);border-radius:999px">skip or pause anytime</span>
+        <span style="font-size:15px;padding:8px 12px;border:1px solid var(--line);border-radius:999px">it reflects back</span>
+        <span style="font-size:15px;padding:8px 12px;border:1px solid var(--line);border-radius:999px">vague is fine</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:14px">
+        <dc-import name="Prompt" label="Start" text="Start round 1 of my kickstart interview. Keep it friendly and one question at a time. I may answer by voice." hint-size="100%,150px"></dc-import>
+        <dc-import name="Prompt" label="Next round" text="Start round &lt;2 / 3 / 4&gt; of my kickstart interview." hint-size="100%,150px"></dc-import>
+        <dc-import name="Prompt" label="Express (~20 min)" note="Rounds 1 and 2 merged" text="I'm short on time. Run the express version of my kickstart interview: rounds 1 and 2 merged, about 10 core questions. Then draft my profile with sensible defaults and put the deep dives in my harness plan for later." hint-size="100%,190px"></dc-import>
+        <div style="padding:16px;border:1px dashed var(--line-strong);border-radius:10px;display:flex;flex-direction:column;gap:6px"><span style="font:600 15px/1.35 var(--sans)">Chat-only variant</span><span style="font-size:15px;color:var(--muted)">Using a chat app? The same rounds work there. At the end of each round the AI gives you paste-ready blocks to save into your notes yourself.</span></div>
+      </div>
+    </section>
+
+    <section id="g-harness" style="display:flex;flex-direction:column;gap:16px;scroll-margin-top:90px">
+      <h2 style="margin:0;font:500 30px/1.2 var(--serif)">The harness plan</h2>
+      <p style="margin:0;max-width:680px">One checklist note the AI works through with you, one small step per session. There's no schedule. Skipping a step is a perfectly good answer, and it's marked as such.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:20px">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <h3 style="margin:0 0 6px;font:600 14px/1.3 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)">The first month</h3>
+          <div style="display:grid;grid-template-columns:auto 1fr;gap:8px 14px;font-size:16px"><span style="font:600 14px/1.6 var(--mono)">P0</span><span><strong>Foundations</strong> · Vault + AI working together, backed up</span><span style="font:600 14px/1.6 var(--mono)">P1</span><span><strong>Get to know you</strong> · Interview rounds 1–4, profile filled</span><span style="font:600 14px/1.6 var(--mono)">P2</span><span><strong>First wins</strong> · 3 skills actually used</span></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <h3 style="margin:0 0 6px;font:600 14px/1.3 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)">Whenever you're ready, if ever</h3>
+          <div style="display:grid;grid-template-columns:auto 1fr;gap:8px 14px;font-size:16px"><span style="font:600 14px/1.6 var(--mono)">P3</span><span><strong>Capture &amp; memory</strong> · Notes flow in and come back when needed</span><span style="font:600 14px/1.6 var(--mono)">P4</span><span><strong>Connections</strong> · AI can read calendar / tasks / email (read-only first)</span><span style="font:600 14px/1.6 var(--mono)">P5</span><span><strong>Scripts &amp; tools</strong> · Reliable helpers for repeated lists</span><span style="font:600 14px/1.6 var(--mono)">P6</span><span><strong>Automations</strong> · Things run on a schedule, with output verified</span><span style="font:600 14px/1.6 var(--mono)">P7</span><span><strong>Evolve</strong> · Monthly check-in, pruning (recurring)</span></div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:20px;align-items:start">
+        <figure style="margin:0;display:flex;flex-direction:column;gap:8px">
+          <figcaption style="font:600 15px/1.4 var(--sans)">What a step looks like, in the note itself</figcaption>
+          <pre style="margin:0;padding:14px 16px;background:var(--sunk);border:1px solid var(--line);border-radius:8px;font:14px/1.6 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere">- [ ] P0.3 Connect the AI to this vault and test it. Point the tool at this folder, then ask…
+  Done when: it answers correctly and can create a test note.
+  Check: ask it to create _inbox/hello.md, see it appear in Obsidian, then delete it yourself.</pre>
+          <p style="margin:0;font-size:15px;color:var(--muted)">Every step has <strong style="color:var(--ink)">Done when</strong> and <strong style="color:var(--ink)">Check</strong>. No proof, no tick.</p>
+        </figure>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <span style="font:600 15px/1.4 var(--sans)">Status marks</span>
+          <dl style="margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:16px">
+            <dt style="font:600 15px/1.5 var(--mono)">[ ]</dt><dd style="margin:0">to do</dd>
+            <dt style="font:600 15px/1.5 var(--mono)">[/]</dt><dd style="margin:0">in progress</dd>
+            <dt style="font:600 15px/1.5 var(--mono)">[x]</dt><dd style="margin:0">done &amp; verified</dd>
+            <dt style="font:600 15px/1.5 var(--mono)">[-]</dt><dd style="margin:0">skipped (fine)</dd>
+            <dt style="font:600 15px/1.5 var(--mono)">[?]</dt><dd style="margin:0">blocked</dd>
+          </dl>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px">
+        <dc-import name="Prompt" label="The main one" text="Continue my harness plan." hint-size="100%,130px"></dc-import>
+        <dc-import name="Prompt" label="Status" text="Harness status." hint-size="100%,130px"></dc-import>
+        <dc-import name="Prompt" label="Capture an idea" text="Add to harness: &lt;idea&gt;." hint-size="100%,150px"></dc-import>
+      </div>
+    </section>
+
+    <section id="g-system" style="display:flex;flex-direction:column;gap:16px;scroll-margin-top:90px">
+      <h2 style="margin:0;font:500 30px/1.2 var(--serif)">The system, layer by layer</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:24px;align-items:start">
+        <dl style="margin:0;display:flex;flex-direction:column;gap:10px;font-size:16px">
+          <div><dt style="font-weight:600">Vault</dt><dd style="margin:0;color:var(--muted)">Plain notes in a folder you own. Any AI tool can read them.</dd></div>
+          <div><dt style="font-weight:600">Profile</dt><dd style="margin:0;color:var(--muted)"><span style="font-family:var(--mono);font-size:14px">_system/profile/</span>: mission, goals, projects, landscape, preferences, beliefs, and what the AI has learned.</dd></div>
+          <div><dt style="font-weight:600">Map &amp; rules</dt><dd style="margin:0;color:var(--muted)"><span style="font-family:var(--mono);font-size:14px">index.md</span> is the map, read first. <span style="font-family:var(--mono);font-size:14px">AGENTS.md</span> says how the AI behaves here.</dd></div>
+          <div><dt style="font-weight:600">Skills</dt><dd style="margin:0;color:var(--muted)">One folder per playbook, in <span style="font-family:var(--mono);font-size:14px">_system/skills/</span>.</dd></div>
+          <div><dt style="font-weight:600">Connections</dt><dd style="margin:0;color:var(--muted)">Calendar, tasks, email, read-only first. Often through MCP (a plug that lets the AI read an app, like your calendar).</dd></div>
+          <div><dt style="font-weight:600">Scripts</dt><dd style="margin:0;color:var(--muted)">Small helpers for lists that must be filtered correctly every time.</dd></div>
+          <div><dt style="font-weight:600">Automations</dt><dd style="margin:0;color:var(--muted)">Things that run on a schedule, with their output checked.</dd></div>
+          <div><dt style="font-weight:600">Harness plan</dt><dd style="margin:0;color:var(--muted)"><span style="font-family:var(--mono);font-size:14px">HARNESS-PLAN.md</span>, plus session and decisions logs, so progress survives pauses and tool switches.</dd></div>
+        </dl>
+        <figure style="margin:0;display:flex;flex-direction:column;gap:8px">
+          <figcaption style="font:600 15px/1.4 var(--sans)">What's inside the vault folder</figcaption>
+          <pre style="margin:0;padding:14px 16px;background:var(--sunk);border:1px solid var(--line);border-radius:8px;font:13px/1.6 var(--mono);overflow-x:auto">vault/
+├── AGENTS.md            how the AI behaves here
+├── _inbox/              quick capture
+├── _system/
+│   ├── index.md         the map, read first
+│   ├── VAULT-CONTRACT.md
+│   ├── HARNESS-PLAN.md
+│   ├── profile/
+│   ├── kickstart/       interview, catalog
+│   ├── skills/          one folder per playbook
+│   └── templates/
+├── 01-life/ 02-work/ 03-projects/
+├── 04-learning/ 05-planning/
+├── 06-reference/
+├── 07-briefings/ 99-archive/ config/</pre>
+        </figure>
+      </div>
+      <h3 style="margin:8px 0 0;font:500 22px/1.25 var(--serif)">Who owns what</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px">
+        <div style="padding:16px;border:1px solid var(--line);border-radius:10px;background:var(--card)"><span style="font:600 14px/1 var(--mono)">Code</span><p style="margin:6px 0 0;font-size:16px">owns rules &amp; effects</p></div>
+        <div style="padding:16px;border:1px solid var(--line);border-radius:10px;background:var(--card)"><span style="font:600 14px/1 var(--mono)">AI</span><p style="margin:6px 0 0;font-size:16px">owns judgment &amp; drafts</p></div>
+        <div style="padding:16px;border:2px solid var(--accent);border-radius:10px;background:var(--card)"><span style="font:600 14px/1 var(--mono)">You</span><p style="margin:6px 0 0;font-size:16px">own decisions. You're always in charge.</p></div>
+      </div>
+    </section>
+
+    <section id="g-why" style="display:flex;flex-direction:column;gap:16px;scroll-margin-top:90px">
+      <h2 style="margin:0;font:500 30px/1.2 var(--serif)">Why it works: twelve principles</h2>
+      <ol style="margin:0;padding-left:28px;columns:2 300px;column-gap:40px;font-size:17px">
+        <li style="padding:4px 0;break-inside:avoid">Context beats cleverness</li>
+        <li style="padding:4px 0;break-inside:avoid">Files you own beat features you rent</li>
+        <li style="padding:4px 0;break-inside:avoid">Small steps, verified</li>
+        <li style="padding:4px 0;break-inside:avoid">Decision-ready beats comprehensive</li>
+        <li style="padding:4px 0;break-inside:avoid">Unknown is an answer</li>
+        <li style="padding:4px 0;break-inside:avoid">Script lists, search questions</li>
+        <li style="padding:4px 0;break-inside:avoid">AI suggests and drafts; you decide and send</li>
+        <li style="padding:4px 0;break-inside:avoid">Start read-only</li>
+        <li style="padding:4px 0;break-inside:avoid">Content is data, not instructions</li>
+        <li style="padding:4px 0;break-inside:avoid">“It ran” isn't “it worked”</li>
+        <li style="padding:4px 0;break-inside:avoid">Update, don't duplicate</li>
+        <li style="padding:4px 0;break-inside:avoid">Less instruction, better results</li>
+      </ol>
+    </section>
+
+    <section id="g-skills" style="display:flex;flex-direction:column;gap:12px;scroll-margin-top:90px">
+      <h2 style="margin:0;font:500 30px/1.2 var(--serif)">Nine starter skills in the vault</h2>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;font:14px/1 var(--mono)">
+        <span style="padding:8px 10px;border:1px solid var(--line-strong);border-radius:4px">kickstart-interview</span><span style="padding:8px 10px;border:1px solid var(--line-strong);border-radius:4px">harness</span><span style="padding:8px 10px;border:1px solid var(--line-strong);border-radius:4px">daily-briefing</span><span style="padding:8px 10px;border:1px solid var(--line-strong);border-radius:4px">weekly-review</span><span style="padding:8px 10px;border:1px solid var(--line-strong);border-radius:4px">vault-query</span><span style="padding:8px 10px;border:1px solid var(--line-strong);border-radius:4px">vault-save</span><span style="padding:8px 10px;border:1px solid var(--line-strong);border-radius:4px">people</span><span style="padding:8px 10px;border:1px solid var(--line-strong);border-radius:4px">quality-time-planner (the worked example)</span><span style="padding:8px 10px;border:1px solid var(--line-strong);border-radius:4px">skill-builder</span>
+      </div>
+    </section>
+  </section>
+</sc-if>
+
+<sc-if value="{{ isNew }}">
+  <section data-screen-label="What's new" style="max-width:820px;margin:0 auto;padding:36px 20px 56px;display:flex;flex-direction:column;gap:24px;box-sizing:border-box">
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <h1 style="margin:0;font:500 clamp(32px,4.6cqi,46px)/1.1 var(--serif)">What's new</h1>
+      <p style="margin:0;color:var(--muted)">{{ versionLine }}</p>
+    </div>
+    <section aria-labelledby="upd" style="padding:18px;border:2px solid var(--accent);border-radius:12px;display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px"><span style="font:600 14px/1 var(--mono)">[?]</span><h2 id="upd" style="margin:0;font:500 22px/1.25 var(--serif)">Updating without losing your notes</h2></div>
+      <p style="margin:0">A guided update isn't part of the kit yet. When it is, it will live here, step by step, like the setup. Until then, the safe rule is simple:</p>
+      <ul style="margin:0;padding-left:22px;display:flex;flex-direction:column;gap:4px">
+        <li>Keep your vault where it is. Never unzip a new version on top of it.</li>
+        <li>Download the new kit into a separate folder, and read the notes below to see what changed.</li>
+      </ul>
+    </section>
+    <ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column">
+      <sc-if value="{{ hasV12 }}">
+        <li style="display:grid;grid-template-columns:80px 1fr;gap:12px;padding:16px 0;border-top:1px solid var(--line)"><span style="font:600 16px/1.5 var(--mono)">v1.2</span><div style="display:flex;flex-direction:column;gap:4px"><span style="font-weight:600">Latest</span><span style="color:var(--muted);font-size:15px">Scenario placeholder. Real release notes are generated from the kit's changelog at build time.</span></div></li>
+      </sc-if>
+      <li style="display:grid;grid-template-columns:80px 1fr;gap:12px;padding:16px 0;border-top:1px solid var(--line)"><span style="font:600 16px/1.5 var(--mono)">v1.1</span><div style="display:flex;flex-direction:column;gap:4px"><span style="font-weight:600">October 2026</span><ul style="margin:0;padding-left:20px;font-size:16px"><li>New note: Working with AI: Tips &amp; Insights (top 10, habits, prompting, trust, privacy, pitfalls)</li><li>New harness step P3.5</li><li>Round 5 now asks about habits</li></ul></div></li>
+      <li style="display:grid;grid-template-columns:80px 1fr;gap:12px;padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)"><span style="font:600 16px/1.5 var(--mono)">v1.0</span><div><span style="font-weight:600">First release</span></div></li>
+    </ol>
+  </section>
+</sc-if>
+</main>
+
+<footer style="border-top:1px solid var(--line);background:var(--bg)">
+  <div style="max-width:1120px;margin:0 auto;padding:28px 20px 36px;display:flex;flex-wrap:wrap;gap:16px 32px;justify-content:space-between;font-size:15px;box-sizing:border-box">
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <span style="font:500 18px/1.3 var(--serif)">Designed and shared by Ophir Radnitz</span>
+      <span style="color:var(--muted)">AI Kickstart {{ latest }} · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>: share and adapt it, with credit.</span>
+      <span style="color:var(--muted)">This site uses no cookies, no analytics and nothing from other servers.</span>
+    </div>
+    <nav aria-label="Footer" style="display:flex;flex-wrap:wrap;gap:8px 20px;align-items:flex-start">
+      <a href="#/new" onClick="{{ goNew }}">What's new</a>
+      <a href="https://github.com/liqweed/ai-kickstart">Source on GitHub</a>
+      <a href="https://github.com/liqweed/ai-kickstart/issues/new/choose">Give feedback</a>
+      <a href="Rationale.dc.html">Design rationale</a>
+    </nav>
+  </div>
+</footer>
+<span aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">{{ announce }}</span>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;scenario&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;1 · First visit, Mac&quot;,&quot;2 · Windows work laptop, chat app&quot;,&quot;3 · First visit on a phone&quot;,&quot;4 · Mid-setup return&quot;,&quot;5 · Catalog with 12 picks&quot;,&quot;6 · Returning, new version&quot;],&quot;default&quot;:&quot;1 · First visit, Mac&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const OS = { mac: 'Mac', windows: 'Windows', linux: 'Linux', phone: 'Phone or tablet' };
+const PATHS = {
+  a: { title: 'In a chat app', short: 'Chat app', sub: 'Claude or ChatGPT. The easiest start: the AI gives you text to paste into your notes.', tool: 'a chat app (Claude or ChatGPT)' },
+  b: { title: 'With a desktop AI app', short: 'Desktop AI app', rec: true, sub: 'It works inside one folder you choose, and reads and writes your notes there directly.', tool: 'a desktop AI app' },
+  c: { title: 'From the terminal', short: 'Terminal agent', sub: 'If you already use Claude Code, Codex, Gemini CLI or similar.', tool: 'a terminal agent' },
+};
+const VIEWS = ['home', 'setup', 'catalog', 'prompts', 'guide', 'new'];
+const FIRST = `Hi! This folder is my new Obsidian vault, set up from the AI Kickstart kit.
+Please read AGENTS.md and _system/index.md (nothing else yet), then tell me in three short lines:
+1) what this vault is for, 2) how you'll help me, 3) what we should do first.
+Then create a test note at _inbox/hello.md that says "It works!" so I can check that you can write here.`;
+const PICKS12 = ['0-0', '0-2', '0-5', '1-1', '1-2', '2-0', '2-1', '2-2', '4-0', '4-1', '6-0', '6-3'];
+
+function buildSteps(os, path) {
+  const o = os === 'phone' ? 'any' : os;
+  const by = (m) => m[o] || m.any;
+  return [
+    { id: 'kit', title: 'Get the kit', link: true,
+      why: 'The kit is one small zip file: plain notes and a few web pages. Nothing in it installs itself.',
+      body: by({ mac: ['Download the zip (about 110 KB).', 'Double-click it in Downloads. A folder appears next to it.', 'Move that folder somewhere you’ll keep it, like Documents.'],
+        windows: ['Download the zip (about 110 KB).', 'In Downloads, right-click it and choose Extract All…, then Extract.', 'Use the extracted folder, not the zip. Windows lets you look inside a zip, but nothing can be saved there.'],
+        linux: ['Download the zip (about 110 KB).', 'Extract it with your file manager or unzip.', 'Move the folder somewhere you’ll keep it.'],
+        any: ['On your computer, download the zip (about 110 KB).', 'Unpack it, and keep the folder somewhere like Documents.'] }),
+      doneWhen: 'You can see a folder called vault inside the kit.', check: 'Open vault. You should see AGENTS.md and a folder called _system.' },
+    { id: 'obsidian', title: 'Install Obsidian',
+      why: 'Obsidian is a free notes app. It shows the kit as tidy, linked notes, and keeps everything as plain text files on your computer.',
+      body: by({ mac: ['Go to obsidian.md and download Obsidian for Mac.', 'Open the download and drag Obsidian into Applications.', 'Open it. If your Mac asks whether to open an app from the internet, choose Open.'],
+        windows: ['Go to obsidian.md and download Obsidian for Windows.', 'Run the installer, then open Obsidian.', 'On a work laptop that blocks installs, ask your IT team for Obsidian. Meanwhile you can read ahead here.'],
+        linux: ['Go to obsidian.md and get the AppImage, Flatpak or .deb.', 'Open Obsidian.'],
+        any: ['Go to obsidian.md and download Obsidian for your computer.', 'Install it and open it.'] }),
+      doneWhen: 'Obsidian opens and shows its welcome screen.', check: 'You can see the option to open a folder as a vault.' },
+    { id: 'vault', title: 'Open the vault folder',
+      why: '“Vault” is Obsidian’s word for a folder of notes. Your AI will read the same folder.',
+      body: ['In Obsidian, choose Open folder as vault.', 'Pick the folder called vault inside the kit, not the kit folder around it.'],
+      doneWhen: 'AGENTS.md, _system and the numbered folders show in Obsidian’s left sidebar.', check: 'Open _system/index.md. It’s the map your AI reads first.' },
+    { id: 'connect', ...({
+      a: { title: 'Set up your chat app', why: 'A chat app can’t open files on your computer. So you give it the two key notes, and it gives you text to paste back into your notes.',
+        body: ['Open the Claude or ChatGPT app and create a Project (a space that keeps files and instructions between chats).', 'Add two files from your vault to the Project: AGENTS.md and _system/index.md.', 'Start a new chat inside that Project.'],
+        doneWhen: 'A new chat is open inside your Project.', check: 'The Project’s file list shows AGENTS.md and index.md.' },
+      b: { title: 'Connect your desktop AI app', why: 'A desktop AI app can work inside one folder you choose. It reads your notes and writes new ones there, and nowhere else.',
+        body: ['Open your desktop AI app.', 'Choose the vault folder as the folder it may work in. Only this folder.', 'If it asks permission to read and write files there, allow it for this folder.'],
+        doneWhen: 'The app shows the vault as its working folder.', check: 'Its file list shows AGENTS.md.' },
+      c: { title: 'Start your agent in the vault', why: '',
+        body: ['Open a terminal in the vault folder.', 'Start your agent there: Claude Code, Codex, Gemini CLI or similar.'],
+        doneWhen: 'The agent is running with vault as its working directory.', check: 'Ask it which folder it’s in.' },
+    })[path] },
+    { id: 'hello', title: 'Say hello', prompt: FIRST,
+      why: 'This first message checks that your AI can read the kit and write a note.',
+      body: ['Copy the message below and paste it into your AI.'],
+      ...(path === 'a'
+        ? { doneWhen: 'It answers in three short lines and gives you the text for a test note.', check: 'Create _inbox/hello.md in Obsidian yourself and paste that text in.', promptNote: 'Paste into a new chat in your Project' }
+        : { doneWhen: 'It answers correctly and can create a test note.', check: 'Ask it to create _inbox/hello.md, see it appear in Obsidian, then delete it yourself.', promptNote: path === 'c' ? 'Paste into your agent' : 'Paste into your desktop AI app' }) },
+  ];
+}
+
+class Component extends DCLogic {
+  KEY = 'aik.site.v1';
+  state = { view: 'home', os: 'mac', path: null, done: [], picks: [], level: 'all', showMsg: false, copiedPicks: false, linkMsg: '', installed: null, latest: 'v1.1', phone: false, open: null, kit: null, announce: '' };
+
+  componentDidMount() {
+    import(new URL('kit-content.js', document.baseURI).href).then(m => this.setState({ kit: m.KIT })).catch(e => console.warn('kit content', e));
+    let saved = {}; try { saved = JSON.parse(localStorage.getItem(this.KEY) || '{}'); } catch (e) {}
+    const sc = this.scen();
+    if (saved.lastScenario !== sc) this.applyScenario(sc);
+    else { this.sc = sc; const { lastScenario, ...rest } = saved; this.setState(rest, () => this.readHash()); }
+    this.onPop = () => this.readHash();
+    window.addEventListener('popstate', this.onPop); window.addEventListener('hashchange', this.onPop);
+  }
+  componentWillUnmount() { window.removeEventListener('popstate', this.onPop); window.removeEventListener('hashchange', this.onPop); clearTimeout(this.t1); clearTimeout(this.t2); }
+  componentDidUpdate() { if (this.scen() !== this.sc) { this.applyScenario(this.scen()); return; } this.save(); }
+  scen() { return String(this.props.scenario ?? '1').slice(0, 1); }
+  save() {
+    const { os, path, done, picks, installed, latest, phone, view } = this.state;
+    try { localStorage.setItem(this.KEY, JSON.stringify({ lastScenario: this.sc, os, path, done, picks, installed, latest, phone, view })); } catch (e) {}
+  }
+  applyScenario(sc) {
+    this.sc = sc;
+    const base = { os: 'mac', path: null, done: [], picks: [], installed: null, latest: 'v1.1', phone: false, view: 'home', open: null, showMsg: false, level: 'all' };
+    const s = { '1': {}, '2': { os: 'windows', path: 'a', view: 'setup' }, '3': { os: 'phone', phone: true },
+      '4': { path: 'b', done: ['kit', 'obsidian'] }, '5': { picks: PICKS12, view: 'catalog', showMsg: true },
+      '6': { path: 'b', done: ['kit', 'obsidian', 'vault', 'connect', 'hello'], installed: 'v1.1', latest: 'v1.2' } }[sc] || {};
+    const st = { ...base, ...s };
+    this.setState(st, () => { this.setHash(st.view, true); window.scrollTo(0, 0); });
+  }
+  hashFor(v) { return v === 'setup' && this.state.path ? `#/setup/${this.state.os}-${this.state.path}` : '#/' + v; }
+  setHash(v, replace) { try { history[replace ? 'replaceState' : 'pushState'](null, '', this.hashFor(v)); } catch (e) {} }
+  readHash() {
+    const h = location.hash.replace(/^#\/?/, ''); if (!h) return;
+    const [v, arg] = h.split('/'); if (!VIEWS.includes(v)) return;
+    const st = { view: v };
+    if (v === 'setup' && arg) { const [o, p] = arg.split('-'); if (OS[o]) st.os = o; if (PATHS[p]) st.path = p; }
+    this.setState(st);
+  }
+  go(view, anchor) {
+    this.setState({ view, showMsg: view === 'catalog' ? this.state.showMsg : false }, () => {
+      this.setHash(view);
+      if (anchor) this.jump(anchor); else window.scrollTo(0, 0);
+      if (view === 'setup') this.scrollToCurrent();
+    });
+  }
+  jump(id) { requestAnimationFrame(() => { const el = document.getElementById(id); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 84 }); }); }
+  curStep() { const steps = buildSteps(this.state.os, this.state.path || 'b'); return steps.find(s => !this.state.done.includes(s.id)); }
+  scrollToCurrent() { const c = this.curStep(); if (c && this.state.done.length) this.jump('step-' + c.id); }
+  choosePath(p) {
+    this.setState({ path: p, view: 'setup', open: null }, () => { this.setHash('setup'); window.scrollTo(0, 0); this.scrollToCurrent(); });
+  }
+  async copyText(t) {
+    try { await navigator.clipboard.writeText(t); return true; } catch (e) {
+      const ta = document.createElement('textarea'); ta.value = t; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select(); let ok = false; try { ok = document.execCommand('copy'); } catch (_) {} ta.remove(); return ok;
+    }
+  }
+  linkUrl() {
+    const { os, path } = this.state, c = this.curStep(), steps = buildSteps(os, path || 'b');
+    const n = c ? steps.findIndex(s => s.id === c.id) + 1 : 5;
+    return path ? `https://ai-kickstart.me/setup#${os === 'phone' ? 'computer' : os}-${path}-${n}` : 'https://ai-kickstart.me/';
+  }
+  async share() {
+    const url = this.linkUrl();
+    if (navigator.share && this.state.phone) { try { await navigator.share({ title: 'AI Kickstart setup', url }); return; } catch (e) { } }
+    const ok = await this.copyText(url);
+    this.setState({ linkMsg: ok ? 'Link copied ✓' : 'Copy failed. Select the link above.', announce: ok ? 'Link copied' : '' });
+    clearTimeout(this.t2); this.t2 = setTimeout(() => this.setState({ linkMsg: '' }), 2600);
+  }
+  pickMessage() {
+    const k = this.state.kit; if (!k) return '';
+    const lines = this.state.picks.map(id => { const [a, i] = id.split('-').map(Number); const ar = k.catalog[a]; const it = ar && ar.items[i]; return it ? `- ${it.n} (${ar.name})` : null; }).filter(Boolean);
+    return `These ideas from the AI Kickstart catalog made me think "oh, yes":\n${lines.join('\n')}\n\nPlease use them in Round 2 of my kickstart interview.`;
+  }
+  pill(on) { return { pressed: on ? 'true' : 'false', border: on ? '2px solid var(--accent)' : '1px solid var(--line-strong)', bg: on ? 'var(--accent-soft)' : 'transparent', weight: on ? 600 : 400, check: on ? '✓ ' : '' }; }
+
+  renderVals() {
+    const S = this.state, k = S.kit, view = S.view;
+    const steps = buildSteps(S.os, S.path || 'b');
+    const cur = steps.find(s => !S.done.includes(s.id));
+    const curIdx = cur ? steps.indexOf(cur) : 5;
+    const navDefs = [['home', 'Start'], ['setup', 'Your setup'], ['catalog', 'Ideas menu'], ['prompts', 'Prompts'], ['guide', 'How it works']];
+    const picksSet = new Set(S.picks);
+    const pickAreas = new Set(S.picks.map(p => p.split('-')[0]));
+    const lvMatch = (l) => S.level === 'all' || l.includes(S.level);
+    const areas = (k ? k.catalog : []).map((a, ai) => {
+      const items = a.items.map((it, ii) => ({ ...it, id: ai + '-' + ii })).filter(it => lvMatch(it.l));
+      const picked = a.items.filter((_, ii) => picksSet.has(ai + '-' + ii)).length;
+      return { e: a.e, name: a.name, anchor: 'area-' + ai, hid: 'area-h-' + ai, jump: () => this.jump('area-' + ai),
+        pickedTag: picked ? ` · ${picked} ✓` : '',
+        countText: `${a.items.length} ideas${picked ? ' · ' + picked + ' picked' : ''}`,
+        show: items.length > 0,
+        items: items.map(it => { const on = picksSet.has(it.id); return { n: it.n, d: it.d, l: it.l, checked: on, bg: on ? 'var(--accent-soft)' : 'transparent',
+          levelWord: it.l.replace('S', 'Starter').replace('M', 'Connected').replace('L', 'Builder'),
+          onToggle: () => this.setState(st => ({ picks: st.picks.includes(it.id) ? st.picks.filter(x => x !== it.id) : [...st.picks, it.id] })) }; }) };
+    }).filter(a => a.show);
+    const lvCount = (l) => k ? k.catalog.reduce((n, a) => n + a.items.filter(it => l === 'all' || it.l.includes(l)).length, 0) : 0;
+    const n = S.picks.length;
+    const hasPath = !!S.path;
+    const osName = OS[S.os];
+    return {
+      theme: this.props.theme ?? 'auto',
+      frameW: S.phone ? '390px' : 'none',
+      frameShadow: S.phone ? '0 0 0 1px var(--line), 0 20px 60px oklch(0 0 0 / .18)' : 'none',
+      isHome: view === 'home', isSetup: view === 'setup', isCatalog: view === 'catalog', isPrompts: view === 'prompts', isGuide: view === 'guide', isNew: view === 'new',
+      nav: navDefs.map(([v, label]) => ({ label, current: view === v ? 'page' : 'false', line: view === v ? 'var(--accent)' : 'transparent', weight: view === v ? 600 : 400, onClick: () => this.go(v) })),
+      goHome: () => this.go('home'), goGuide: (e) => { e && e.preventDefault(); this.go('guide'); }, goCatalog: (e) => { e && e.preventDefault(); this.go('catalog'); },
+      goNew: (e) => { e && e.preventDefault(); this.go('new'); }, goSetup: () => this.go('setup'),
+      toStart: () => { this.jump('start'); },
+      showResume: hasPath && S.done.length > 0 && !!cur && view !== 'setup',
+      curNum: curIdx + 1, curTitle: cur ? cur.title : '', setupLabel: `${osName} · ${hasPath ? PATHS[S.path].short : ''}`,
+      showUpdate: !!S.installed && S.installed !== S.latest && view !== 'new',
+      latest: S.latest, installed: S.installed || '',
+      isPhone: S.phone,
+      shareLabel: S.linkMsg || (S.phone ? 'Send this to my computer' : 'Copy link'),
+      shareLink: () => this.share(),
+      osHint: S.phone ? '(setup needs a computer)' : '(guessed from your browser)',
+      osOptions: Object.keys(OS).map(id => ({ label: OS[id], ...this.pill(S.os === id), onClick: () => this.setState({ os: id }), onSet: () => this.setState({ os: id }, () => this.setHash('setup', true)) })),
+      pathOptions: Object.keys(PATHS).map(id => ({ ...PATHS[id], rec: !!PATHS[id].rec, ...this.pill(S.path === id), border: S.path === id ? '2px solid var(--accent)' : '1px solid var(--line-strong)', onClick: () => this.choosePath(id), onSet: () => this.setState({ path: id, open: null }, () => this.setHash('setup', true)) })),
+      hasPath, noPath: !hasPath,
+      progressText: cur ? `[/] ${S.done.length} of 5 done · now: step ${curIdx + 1}, ${cur.title}` : '[x] 5 of 5 done',
+      allDone: hasPath && !cur,
+      steps: steps.map((s, i) => {
+        const isDone = S.done.includes(s.id), isCur = cur && cur.id === s.id;
+        const isOpen = S.open ? S.open === s.id : !!isCur;
+        return { anchor: 'step-' + s.id, num: i + 1, title: s.title, isDone, notDone: !isDone, isOpen,
+          mark: isDone ? '[x]' : isCur ? '[/]' : '[ ]', status: isDone ? 'done' : isCur ? 'you are here' : 'up next', chev: isOpen ? '−' : '+',
+          border: isCur ? '2px solid var(--accent)' : '1px solid var(--line)',
+          why: s.why, hasWhy: !!s.why && S.path !== 'c', body: s.body, hasLink: !!s.link,
+          hasPrompt: !!s.prompt, prompt: s.prompt || '', promptNote: s.promptNote || '',
+          doneWhen: s.doneWhen, check: s.check,
+          toggle: () => this.setState({ open: isOpen ? '__none' : s.id }),
+          markDone: () => this.setState(st => ({ done: [...st.done.filter(x => x !== s.id), s.id], open: null, announce: `Step ${i + 1} done.` }), () => { const c = this.curStep(); this.jump(c ? 'step-' + c.id : 'step-hello'); }),
+          undo: () => this.setState(st => ({ done: st.done.filter(x => x !== s.id), open: s.id })) };
+      }),
+      stuckFills: { 'Mac / Windows / Linux': S.os === 'phone' ? '' : osName, 'AI tool': hasPath ? PATHS[S.path].tool : '' },
+      linkUrl: this.linkUrl(),
+      levelOptions: [['all', 'Everything'], ['S', 'S · Starter'], ['M', 'M · Connected'], ['L', 'L · Builder']].map(([id, label]) => ({ label: `${label} (${lvCount(id)})`, ...this.pill(S.level === id), onClick: () => this.setState({ level: id }) })),
+      areas,
+      hasPicks: n > 0,
+      trayText: n ? `${n} picked from ${pickAreas.size} area${pickAreas.size > 1 ? 's' : ''}. Saved on this device.` : 'Nothing picked yet. Tick anything that makes you think “oh, yes”. Most people end up with 5–10.',
+      showMsg: S.showMsg ? 'true' : 'false', showMsgBox: S.showMsg && n > 0, msgLabel: S.showMsg ? 'Hide message' : 'See message',
+      toggleMsg: () => this.setState(st => ({ showMsg: !st.showMsg })),
+      clearPicks: () => this.setState({ picks: [], showMsg: false, announce: 'Picks cleared' }),
+      pickMessage: this.pickMessage(),
+      copyPicksLabel: S.copiedPicks ? 'Copied ✓ Paste it in Round 2' : 'Copy for Round 2',
+      copyPicks: async () => { const ok = await this.copyText(this.pickMessage()); this.setState({ copiedPicks: ok, announce: ok ? 'Copied. Paste it when Round 2 starts.' : '' }); clearTimeout(this.t1); this.t1 = setTimeout(() => this.setState({ copiedPicks: false }), 3000); },
+      promptGroups: (k ? k.prompts : []).map((g, gi) => ({ name: g.name, anchor: 'pg-' + gi, count: g.items.length, jump: () => this.jump('pg-' + gi), items: g.items.map(([label, text]) => ({ label, text })) })),
+      guideToc: [['g-interview', 'The interview'], ['g-harness', 'The harness plan'], ['g-system', 'The system'], ['g-why', 'Principles'], ['g-skills', 'Starter skills']].map(([id, label]) => ({ label, jump: () => this.jump(id) })),
+      hasV12: S.latest === 'v1.2',
+      versionLine: S.installed ? `Latest: ${S.latest}. Your vault was set up with ${S.installed}.` : `Latest: ${S.latest}.`,
+      announce: S.announce,
+    };
+  }
+}
+</script>
+</body>
+</html>

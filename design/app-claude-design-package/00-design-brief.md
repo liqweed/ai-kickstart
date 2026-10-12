@@ -11,7 +11,7 @@ It is the **functional** side of AI Kickstart. All explanations, guides and refe
 - **Voice:** warm, plain, second person, short sentences. Technical terms explained the first time. The same voice as the website.
 - **Credit line:** "Designed and shared by Ophir Radnitz" appears in the app (an About surface is fine). It's the only personal detail.
 - **Accessibility:** WCAG 2.2 AA contrast in light and dark (follow the OS). Not colour-alone. Fully keyboard-operable with visible focus. Respects reduced motion.
-- **Visual identity:** **if the website prototype has been approved**, its identity (type, colour, mark, core primitives) is binding. Its screenshots and tokens will be in `assets/website/`. **If that folder is absent, identity is open**, but it must be able to share one identity with the website later.
+- **Visual identity:** **if the website prototype has been approved**, its identity (type, colour, mark, core primitives) is binding. It is either already in the same Claude Design project (preferred) or exported to `assets/website/`. **If neither exists, identity is open**, but it must be able to share one identity with the website later.
 - **Honesty about locality:** every place the app touches the network (only the optional update check) is visible and switchable.
 
 ## Aesthetic direction (spirit, not spec)

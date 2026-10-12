@@ -38,4 +38,4 @@
 | Strength of §3 arguments, especially §3.1 (shape), §3.3 (home states) and §3.6 (updates) | High |
 | First-run flow handles the three-app choreography clearly (§3.2) | High |
 | Fidelity to `03` (seed data rendered, nothing invented) and to the write rules in `04 §4` | Gate |
-| Shares identity and primitives with the website (if `assets/website/` exists) | Medium |
+| Shares identity and primitives with the website (if the approved website is in the project or in `assets/website/`) | Medium |
