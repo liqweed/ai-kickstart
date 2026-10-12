@@ -27,7 +27,7 @@ next_step: M0.3
 - [x] **M0.2 First push + v1.1 tag.** Check: `main` and `v1.1` visible on GitHub.
 - [?] **M0.3 Enable Pages** (maintainer: Settings → Pages → Source: GitHub Actions), then re-run the *Pages* workflow. Done when: [liqweed.github.io/ai-kickstart](https://liqweed.github.io/ai-kickstart/) shows the v1.1 footer.
 - [?] **M0.4 Add the `SCRUB_PATTERN` secret** (see `docs/MAINTAINING.md`). Done when: the CI log shows `scrub: OK` instead of the skip warning.
-- [ ] **M0.5 Verify the v1.1 Release.** Done when: the Release page has `ai-kickstart-v1.1.zip` attached and the zip unpacks to `README.md LICENSE START-HERE.html guide/ vault/`.
+- [x] **M0.5 Verify the v1.1 Release.** Done when: the Release page has `ai-kickstart-v1.1.zip` attached and the zip unpacks to `README.md LICENSE START-HERE.html guide/ vault/`.
 
 ## M1 — First real users
 
@@ -64,6 +64,11 @@ next_step: M0.3
 | 2026-10-12 | Commits use the GitHub noreply identity | Avoids exposing a personal email in public history |
 
 ## Session log
+
+### 2026-10-12 — M0.5 Verify v1.1 Release
+- **Did:** the first tag push didn't trigger `release.yml` (the tag arrived in the same push that created the workflows). Deleted and re-pushed the unpublished tag, and the workflow ran.
+- **Checked:** [Release v1.1](https://github.com/liqweed/ai-kickstart/releases/tag/v1.1) has `ai-kickstart-v1.1.zip` (112 KB). The downloaded zip holds only `LICENSE README.md START-HERE.html guide/ vault/` and scrubs clean. `Checks` workflow green. `Pages` failed as expected (not enabled yet → M0.3).
+- **Next:** M0.3, M0.4 (maintainer, web UI).
 
 ### 2026-10-12 — M0.1–M0.2 Repository foundation
 - **Did:** scaffolded the repo (AGENTS.md, `.agents/skills/` ×4 + `.claude/skills` symlink, docs, `scripts/` checks/build/hook, workflows, issue templates, LICENSE, CHANGELOG, VERSION) and pushed `main` + tag `v1.1`.

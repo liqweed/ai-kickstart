@@ -30,4 +30,5 @@ A release = a `vX.Y` tag on `main`. Pushing the tag triggers `.github/workflows/
 ## If something fails
 
 - A check fails → fix it in a normal commit, then restart from step 4. Never tag a red build.
+- The release workflow **didn't start** (no run listed for the tag; seen when a tag arrives in the same push that creates or changes workflows) → re-push the unpublished tag: `git push origin :refs/tags/v1.2 && git push origin v1.2`.
 - The release workflow failed after the tag was pushed → fix on `main`, then move the tag: `git tag -fa v1.2 -m v1.2 && git push -f origin v1.2`. Only do this if the release isn't published yet, and ask the maintainer first.
