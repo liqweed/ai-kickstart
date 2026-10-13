@@ -18,7 +18,7 @@ git config core.hooksPath scripts/hooks                                    # pre
    - **Deploy:** `pnpm run deploy` at the repo root (builds, runs `scripts/check_site.py`, then `wrangler deploy`). Wrangler needs its own login once: `cd site && npx wrangler login`.
    - **Account tasks** (zone settings, DNS, rules, certificates) use the `cf` CLI with the `ai-kickstart` profile. Always pass `--profile ai-kickstart` and set `CLOUDFLARE_ACCOUNT_ID`: the folder binding alone did not stop an account-level command from going to another account. Zone commands take `-z <zone-id>`.
    - **Don't run `cf build` / `cf deploy` / `cf dev` here.** `cf` 1.0 beta can't build this static site, and without a terminal it rewrites the project (adds Astro's server adapter) without asking. Re-check when `cf` leaves beta.
-   - **Zone settings that must stay:** Always Use HTTPS on, minimum TLS 1.2, email obfuscation off, Rocket Loader off, no Web Analytics / RUM site for this zone (each would inject a script and break the no-tracking promise and the CSP). `www` is a proxied `AAAA 100::` placeholder plus one redirect rule (301 to the bare domain, keeping path and query).
+   - **Zone settings that must stay:** Always Use HTTPS on, HSTS on (1 year, includeSubDomains, preload), minimum TLS 1.2, email obfuscation off, Rocket Loader off, no Web Analytics / RUM site for this zone (each would inject a script and break the no-tracking promise and the CSP). `www` is a proxied `AAAA 100::` placeholder plus one redirect rule (301 to the bare domain, keeping path and query).
 2. **CI scrub (optional, recommended):** Settings → Secrets and variables → Actions → New secret `SCRUB_PATTERN`, value = the terms joined with `|`:
    ```bash
    grep -vE '^[[:space:]]*(#|$)' ~/.config/ai-kickstart/scrub-terms.txt | paste -sd'|' - | tr -d '\n' | pbcopy
@@ -41,7 +41,7 @@ git config core.hooksPath scripts/hooks                                    # pre
 
 Open your agent in the repo root and say one of:
 
-- *"Continue the maintenance plan."* Does the next step in [`docs/HARNESS-PLAN.md`](HARNESS-PLAN.md).
+- *"Continue the maintenance plan."* Does the first item under *Now* in [`docs/master-plan.md`](master-plan.md), deletes its row when done, and logs the session in [`docs/journal.md`](journal.md).
 - *"Add a tip: …"* / *"Add a catalog function: …"* / *"Add a skill to the kit: …"* Uses the `evolve-kit` skill.
 - *"Refresh the setup facts."* Uses `refresh-facts`. Do it quarterly.
 - *"Review the kit with fresh eyes."* Uses `review-kit`. Do it before a major release.
@@ -51,7 +51,7 @@ Open your agent in the repo root and say one of:
 
 | When | What |
 |---|---|
-| Whenever an idea comes up | Add it to the backlog in `docs/HARNESS-PLAN.md` |
+| Whenever an idea comes up | Add a row to `docs/master-plan.md` (status `idea` or `todo`) |
 | After giving the kit to a friend | Ask how it went after 2 weeks, and file their feedback as an issue |
 | Quarterly | `refresh-facts`, then a minor release if anything changed |
 | Twice a year | `review-kit` |

@@ -20,4 +20,4 @@ Work through them in order. Record findings as you go. **Don't fix during the re
 
 ## Output
 
-A short report in the conversation, grouped by severity: **Blocking** (wrong or broken) · **Should fix** (confusing) · **Nice to have**. Then, with the maintainer's OK, add each item to the backlog in `docs/HARNESS-PLAN.md` (one line each, effort S/M/L), and log the review in the session log.
+A short report in the conversation, grouped by severity: **Blocking** (wrong or broken) · **Should fix** (confusing) · **Nice to have**. Then, with the maintainer's OK, add each item as a row in `docs/master-plan.md` (one row each, effort S/M/L), and log the review in `docs/journal.md`.

@@ -7,6 +7,7 @@
 4. offline  - the guide loads no external resources (stylesheets, scripts, images, fonts, iframes)
 5. skills   - every skill in vault/_system/skills/ has name+description frontmatter and is listed in vault/AGENTS.md
 6. prompts  - site/src/content/prompts.md and guide/prompts.html hold the same prompts (until the guide shrinks, K12)
+7. plan     - docs/master-plan.md holds open work only: every row has an open status and a unique ID
 """
 import html
 import re
@@ -137,17 +138,38 @@ def check_prompts():
     return len(md)
 
 
+OPEN = {"next", "doing", "todo", "blocked", "idea"}
+
+
+def check_plan():
+    ids, rows = set(), 0
+    for n, line in enumerate((ROOT / "docs/master-plan.md").read_text().splitlines(), 1):
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        m = re.match(r"^([A-Z]+\d+[a-z]?(?:\.\d+)?)\b", cells[0]) if line.startswith("|") else None
+        if not m or len(cells) < 5:
+            continue
+        rows += 1
+        status = cells[-1].split(":")[0].strip().lower()
+        if status not in OPEN:
+            fail("plan", f"docs/master-plan.md:{n} {m.group(1)} has status '{cells[-1]}'. Done items are deleted (log them in docs/journal.md)")
+        if m.group(1) in ids:
+            fail("plan", f"docs/master-plan.md:{n} duplicate ID {m.group(1)}")
+        ids.add(m.group(1))
+    return rows
+
+
 def main():
     version = check_version()
     n_catalog = check_catalog()
     n_pages = check_links_and_offline()
     n_skills = check_skills()
     n_prompts = check_prompts()
+    n_plan = check_plan()
     if errors:
         print("\n".join(errors), file=sys.stderr)
         print(f"check_kit: {len(errors)} problem(s)", file=sys.stderr)
         return 1
-    print(f"check_kit: OK (v{version}, {n_catalog} catalog functions, {n_pages} pages, {n_skills} skills, {n_prompts} prompts)")
+    print(f"check_kit: OK (v{version}, {n_catalog} catalog functions, {n_pages} pages, {n_skills} skills, {n_prompts} prompts, {n_plan} open plan items)")
     return 0
 
 

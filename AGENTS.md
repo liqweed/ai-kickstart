@@ -13,7 +13,7 @@ You are helping **maintain** a public, CC BY 4.0 kit that helps people start wor
 
 ## Start of every session
 
-1. Read this file and `docs/HARNESS-PLAN.md` (*Now* + the last two log entries).
+1. Read this file, `docs/master-plan.md` (*Now* first) and the last two entries of `docs/journal.md`.
 2. If the request matches a maintainer skill in `.agents/skills/`, read its `SKILL.md` and follow it:
 
 | Skill | Use for |
@@ -23,7 +23,7 @@ You are helping **maintain** a public, CC BY 4.0 kit that helps people start wor
 | `refresh-facts` | Re-verifying time-sensitive facts (AI tool names, Obsidian settings, sync options), roughly quarterly |
 | `review-kit` | A fresh-eyes audit: consistency, tone, broken flows, the "first-time friend" walkthrough |
 
-3. "Continue the maintenance plan" → do the next step in `docs/HARNESS-PLAN.md`, the same loop the kit teaches: plan, do, check, tick, log, hand off.
+3. "Continue the maintenance plan" → do the first item under *Now* in `docs/master-plan.md`, the same loop the kit teaches: plan, do, check, then **delete the row** (and update *Now*), log the session in `docs/journal.md`, hand off. New ideas become rows in the master plan; decisions go in the journal.
 
 ## Invariants (the checks enforce most of these)
 

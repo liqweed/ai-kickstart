@@ -25,7 +25,7 @@ A release = a `vX.Y` tag on `main`. Pushing the tag triggers `.github/workflows/
    git push origin main --follow-tags
    ```
 7. **Verify the outcome, not the trigger:** wait for the workflows, then confirm the release exists and has the zip attached (`https://github.com/liqweed/ai-kickstart/releases/tag/v1.2`), and (once the website is live) that ai-kickstart.me shows v1.2. "The workflow ran" is not proof.
-8. **Log it** in `docs/HARNESS-PLAN.md` (session log) and tell the maintainer the release URL.
+8. **Log it** in `docs/journal.md` (session log) and tell the maintainer the release URL.
 
 ## If something fails
 

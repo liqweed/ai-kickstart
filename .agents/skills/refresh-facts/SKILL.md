@@ -26,7 +26,7 @@ AI tools change monthly. The kit stays trustworthy only if its few concrete prod
 3. Edit with the `evolve-kit` ripple map in mind. The same fact may appear on several pages and in the harness plan.
 4. Update the "snapshot from <season year>" line on `guide/setup.html`.
 5. `scripts/check.sh`, then a browser check of `setup.html` (all tabs).
-6. Add a CHANGELOG **Unreleased** entry ("Refreshed setup facts: …") and log the sources checked in `docs/HARNESS-PLAN.md`, so the next refresh knows what was verified when.
+6. Add a CHANGELOG **Unreleased** entry ("Refreshed setup facts: …") and log the sources checked in `docs/journal.md`, so the next refresh knows what was verified when.
 
 ## Rules
 

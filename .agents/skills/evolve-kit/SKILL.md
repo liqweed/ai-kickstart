@@ -45,4 +45,4 @@ Most kit content is referenced from several places. A change is done only when *
 ## 5. Record
 
 - Add a line under an **Unreleased** heading at the top of `CHANGELOG.md` (create it if missing). The `release` skill turns it into a version.
-- Commit to `main` with an imperative message. If the change came from the maintenance plan, tick it in `docs/HARNESS-PLAN.md` and log it.
+- Commit to `main` with an imperative message. If the change came from the maintenance plan, delete its row from `docs/master-plan.md` and log it in `docs/journal.md`.

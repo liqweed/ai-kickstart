@@ -1,63 +1,14 @@
 ---
-type: plan
+type: journal
 status: active
 created: 2026-10-12
-updated: 2026-10-12
-summary: Maintenance plan for the AI Kickstart repo — same harness format the kit teaches.
-current_phase: M1
-next_step: M1.1
+updated: 2026-10-13
+summary: Maintenance journal for the AI Kickstart repo: decisions and session history. The roadmap lives in master-plan.md.
 ---
 
-# Maintenance plan
+# Maintenance journal
 
-> Dogfooding: this repo is maintained with the same harness the kit teaches. Say **"Continue the maintenance plan."** The agent does the next step, proves it, ticks it and logs it. Legend: `[ ]` to do · `[/]` in progress · `[x]` done (verified) · `[-]` skipped · `[?]` blocked.
-
-## Now
-
-| | |
-|---|---|
-| **Current phase** | M1 — First real users |
-| **Next step** | M1.1 (pilot): send a friend https://ai-kickstart.me · optional: K9 follow-ups (HSTS, share preview in WhatsApp) |
-| **Blocked** | — |
-| **Last session** | 2026-10-13 — ai-kickstart.me live on Cloudflare, verified |
-
-## M0 — Repository foundation
-
-- [x] **M0.1 Scaffold the repo.** AGENTS.md, maintainer skills, docs, checks, build, CI/Pages/Release workflows, issue templates, CC BY 4.0. Check: `scripts/check.sh` green; negative tests (an injected term, catalog drift) fail as expected.
-- [x] **M0.2 First push + v1.1 tag.** Check: `main` and `v1.1` visible on GitHub.
-- [-] **M0.3 Enable GitHub Pages.** Skipped: the website moves to Astro on Cloudflare at ai-kickstart.me (K9, decision 2026-10-12). `pages.yml` removed.
-- [x] **M0.4 Add the `SCRUB_PATTERN` secret** (see `docs/MAINTAINING.md`). Done when: the CI log shows `scrub: OK` instead of the skip warning. *(Added 2026-10-12; verified on the push that ticked this.)*
-- [x] **M0.5 Verify the v1.1 Release.** Done when: the Release page has `ai-kickstart-v1.1.zip` attached and the zip unpacks to `README.md LICENSE START-HERE.html guide/ vault/`.
-
-## M1 — First real users
-
-- [ ] **M1.1 Pilot with one friend.** Hand over the Release zip (and the website link once K9 is live). Sit in on setup and Round 1 if possible.
-- [ ] **M1.2 Two-week follow-up.** Collect feedback (issue template *Feedback after using the kit*). Turn findings into backlog items.
-- [ ] **M1.3 Fix the top 3 friction points** (`evolve-kit`), then release.
-
-## M2 — Recurring
-
-- [ ] **M2.1 Quarterly `refresh-facts`** (next: 2027-01). Log the sources checked.
-- [ ] **M2.2 Half-yearly `review-kit`** (next: 2027-04).
-
-## Backlog
-
-*★ = do first. Effort: S (one session) · M (a few) · L (a project).*
-
-| ID | Idea | Why | Effort | Status |
-|---|---|---|---|---|
-| K1 ★ | **"Updating your kit" guide**: how an existing user pulls new skills, tips and steps into their vault without overwriting their notes (per-file guidance + an agent prompt that diffs `vault/` against their vault) | Every release after v1.0 raises this question | M | todo |
-| K2 | **Fictional example vault** ("after 2 months"): a filled-in profile, briefings, a weekly review and a harness log for an invented persona | People understand the end state faster from an example | M | todo |
-| K3 | **Profession packs**: optional add-on skills (teacher, manager, freelancer, healthcare admin…) as a separate folder with an install prompt | The catalog promises profession playbooks; the kit ships none | M | todo |
-| K4 | Windows + plain-chat-app walkthrough test on a real machine | Most likely friend profile; the author's own setup is different | S | todo |
-| K5 | Mobile layout and print check of all guide pages | Many will open the link on a phone | S | todo |
-| K6 | Generate the catalog JS from the markdown (build step) | Removes the D7 duplication. Comes almost free with K9 (Astro content collections). The check guards it until then | M | done for the site (it reads the Markdown); the guide's JS copy goes with K12 |
-| K7 | Favicon + social preview image (inline/SVG, offline-safe) | Nicer when the link is shared in chats | S | done in `site/` (mark, favicons, apple-touch icon, `share-card.png`, Open Graph tags); live with K9 |
-| K8 | Translations (guide + vault) | Reach. Needs a structure decision first (D-level change) | L | idea |
-| K9 ★ | **Website at ai-kickstart.me**: run `design/website-claude-design-package` in Claude Design, then implement the approved prototype as an Astro static site in `site/` (content collections over `vault/` Markdown) on Cloudflare with the custom domain | The domain is bought; the site is the front door for friends | M | done 2026-10-13: live at https://ai-kickstart.me. Open: HSTS (decide), check the share preview in a real WhatsApp chat |
-| K12 | When the website is live: shrink the zip's `guide/` to one offline `START-HERE` page pointing to ai-kickstart.me (the website owns all explanations) | One source of explanation; less to maintain | S | todo |
-| K11 | **tinyjs spike (Mac + Windows)**: a hello-world window that picks a folder, watches it for a new file, writes `~/.ai-kickstart/`, and opens an `obsidian://` link; signed/notarized Mac build plus a Windows build on a real machine | De-risks K10 early. Windows is beta in tinyjs, and file watching is the critical capability | S | todo |
-| K10 | **Companion app (tinyjs)**: first run, "one next thing", safe kit updates, local-only (`~/.ai-kickstart/`). Design brief: `design/app-claude-design-package`; approved prototype in `design/prototype/` (round 2). Build after the M1 pilot shows where people actually stall | It solves first-contact verification and K1 (updates) better than docs can | L | idea |
+What happened and why, newest first. The open work is in [`master-plan.md`](master-plan.md): when an item there is done, its row is deleted and the session is logged here. (Before 2026-10-13 this file was `HARNESS-PLAN.md` and also held the plan; IDs such as K9 and M0.4 in older entries refer to that plan.)
 
 ## Decisions log
 
@@ -70,8 +21,15 @@ next_step: M1.1
 | 2026-10-12 | App stack: tinyjs + Vite+ + TS + React + TanStack Query/Router + Base UI (unstyled) + plain-CSS tokens + Fallow; `site/` + `app/` + `packages/core/` | See ARCHITECTURE D15. Astryx rejected; React Aria runner-up |
 | 2026-10-12 | The app is designed in the **same** Claude Design project as the website (round 2), not a new one | The approved tokens and primitives stay in context; one shared stylesheet for site and app |
 | 2026-10-12 | Companion app on tinyjs, targeting macOS **and** Windows in v1; progress stays in the vault's Markdown, `~/.ai-kickstart/` holds only app config + install baseline | Modest requirements; one source of truth the AI can also read. Spike first (K11) |
+| 2026-10-13 | Roadmap moves to `docs/master-plan.md` (open work only, rows deleted when done); this file becomes the journal | One place to see everything still to do, without wading through history |
+| 2026-10-13 | HSTS on for ai-kickstart.me: 1 year, includeSubDomains, `preload` in the header (not yet submitted to the preload list, K18) | There is no reason to serve anything over HTTP |
 
 ## Session log
+
+### 2026-10-13 — HSTS on; roadmap split out
+- **Did:** HSTS on with `cf` (max-age 1 year, includeSubDomains, preload, nosniff). Wrote `docs/master-plan.md` with the complete open roadmap (first users, website, kit content, companion app, recurring), adding new items K13 theme toggle, K14 ⌘K, K15 `llms.txt`, K16 content parity, K17 CI deploy, K18 preload list, K19 update model, K20 plan parser, K10a–d app slices, K21 signing accounts, R1–R3. Renamed this file from `HARNESS-PLAN.md` and removed the plan sections; done items (K6, K7, K9, M0) are only here now. `check_kit.py` now rejects a master-plan row whose status isn't open.
+- **Checked:** `strict-transport-security: max-age=31536000; includeSubDomains; preload` on the apex, a deep page and `www`. The only hostnames are the two proxied records, both on the universal certificate. The maintainer confirmed the WhatsApp share preview looks right. `scripts/check.sh` green.
+- **Next:** see `master-plan.md` → Now.
 
 ### 2026-10-13 — K9 ai-kickstart.me live
 - **Did:** a separate `cf` profile (`ai-kickstart`) for account `f6e4…`; the default login belongs to another organisation and is never used here. The maintainer added the zone and switched the Name.com nameservers. I deployed the static-assets Worker with Wrangler 4.149 (`pnpm run deploy`) and attached ai-kickstart.me as its custom domain. With `cf`: Always Use HTTPS on, minimum TLS 1.2, email obfuscation off, Rocket Loader confirmed off; a `www` placeholder record plus a 301 redirect rule; checked there's no Web Analytics site for this zone. `workers_dev` and preview URLs are off. A `cf migrate` attempt was reverted: the beta's project build can't produce a deploy for this static site. Notes are in `docs/MAINTAINING.md`.
