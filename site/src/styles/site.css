@@ -275,6 +275,22 @@ details[open] > summary .step-chev::before { content: "−"; }
 .skills div { display: flex; flex-direction: column; gap: 2px; padding: 10px 0; border-top: 1px solid var(--line); }
 .skills dt { font: 600 14px/1.4 var(--mono); }
 .skills dd { font-size: 15px; color: var(--muted); }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 12px; }
+.cards--4 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); }
+.cards div { padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); display: flex; flex-direction: column; gap: 4px; }
+.cards dt { font-weight: 600; }
+.cards dd { font-size: 15px; color: var(--muted); }
+.loop { list-style: none; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.loop li { font-size: 15px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); }
+.loop li:not(:last-child)::after { content: "→"; margin-left: 10px; color: var(--muted); }
+.loop:not(.loop--line) li:last-child::after { content: "↺"; margin-left: 10px; color: var(--muted); }
+.loop li:last-child { border: 2px solid var(--accent); padding: 7px 11px; }
+.loop--line li:last-child { border: 1px solid var(--line); padding: 8px 12px; }
+.points { padding-left: 28px; columns: 2 300px; column-gap: 40px; }
+.points li { padding: 4px 0 8px; break-inside: avoid; }
+.points li span { display: block; font-size: 15px; color: var(--muted); }
+.tips { padding-left: 22px; display: flex; flex-direction: column; gap: 6px; max-width: 72ch; }
+.phase-list__exit { display: block; font-size: 14px; color: var(--muted); }
 
 /* What's new */
 .news { padding-block: 36px 56px; display: flex; flex-direction: column; gap: 24px; }

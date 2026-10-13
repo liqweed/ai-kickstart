@@ -106,6 +106,7 @@ const fill = { "Mac / Windows / Linux": "os", "AI tool": "tool" } as const;
                 </tbody>
               </table>
               <p class="small muted">Optional, for desktop and terminal agents: the kit's helper tools (a vault health check, "what's due", a password scan) need <strong>Python 3.9 or newer</strong>. No need to install it now. Harness step P0.6 checks it with you later, and every skill works without it.</p>
+              <p class="small muted">Also optional, for desktop and terminal agents: recent Obsidian versions (installer 1.12.7 or newer) include a <strong>command-line interface</strong> (Settings → General → <em>Command line interface</em>). It lets an agent move notes without breaking links. It isn't required.</p>
             </div>
           </details>
         </Step>
@@ -166,6 +167,7 @@ const fill = { "Mac / Windows / Linux": "os", "AI tool": "tool" } as const;
             <li>Say the sentence below. Your AI ticks off P0.1–P0.3 with you and moves on to backup (P0.4) and privacy (P0.5).</li>
           </ol>
           <Prompt label="Hand over to the plan" text={main.text} />
+          <p class="tip">Once you're set up, open <code>06-reference/Working with AI - Tips &amp; Insights</code> in Obsidian. Its “top 10” is a two-minute read and covers most of what took a long time to learn. Harness step P3.5 asks you to pick two habits from it.</p>
           <details class="more">
             <summary>Backup &amp; sync: the options</summary>
             <div class="stack gap-10">

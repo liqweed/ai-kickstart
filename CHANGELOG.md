@@ -5,6 +5,10 @@ All notable changes to the AI Kickstart kit. Versions are git tags (`vX.Y`). Eac
 - **Minor (x.Y):** new or changed content: tips, skills, catalog items, guide pages, wording.
 - **Major (X.0):** structural changes to the vault template that an existing user would have to migrate (folder layout, profile files, harness-plan format).
 
+## Unreleased
+
+- **Seven more prompts** in `guide/prompts.html` (and on the website): resume the interview after a pause, the round-5 check-in, a fallback when your AI doesn't load skills, a chat-only round, and three for the harness plan (a step that's too big, "not for me", life changed).
+
 ## v1.2 — 2026-10-13
 
 - **Clearer for people who already use AI:** the README has a short section for an AI reading the kit on someone's behalf, and the setup pages, harness plan (P0) and `harness` skill now say that an existing setup elsewhere (custom instructions, an AI's memory, another notes app) doesn't count as a done step, and that Obsidian comes first.

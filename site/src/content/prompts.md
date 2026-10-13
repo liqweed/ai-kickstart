@@ -44,6 +44,26 @@ I'm short on time. Run the express version of my kickstart interview: rounds 1 a
 Read my profile files in _system/profile/ and show me anything that looks wrong, outdated or too vague. Ask me one question at a time to fix it, and show me each change before saving.
 ```
 
+### Resume after a pause
+```text
+We paused my kickstart interview last time. Read the latest answer file in _system/kickstart/answers/ and continue where we stopped.
+```
+
+### Check-in (round 5)
+```text
+Let's do my kickstart check-in (round 5).
+```
+
+### If skills don't load
+```text
+Please read _system/skills/kickstart-interview/SKILL.md and follow it exactly. Start with the next round I haven't done yet.
+```
+
+### Chat-only round
+```text
+Using the attached kickstart files (interview-protocol.md and the round files), run round 1 of my kickstart interview in chat-only mode: one friendly question at a time, and at the end give me paste-ready markdown blocks headed with their file paths.
+```
+
 ## Harness
 
 ### The main one
@@ -64,6 +84,21 @@ Add to harness: <idea>.
 ### New AI tool
 ```text
 I'm continuing my AI setup in a new tool. Read AGENTS.md, then _system/HARNESS-PLAN.md (the Now table and the last two session-log entries), and tell me where we are and what's next. Don't change anything yet.
+```
+
+### Step too big
+```text
+This step is too big for today. Split it into smaller steps in the plan and do just the first one.
+```
+
+### Not for me
+```text
+Skip that step. It doesn't fit me. Note why in the plan.
+```
+
+### Life changed
+```text
+Re-plan my harness. My priorities changed: <what changed>. Propose a new order before changing anything.
 ```
 
 ## Everyday life

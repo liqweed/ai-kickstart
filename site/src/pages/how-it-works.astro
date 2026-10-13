@@ -1,6 +1,6 @@
 ---
 // The depth page. Rounds, phases, skills and prompts come from the kit; explanations are written here
-// (ported from the prototype and guide/why.html, guide/system.html).
+// (ported from guide/why.html, interview.html, harness.html and system.html; keep them in step).
 import Base from "../layouts/Base.astro";
 import Prompt from "../components/Prompt.astro";
 import { inline, ordered, prompt } from "../lib/kit.ts";
@@ -11,29 +11,110 @@ const skills = await ordered("skills");
 const interviewPrompts = await Promise.all(["interview/start", "interview/next-round", "interview/express-20-min"].map(prompt));
 const harnessPrompts = await Promise.all(["harness/the-main-one", "harness/status", "harness/capture-an-idea"].map(prompt));
 
-// Round lengths, as the round files describe them.
+// Round lengths and topics, as the round files describe them.
 const MINUTES: Record<number, string> = { 1: "15–20 min", 2: "~20 min", 3: "~10 min per area", 4: "~25 min", 5: "~10 min" };
+const TOPICS: Record<number, string> = {
+  1: "What made you curious · household and life stage · work in plain words · weekly rhythm · devices and the apps you already live in · comfort with tech · privacy lines.",
+  2: "A good year looks like… · energy drains · things that slip · the magic-wand question. Then a menu tailored to Round 1: pick and rank your top 3–5 areas.",
+  3: "“Walk me through the last time you did this” · who's involved · where the information lives · musts and nevers · what “great” looks like.",
+  4: "Tone, length and formats · what it may just do · what it must ask first · hard nevers · briefings and reviews. Then your full profile, drafted for your approval.",
+  5: "Two weeks after setup, then monthly: used and loved · built but unused (be honest!) · friction · life changes · is the pace right?",
+};
 const firstMonth = phases.filter((p) => ["P0", "P1", "P2"].includes(p.id));
 const later = phases.filter((p) => !["P0", "P1", "P2"].includes(p.id));
+const doneWhen = (exit: string) => (/^—/.test(exit) ? "Recurring." : `Done when: ${/^[A-Z][a-z]/.test(exit) ? exit[0].toLowerCase() + exit.slice(1) : exit}.`);
 const firstSentence = (s: string) => s.split(/ — |\. /)[0].replace(/\.$/, "") + ".";
 
+const PROBLEM: [string, string][] = [
+  ["It forgets", "Every new chat starts from zero, so you re-explain your family, your job and your constraints, again."],
+  ["It's generic", "Without context, you get the average answer for the average person. Usable, but rarely right for you."],
+  ["Nothing accumulates", "Good answers vanish into chat history. Next month you'll solve the same problem from scratch."],
+];
+const FOUR: [string, string][] = [
+  ["A profile", "Who you are, what you're working toward, how you like things done. Written once through an interview, kept short and current."],
+  ["Rules", "Where notes go, what to ask before doing, what never to do. The AI follows them every session."],
+  ["Playbooks (skills)", "How to do the things you do repeatedly, to your standard: briefings, reviews, planning, drafting."],
+  ["A plan", "A checklist that grows the system one small, verified step at a time, across many sessions."],
+];
+const LOOP = ["You ask", "AI reads your notes", "Better answer", "You save what's worth keeping", "Next time it knows"];
+const OBSIDIAN: [string, string][] = [
+  ["Plain files you own", "Notes are ordinary text files (Markdown) on your computer. No lock-in, no export button needed, readable in 20 years."],
+  ["Any AI can use them", "Today's assistant, next year's, or three at once. Switching AI tools doesn't mean starting over."],
+  ["You see everything", "Everything the AI writes is a note you can read, edit or delete. Nothing hides in a black box."],
+  ["Links and structure", "Notes link to each other, so a person links to a trip and a trip to a restaurant. The AI follows those links the way you would."],
+  ["Everywhere, offline", "Free on Mac, Windows, Linux, iPhone and Android, and it works without internet."],
+  ["Grows with you", "Start with a few folders. Add templates, dashboards and plugins only when you want them."],
+];
+const FEEL: [string, string][] = [
+  ["One question at a time", "Never a wall of questions. You'll always see roughly where you are: “Round 1 · question 3 of 9”."],
+  ["Examples for everything", "Every question comes with options to react to. Reacting is easier than inventing."],
+  ["Ramble away", "Use voice dictation and talk it out. Turning your words into structure is the AI's job."],
+  ["Skip or pause anytime", "“Skip” is always fine. Say “pause” and it saves your answers and picks up next time."],
+  ["It reflects back", "Every few answers you'll hear “So far I've got… right?” You correct anything that's off."],
+  ["Vague is fine", "It never pushes for details. City-level, first names, “keep it vague”: all good."],
+];
+const INTERVIEW_TIPS = [
+  "Do it somewhere comfortable, with a coffee. It's a conversation, not a form.",
+  "Be honest about energy drains. The boring, annoying stuff is where AI earns its keep fastest.",
+  "Read your profile afterwards. If something's wrong, say “that's not quite right…” and it'll fix it. You have the final word.",
+];
+const SESSION: [string, string][] = [
+  ["It loads lightly", "It reads the plan's Now table, the current phase and the last two log entries, plus your preferences. Not your whole vault."],
+  ["It picks the next step", "The first unticked step in the current phase, or the one you name."],
+  ["It says the plan in three lines", "What we'll do, how long, and what “done” looks like. It asks first if the step involves installing, signing up, paying or other people."],
+  ["It does it, small", "If the step is too big for one session, it splits it into sub-steps, writes them into the plan, and does the first."],
+  ["It proves it", "It runs the step's Check and shows you the evidence. No proof, no tick."],
+  ["It updates the plan", "It ticks the box, updates Now, adds a session-log entry and records any decisions with the why."],
+  ["It hands off", "Three lines: what changed, what's next, and the phrase to continue."],
+];
+const PARTS: [string, string][] = [
+  ["Now", "Current phase, next step, anything blocked, last session. Glance here first."],
+  ["Phases P0–P7", "Checklists with “done when” and “check” for every step."],
+  ["Personal backlog", "Your ideas from the interview and later: value, effort (S/M/L), phase, status. ★ = do first."],
+  ["Decisions log", "What was chosen and why, so nobody re-argues it in three months."],
+  ["Session log", "Newest first: Did · Checked · Next · Notes. Any AI tool can continue from it alone."],
+];
+const HARNESS_TIPS = [
+  "One step per session is a success. Twenty minutes a week gets you a working system in a couple of months.",
+  "Look at the file in Obsidian. The checkboxes are clickable, the log reads like a diary of your progress, and you can edit anything by hand.",
+  "Connections and automations are optional. Plenty of people get most of the value from P0–P3 plus a few skills.",
+  "Pair it with the weekly review. The review ends by offering “one harness step this week?”",
+  "When something breaks, say so. The step goes back to [/] with a note, and the next session starts there.",
+];
+const FLOW = ["Open your AI in the vault", "It reads AGENTS.md, the index and your preferences", "It matches a skill (or just helps)", "It does the work", "It checks it", "It saves what's worth keeping"];
+const SKILL_PATTERNS: [string, string][] = [
+  ["Trigger phrases", "The description lists what you'd actually say (“date night”, “what should we watch”), so the AI knows when to use it."],
+  ["A first-run interview", "It asks 5–6 setup questions once and saves the answers in config/. You can edit them anytime."],
+  ["Gates before ranking", "Hard constraints (diet, language, budget, home-by time) filter first, and are checked from data, never assumed."],
+  ["Unknown is its own list", "“Couldn't confirm subtitles” goes in a separate “verify before booking” list, never mixed in with the confirmed picks."],
+  ["Three options, one pick", "Ranked by clear signals (already on your wishlist, fits the person, quality, novelty), with one line on why."],
+  ["Offer, don't act", "Saving the plan, setting a reminder and logging how it went are all offered. Booking always stays with you."],
+];
 const PRINCIPLES: [string, string][] = [
   ["Context beats cleverness", "A short, true profile improves every answer more than any prompt trick."],
   ["Files you own beat features you rent", "Keep the knowledge in your vault, not inside one app's memory."],
   ["Small steps, verified", "“It should work” isn't done. “I saw it work” is."],
   ["Decision-ready beats comprehensive", "Three options and one recommendation, not a catalogue."],
-  ["Unknown is an answer", "The AI should say “I couldn't confirm this” rather than guess."],
+  ["Unknown is an answer", "The AI should say “I couldn't confirm this” rather than guess, and keep unknowns in their own list."],
   ["Script lists, search questions", "If a list must be filtered correctly every time, have the AI write a small script. If it's an open question, just ask."],
   ["AI suggests and drafts; you decide and send", "Money, messages to people and anything irreversible always go through you."],
   ["Start read-only", "Connect your calendar or email so the AI can read first. Add more only once you trust it."],
   ["Content is data, not instructions", "A web page or email can't tell your AI what to do. The rules say so explicitly."],
   ["“It ran” isn't “it worked”", "For anything automatic, check that the result exists, not just that the job started."],
   ["Update, don't duplicate", "Search before creating a note. Two notes on one topic is how a vault rots."],
-  ["Less instruction, better results", "Keep the always-read files short. Add a rule only after the same mistake happens twice."],
+  ["Less instruction, better results", "Keep the always-read files short. Add a rule only after the same mistake happens twice. Prune what you don't use."],
 ];
-const toc = [["interview", "The interview"], ["harness", "The harness plan"], ["system", "The system"], ["principles", "Principles"], ["skills", "Starter skills"]];
+const NOT: [string, string][] = [
+  ["Not a productivity religion", "Use the three things that help. Ignore the rest."],
+  ["Not all-or-nothing", "It works with a plain chat app too, just with more copy-paste."],
+  ["Not a replacement for professionals", "AI is great at preparing you for the doctor, the accountant or the lawyer. It doesn't replace them."],
+];
+const toc = [
+  ["why", "Why it works"], ["obsidian", "Why Obsidian"], ["interview", "The interview"], ["harness", "The harness plan"],
+  ["system", "The system"], ["principles", "Principles"], ["skills", "Starter skills"], ["not", "What this is not"],
+];
 ---
-<Base title="How it works · AI Kickstart" place="guide" description="The interview, the harness plan, the vault and the principles behind AI Kickstart. None of it is needed to start.">
+<Base title="How it works · AI Kickstart" place="guide" description="Why AI Kickstart works, and how the interview, the harness plan, the vault and its principles fit together. None of it is needed to start.">
   <div class="wrap wrap--guide guide">
     <div class="stack gap-10 measure">
       <p class="kk-eyebrow">For the curious · none of this is needed to start</p>
@@ -43,47 +124,90 @@ const toc = [["interview", "The interview"], ["harness", "The harness plan"], ["
       </nav>
     </div>
 
+    <section id="why" aria-labelledby="why-h">
+      <h2 id="why-h" class="h2-section">Why it works better than “just chatting”</h2>
+      <p class="measure">AI is already smart enough for most of what you'd ask it. What it lacks is you: your context, your rules, your history. This kit is mostly about supplying that, in a form you own.</p>
+      <h3 class="h3">The problem with a brilliant stranger</h3>
+      <dl class="cards">
+        {PROBLEM.map(([t, d]) => <div><dt>{t}</dt><dd>{d}</dd></div>)}
+      </dl>
+      <h3 class="h3">The idea: give it a place to live</h3>
+      <p class="measure">Instead of carrying context in your head and pasting it into chats, keep it in a folder of plain notes that the AI can read and write. Then add four things:</p>
+      <dl class="cards cards--4">
+        {FOUR.map(([t, d]) => <div><dt>{t}</dt><dd>{d}</dd></div>)}
+      </dl>
+      <ol class="loop" aria-label="The compounding loop">
+        {LOOP.map((s) => <li>{s}</li>)}
+      </ol>
+      <p class="measure">Every session leaves something behind: a saved decision, a better playbook, a lesson. That's the compounding loop. Six months in, the AI knows your world better than any app you've ever configured.</p>
+    </section>
+
+    <section id="obsidian" aria-labelledby="obsidian-h">
+      <h2 id="obsidian-h" class="h2-section">Why Obsidian?</h2>
+      <p class="measure">Obsidian is a free notes app that works on a folder of ordinary files. The kit uses it because of what that folder gives you:</p>
+      <dl class="cards">
+        {OBSIDIAN.map(([t, d]) => <div><dt>{t}</dt><dd>{d}</dd></div>)}
+      </dl>
+    </section>
+
     <section id="interview" aria-labelledby="interview-h">
       <h2 id="interview-h" class="h2-section">The interview</h2>
-      <p class="measure">{rounds.length} rounds. Each one saves an answer file that ends with “Signals for next round”, so the next round picks up where you left off. Open questions come before the menu, so you aren't steered.</p>
+      <p class="measure">Most people don't know what to ask AI for, and that's normal. It's much easier to react to good questions than to invent uses from nothing. So before suggesting anything, the AI gets to know you: your landscape first (household, work, devices, the apps you already live in), then what drains you and what you'd love more of, and only then a menu, so you aren't steered.</p>
       <ol class="rounds">
         {rounds.map((r) => (
           <li>
             <span class="rounds__n">{r.data.n}</span>
             <div class="stack gap-4">
               <span class="rounds__name">{r.data.name} <span>· {MINUTES[r.data.n] ?? ""}</span></span>
-              <span class="rounds__goal" set:html={inline(r.data.goal)} />
+              <span class="rounds__goal">{TOPICS[r.data.n] ?? r.data.goal}</span>
+              <span class="rounds__goal">You get: <span set:html={inline(r.data.feeds)} /></span>
             </div>
           </li>
         ))}
       </ol>
-      <div class="feel">
-        <span class="feel__label">How it feels:</span>
-        <span>one question at a time</span><span>examples for everything</span><span>ramble away, voice is welcome</span><span>skip or pause anytime</span><span>it reflects back</span><span>vague is fine</span>
-      </div>
+      <p class="measure">Each round saves a short answer file that ends with a hidden section, “Signals for next round”: what to explore, what to skip, tone notes. The next round reads all earlier files first. If you don't have kids, you'll never be asked about school logistics. If you lit up about cooking, Round 3 will dig in.</p>
+      <h3 class="h3">How it feels</h3>
+      <dl class="cards">
+        {FEEL.map(([t, d]) => <div><dt>{t}</dt><dd>{d}</dd></div>)}
+      </dl>
       <div class="two-col">
         {interviewPrompts.map((p) => <Prompt label={p.label} text={p.text} note={p.note} />)}
         <div class="aside-card">
-          <strong>Chat-only variant</strong>
-          <span class="small muted">Using a chat app? The same rounds work there. At the end of each round the AI gives you paste-ready blocks to save into your notes yourself.</span>
+          <strong>Using a chat app?</strong>
+          <span class="small muted">The same rounds work there. At the end of each round the AI gives you paste-ready blocks, each headed with a file path such as <code>_system/profile/LANDSCAPE.md</code>. Paste each into Obsidian, and attach the earlier answer files before the next round. The chat-only prompts are on the <a href="/prompts/#interview">prompts page</a>.</span>
         </div>
       </div>
-      <p>In Round 2 you can bring picks from the <a href="/ideas/">ideas menu</a>.</p>
+      <h3 class="h3">Tips for a great interview</h3>
+      <ul class="tips">
+        {INTERVIEW_TIPS.map((t) => <li>{t}</li>)}
+        <li>Peek at the <a href="/ideas/">ideas menu</a> after Round 1 if you're curious. Tick what appeals and bring your picks to Round 2.</li>
+      </ul>
     </section>
 
     <section id="harness" aria-labelledby="harness-h">
       <h2 id="harness-h" class="h2-section">The harness plan</h2>
-      <p class="measure">One checklist note the AI works through with you, one small step per session. There's no schedule. Skipping a step is a perfectly good answer, and it's marked as such.</p>
+      <p class="measure">One checklist note, <code>_system/HARNESS-PLAN.md</code>, that grows your setup from “Obsidian installed” to “things run by themselves”, one small, proven step at a time. There's no schedule. Skipping a step is a perfectly good answer, and it's marked as such.</p>
+      <p class="measure">Why a plan? Big setups die in a weekend: you get excited, build too much, and abandon it when life gets busy. The plan does the opposite:</p>
+      <dl class="cards">
+        <div><dt>Memory across sessions and tools</dt><dd>Pause for a month, or switch from one AI to another, and the plan tells you exactly where you are.</dd></div>
+        <div><dt>Real progress</dt><dd>Nothing is ticked until you've seen it work.</dd></div>
+        <div><dt>Your pace</dt><dd>Twenty minutes a week is a perfectly good speed.</dd></div>
+      </dl>
       <div class="two-col">
         <div class="stack gap-8">
           <h3 class="label-caps">The first month</h3>
-          <dl class="phase-list">{firstMonth.map((p) => <><dt>{p.id}</dt><dd><strong>{p.data.name}</strong> · {p.data.goal}</dd></>)}</dl>
+          <dl class="phase-list">{firstMonth.map((p) => <><dt>{p.id}</dt><dd><strong>{p.data.name}</strong> · {p.data.goal}<span class="phase-list__exit">{doneWhen(p.data.exit)}</span></dd></>)}</dl>
         </div>
         <div class="stack gap-8">
           <h3 class="label-caps">Whenever you're ready, if ever</h3>
-          <dl class="phase-list">{later.map((p) => <><dt>{p.id}</dt><dd><strong>{p.data.name}</strong> · {p.data.goal}</dd></>)}</dl>
+          <dl class="phase-list">{later.map((p) => <><dt>{p.id}</dt><dd><strong>{p.data.name}</strong> · {p.data.goal}<span class="phase-list__exit">{doneWhen(p.data.exit)}</span></dd></>)}</dl>
         </div>
       </div>
+      <p class="measure small muted">P0–P3 are the same for everyone. From P2.3 on, the interview fills the plan with your own items, and steps that don't fit you get marked “not for me”.</p>
+      <h3 class="h3">What happens when you say “Continue my harness plan”</h3>
+      <ol class="points">
+        {SESSION.map(([t, d]) => <li><strong>{t}</strong><span>{d}</span></li>)}
+      </ol>
       <div class="two-col">
         <figure class="stack gap-8">
           <figcaption><strong>What a step looks like, in the note itself</strong></figcaption>
@@ -96,29 +220,39 @@ const toc = [["interview", "The interview"], ["harness", "The harness plan"], ["
           <strong>Status marks</strong>
           <dl class="marks">
             <dt>[ ]</dt><dd>to do</dd>
-            <dt>[/]</dt><dd>in progress</dd>
+            <dt>[/]</dt><dd>in progress (started, or the check failed, with a note saying why)</dd>
             <dt>[x]</dt><dd>done &amp; verified</dd>
-            <dt>[-]</dt><dd>skipped (fine)</dd>
-            <dt>[?]</dt><dd>blocked</dd>
+            <dt>[-]</dt><dd>skipped, not for me (with the reason)</dd>
+            <dt>[?]</dt><dd>blocked: waiting on something, noted on the line</dd>
           </dl>
         </div>
       </div>
+      <h3 class="h3">The parts of the file</h3>
+      <dl class="cards">
+        {PARTS.map(([t, d]) => <div><dt>{t}</dt><dd>{d}</dd></div>)}
+      </dl>
       <div class="prompt-grid prompt-grid--3">
         {harnessPrompts.map((p) => <Prompt label={p.label} text={p.text} />)}
       </div>
+      <p>More things you can say (a step that's too big, “not for me”, life changed, switching AI tools) are on the <a href="/prompts/#harness">prompts page</a>.</p>
+      <h3 class="h3">Tips</h3>
+      <ul class="tips">
+        {HARNESS_TIPS.map((t) => <li>{t}</li>)}
+      </ul>
     </section>
 
     <section id="system" aria-labelledby="system-h">
       <h2 id="system-h" class="h2-section">The system, layer by layer</h2>
+      <p class="measure">Eight layers, each one a few plain files. You start with the top four and add the rest when they'd help. Nothing here needs code until you want it to.</p>
       <div class="two-col">
         <dl class="layers">
-          <div><dt>Vault</dt><dd>Plain notes in a folder you own. Any AI tool can read them.</dd></div>
-          <div><dt>Profile</dt><dd><code>_system/profile/</code>: mission, goals, projects, landscape, preferences, beliefs, and what the AI has learned.</dd></div>
-          <div><dt>Map &amp; rules</dt><dd><code>index.md</code> is the map, read first. <code>AGENTS.md</code> says how the AI behaves here.</dd></div>
-          <div><dt>Skills</dt><dd>One folder per playbook, in <code>_system/skills/</code>.</dd></div>
-          <div><dt>Connections</dt><dd>Calendar, tasks, email, maps, weather, read-only first. Often through MCP (a plug that lets the AI read an app, like your calendar). See <a href="/connections/">what you could connect</a>.</dd></div>
+          <div><dt>Vault</dt><dd>Your notes, in folders by area of life. Obsidian is the window; the files are yours, and any AI tool can read them.</dd></div>
+          <div><dt>Profile</dt><dd><code>_system/profile/</code>: seven short files about you. Mission, goals, projects, landscape, preferences, beliefs, and what the AI has learned.</dd></div>
+          <div><dt>Map &amp; rules</dt><dd><code>index.md</code> is the map (what lives where), read first. <code>VAULT-CONTRACT.md</code> says how to write notes, and <code>AGENTS.md</code> how the AI behaves here.</dd></div>
+          <div><dt>Skills</dt><dd>One folder per playbook, in <code>_system/skills/</code>. When a request matches one, the AI follows it.</dd></div>
+          <div><dt>Connections</dt><dd>Calendar, tasks, email, maps, weather, read-only first, one at a time. Often through MCP (a plug that lets the AI read an app, like your calendar). See <a href="/connections/">what you could connect</a>.</dd></div>
           <div><dt>Tools</dt><dd>Small, tested scripts for jobs with one right answer: a vault health check, what's due, what changed, a password scan. Six come with the kit (optional; they need Python). <code>TOOLS-CONTRACT.md</code> says how to build more safely.</dd></div>
-          <div><dt>Automations</dt><dd>Things that run on a schedule, with their output checked.</dd></div>
+          <div><dt>Automations</dt><dd>Things that run on a schedule, like Sunday review prep or a morning digest. Checked by their output, not their “ok”.</dd></div>
           <div><dt>Harness plan</dt><dd><code>HARNESS-PLAN.md</code>, plus session and decisions logs, so progress survives pauses and tool switches.</dd></div>
         </dl>
         <figure class="stack gap-8">
@@ -143,16 +277,31 @@ const toc = [["interview", "The interview"], ["harness", "The harness plan"], ["
 ├── 07-briefings/ 99-archive/ config/</pre>
         </figure>
       </div>
+      <h3 class="h3">What happens in a session</h3>
+      <ol class="loop loop--line" aria-label="A session, step by step">
+        {FLOW.map((s) => <li>{s}</li>)}
+      </ol>
+      <p class="measure">Notice what it doesn't do: read your whole vault. The index tells it where to look, so it opens only the 3–8 notes the task needs. That keeps answers fast, cheap and focused.</p>
       <h3 class="h3">Who owns what</h3>
+      <p class="measure">The single most useful design rule: give each kind of work to whoever is reliably good at it.</p>
       <div class="owners">
-        <div><span class="kk-mark">Code</span><p>owns rules &amp; effects</p></div>
-        <div><span class="kk-mark">AI</span><p>owns judgment &amp; drafts</p></div>
-        <div class="you"><span class="kk-mark">You</span><p>own decisions. You're always in charge.</p></div>
+        <div><span class="kk-mark">Code</span><p><strong>owns rules &amp; effects</strong></p><p class="small muted">Dates, filters, calculations, exact lists, file moves, anything that must be right every time. And the actual doing: sending, booking, paying.</p></div>
+        <div><span class="kk-mark">AI</span><p><strong>owns judgment &amp; drafts</strong></p><p class="small muted">Understanding messy input, ranking options, summarising, drafting, explaining, spotting what you missed. It proposes, abstains, or says “unknown”.</p></div>
+        <div class="you"><span class="kk-mark">You</span><p><strong>own decisions</strong></p><p class="small muted">What matters, what's true about your life, and anything irreversible: money, messages to people, deleting things. You're always in charge.</p></div>
+      </div>
+      <h3 class="h3">Anatomy of a good skill</h3>
+      <p class="measure">The <code>quality-time-planner</code> skill is included as a worked example: a date-night planner that's been used for real evenings out, made general. These are its patterns, and they carry over to any skill you build:</p>
+      <dl class="cards">
+        {SKILL_PATTERNS.map(([t, d]) => <div><dt>{t}</dt><dd>{d}</dd></div>)}
+      </dl>
+      <div class="kk-note measure">
+        <p><strong>Script it or search it?</strong> If a list must be filtered correctly every time (say, a cinema schedule by time window and language), the AI should write a small script. If it's an open question (what's good this weekend, where to eat), it should search. That one rule keeps your skills both reliable and flexible. Scripts follow <code>_system/TOOLS-CONTRACT.md</code>: one job, read-only unless you say apply, a test, no secrets, listed in the registry.</p>
       </div>
     </section>
 
     <section id="principles" aria-labelledby="principles-h">
       <h2 id="principles-h" class="h2-section">Why it works: {PRINCIPLES.length} principles</h2>
+      <p class="measure">Learned the hard way, over a lot of real use. They're built into the kit's rules and skills.</p>
       <ol class="principles">
         {PRINCIPLES.map(([p, how]) => <li><strong>{p}</strong><span>{how}</span></li>)}
       </ol>
@@ -163,6 +312,13 @@ const toc = [["interview", "The interview"], ["harness", "The harness plan"], ["
       <p class="measure muted">A skill is a written playbook the AI follows, like a recipe. Ask for one by name, or just describe what you want.</p>
       <dl class="skills">
         {skills.map((s) => <div><dt>{s.data.name}</dt><dd>{firstSentence(s.data.description)}</dd></div>)}
+      </dl>
+    </section>
+
+    <section id="not" aria-labelledby="not-h">
+      <h2 id="not-h" class="h2-section">What this is not</h2>
+      <dl class="cards">
+        {NOT.map(([t, d]) => <div><dt>{t}</dt><dd>{d}</dd></div>)}
       </dl>
     </section>
   </div>
