@@ -27,6 +27,12 @@ What happened and why, newest first. The open work is in [`master-plan.md`](mast
 
 ## Session log
 
+### 2026-10-13 — Release v1.2
+- **Did:** bumped `VERSION`, guide footers, README credit and `CHANGELOG.md` to v1.2. Tagged and pushed `v1.2`, then deployed the site (`pnpm run deploy`; K17 isn't done yet).
+- **Checked:** `scripts/build.sh` green (125 files, 188 KB). `pnpm test` (46), `pnpm check`, `pnpm build`, `check_site.py` all green. Every guide page and `START-HERE.html` renders headlessly from `file://` with no console errors (a planted error is caught, so the check works), and the catalog renders its checkboxes. The `Release` workflow succeeded: [v1.2](https://github.com/liqweed/ai-kickstart/releases/tag/v1.2) has `ai-kickstart-v1.2.zip` (190 KB) with the same file list as the local build (top level only `LICENSE README.md START-HERE.html guide/ vault/`). `releases/latest` redirects to v1.2. ai-kickstart.me/whats-new/ shows "Latest: v1.2".
+- **Found:** the site's What's new flattens the changelog's nested bullets into one line (K26).
+- **Next:** K26 (small), then M1.1.
+
 ### 2026-10-13 — K22 dashboards in the real Obsidian app (Mac)
 - **Did:** copied the template vault to a throwaway folder and added sample notes: 3 people (one with no summary), 3 projects (active, paused, and active but untouched since March via `touch`), 2 inbox notes, 1 work note. Ran `hub_index.py --apply`, opened the copy in Obsidian 1.14.4 (macOS), and queried every view with the Obsidian CLI (`obsidian base:query … format=paths`). Then checked `Dashboards.md` and the People hub by eye. Found and fixed two filter gaps: People and Projects listed the `Person` and `Project Note` templates in `_system/templates/` (the template's `status: active` also put it in the *Active* cards), and *Needs attention* listed the root `AGENTS.md` and `CLAUDE.md`, which deliberately have no frontmatter, as "missing summary". Now `!file.inFolder("_system")` and `file.folder != "/"`.
 - **Checked:** after the fix, all 7 views return exactly the expected notes. `if(summary, false, true)`, `now() - "7d"`, `now() - "120d"`, `file.ctime/mtime.relative()`, `groupBy` and the cards view all work as written. In a new vault, Bases is already on (the empty tab offers *New base*). The auto-index lists render as headed, linked lists. `scripts/check.sh` green.
