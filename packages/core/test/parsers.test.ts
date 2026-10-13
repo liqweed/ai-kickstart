@@ -72,6 +72,24 @@ describe("changelog", () => {
     expect(r.at(-1)?.version).toBe("v1.0");
     expect(r[0].items.length).toBeGreaterThan(0);
   });
+
+  it("keeps sub-bullets nested and joins wrapped lines", () => {
+    const [r] = parseChangelog([
+      "## v2.0 — 2027-01-01",
+      "- **Tools:** two scripts",
+      "  that wrap.",
+      "  - `a.py`: one",
+      "    more line.",
+      "  - `b.py`: two",
+      "- Plain item",
+      "## Older",
+      "- not a release item",
+    ].join("\n"));
+    expect(r.items).toEqual([
+      { text: "**Tools:** two scripts that wrap.", sub: ["`a.py`: one more line.", "`b.py`: two"] },
+      { text: "Plain item", sub: [] },
+    ]);
+  });
 });
 
 describe("harness phases", () => {

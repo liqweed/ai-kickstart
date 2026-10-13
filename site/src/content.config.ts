@@ -57,7 +57,7 @@ const prompts = defineCollection({
 
 const releases = defineCollection({
   loader: () => withOrder(parseChangelog(repoFile("CHANGELOG.md")), (r) => r.version),
-  schema: z.object({ order: z.number(), version: z.string(), date: z.string(), items: z.array(z.string()) }),
+  schema: z.object({ order: z.number(), version: z.string(), date: z.string(), items: z.array(z.object({ text: z.string().min(1), sub: z.array(z.string().min(1)) })).min(1) }),
 });
 
 const phases = defineCollection({

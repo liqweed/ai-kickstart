@@ -27,6 +27,11 @@ What happened and why, newest first. The open work is in [`master-plan.md`](mast
 
 ## Session log
 
+### 2026-10-13 — K26 nested lists in What's new
+- **Did:** `parseChangelog` now returns items as `{ text, sub }`: indented `- ` lines become sub-bullets, and wrapped lines join the bullet they belong to. Updated the `releases` schema and `whats-new.astro` to render a nested `<ul>`. Added a parser test (nesting, wrapped lines, stopping at a non-release `##`). While checking at phone width, found that the page was already 2 px wider than a 390 px screen on the live site, with no right gutter: the releases grid's `1fr` column grew to fit long code paths. Now `minmax(0, 1fr)` and `overflow-wrap: anywhere` for code in the release notes.
+- **Checked:** `pnpm test` (47), `pnpm check`, `pnpm build`, `check_site.py` green. Built HTML nests the v1.2 tool and skill lists, and the `.md` copy for `llms.txt` nests too. Headless Chromium at 1280 px and 390 px (light and dark): `scrollWidth` 390 = viewport (was 392, same on live before the fix), nothing in `<main>` past the right edge. Deployed; live re-checked.
+- **Next:** M1.1.
+
 ### 2026-10-13 — Release v1.2
 - **Did:** bumped `VERSION`, guide footers, README credit and `CHANGELOG.md` to v1.2. Tagged and pushed `v1.2`, then deployed the site (`pnpm run deploy`; K17 isn't done yet).
 - **Checked:** `scripts/build.sh` green (125 files, 188 KB). `pnpm test` (46), `pnpm check`, `pnpm build`, `check_site.py` all green. Every guide page and `START-HERE.html` renders headlessly from `file://` with no console errors (a planted error is caught, so the check works), and the catalog renders its checkboxes. The `Release` workflow succeeded: [v1.2](https://github.com/liqweed/ai-kickstart/releases/tag/v1.2) has `ai-kickstart-v1.2.zip` (190 KB) with the same file list as the local build (top level only `LICENSE README.md START-HERE.html guide/ vault/`). `releases/latest` redirects to v1.2. ai-kickstart.me/whats-new/ shows "Latest: v1.2".

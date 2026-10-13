@@ -13,10 +13,9 @@ The complete roadmap, open work only. **When an item is done, delete its row** a
 
 ## Now
 
-1. **K26** Nested lists in What's new (small; v1.2's notes show it).
-2. **M1.1** Pilot with one friend, using https://ai-kickstart.me.
-3. **K11** tinyjs spike: the Mac half passes (unsigned), see `app/README.md`. Next, a Windows machine, then signing (K21).
-4. **K16** Content parity with the offline guide (small; unblocks K12).
+1. **M1.1** Pilot with one friend, using https://ai-kickstart.me.
+2. **K11** tinyjs spike: the Mac half passes (unsigned), see `app/README.md`. Next, a Windows machine, then signing (K21).
+3. **K16** Content parity with the offline guide (small; unblocks K12).
 
 ## 1 · First users
 
@@ -36,7 +35,6 @@ The complete roadmap, open work only. **When an item is done, delete its row** a
 | K17 | **Deploy from CI**: on push to `main`, build + `check_site.py` + `wrangler deploy` with an API token scoped to this account's Workers only, then a live smoke check | A push reaches the live site within minutes, and the smoke check (status codes, headers, no injected scripts) is green | S | todo |
 | K5 | **Real-device check** of the site: iPhone Safari, Android Chrome, Windows Edge, print | Notes or fixes for each device | S | todo |
 | K18 | **HSTS preload list** submission (hstspreload.org). The header already carries `preload`; joining the list is close to permanent | Decided, and submitted or explicitly declined | S | idea |
-| K26 | **Nested lists in What's new**: the changelog parser (`packages/core`) flattens sub-bullets into their parent line (" - a - b"), visible in v1.2's notes | Sub-bullets render as a nested list on /whats-new/, with a parser test | S | next |
 
 ## 3 · Kit content
 

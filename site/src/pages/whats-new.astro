@@ -27,7 +27,12 @@ const latest = releases[0].data;
           <span class="releases__v">{r.data.version}</span>
           <div class="stack gap-4">
             <span><strong>{r.data.date ? monthYear(r.data.date) : ""}</strong></span>
-            <ul>{r.data.items.map((i) => <li set:html={inline(i)} />)}</ul>
+            <ul>{r.data.items.map((i) => (
+              <li>
+                <Fragment set:html={inline(i.text)} />
+                {i.sub.length > 0 && <ul>{i.sub.map((s) => <li set:html={inline(s)} />)}</ul>}
+              </li>
+            ))}</ul>
           </div>
         </li>
       ))}

@@ -1,11 +1,17 @@
+export interface ReleaseItem {
+  /** Inline Markdown. */
+  text: string;
+  /** Nested bullets, inline Markdown each. */
+  sub: string[];
+}
+
 export interface Release {
   version: string;
   date: string;
-  /** Inline Markdown, one per bullet. */
-  items: string[];
+  items: ReleaseItem[];
 }
 
-/** Parse `CHANGELOG.md`: `## vX.Y — YYYY-MM-DD` followed by `- ` bullets. Newest first, as written. */
+/** Parse `CHANGELOG.md`: `## vX.Y — YYYY-MM-DD` followed by `- ` bullets, with indented `- ` sub-bullets one level deep. Newest first, as written. */
 export function parseChangelog(md: string): Release[] {
   const releases: Release[] = [];
   let cur: Release | null = null;
@@ -17,9 +23,16 @@ export function parseChangelog(md: string): Release[] {
       continue;
     }
     if (line.startsWith("## ")) cur = null;
+    if (!cur) continue;
+    const last = cur.items.at(-1);
     const b = line.match(/^- (.+)$/);
-    if (cur && b) cur.items.push(b[1].trim());
-    else if (cur && /^\s{2,}\S/.test(line) && cur.items.length) cur.items[cur.items.length - 1] += " " + line.trim();
+    const s = line.match(/^\s{2,}- (.+)$/);
+    if (b) cur.items.push({ text: b[1].trim(), sub: [] });
+    else if (s && last) last.sub.push(s[1].trim());
+    else if (/^\s{2,}\S/.test(line) && last) {
+      if (last.sub.length) last.sub[last.sub.length - 1] += " " + line.trim();
+      else last.text += " " + line.trim();
+    }
   }
   return releases;
 }
