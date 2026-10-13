@@ -1,0 +1,91 @@
+name: App
+
+# The companion app (app/). Run by hand to build without publishing; on an
+# app-vX.Y.Z tag, also publish a GitHub *pre-release* for testers. The kit's
+# own releases use v* tags and release.yml; a pre-release never becomes
+# "Latest", so the kit's download links are unaffected.
+# Unsigned until K21: macOS asks to confirm in System Settings, Windows shows SmartScreen.
+on:
+  workflow_dispatch:
+  push:
+    tags: ["app-v*"]
+
+permissions:
+  contents: read
+
+env:
+  TINYJS_VERSION: v0.51.1
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            label: macos-arm64
+          - os: windows-latest
+            label: windows-x64
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Tag matches app/tinyjs.json
+        if: startsWith(github.ref, 'refs/tags/app-v')
+        shell: bash
+        run: |
+          version="$(node -p "require('./app/tinyjs.json').version")"
+          [ "${GITHUB_REF_NAME#app-v}" = "$version" ] || { echo "Tag $GITHUB_REF_NAME does not match app/tinyjs.json $version" >&2; exit 1; }
+      - name: Lint
+        run: pnpm --filter @ai-kickstart/app lint
+      - name: Install tinyjs (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          curl -fsSL https://tinyjs.app/install -o "$RUNNER_TEMP/install.sh"
+          TINYJS_NO_MODIFY_PATH=1 sh "$RUNNER_TEMP/install.sh"
+          echo "$HOME/.tinyjs" >> "$GITHUB_PATH"
+      - name: Install tinyjs (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          irm https://tinyjs.app/install.ps1 | iex
+          Add-Content $env:GITHUB_PATH (Join-Path $env:LOCALAPPDATA 'tinyjs')
+      - name: Build and pack
+        working-directory: app
+        shell: bash
+        run: |
+          tj=tinyjs; [ "$RUNNER_OS" = Windows ] && tj=tinyjs.cmd
+          "$tj" version
+          "$tj" publish < /dev/null
+          mkdir -p ../out
+          cp dist/publish/*.zip "../out/ai-kickstart-app-$(node -p "require('./tinyjs.json').version")-${{ matrix.label }}.zip"
+          ls -la ../out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.label }}
+          path: out/*.zip
+          if-no-files-found: error
+
+  prerelease:
+    if: startsWith(github.ref, 'refs/tags/app-v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v4
+        with:
+          path: out
+          merge-multiple: true
+      - name: Create pre-release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" out/*.zip --prerelease --latest=false \
+            --title "AI Kickstart app ${GITHUB_REF_NAME#app-v} (test build)" --notes-file app/TEST-BUILD.md
