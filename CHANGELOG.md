@@ -5,7 +5,7 @@ All notable changes to the AI Kickstart kit. Versions are git tags (`vX.Y`). Eac
 - **Minor (x.Y):** new or changed content: tips, skills, catalog items, guide pages, wording.
 - **Major (X.0):** structural changes to the vault template that an existing user would have to migrate (folder layout, profile files, harness-plan format).
 
-## Unreleased
+## v1.4 — 2026-10-13
 
 - **Update your kit without losing anything.** Say *"Update my kit"*: the new `kit-update` skill and `kit_update.py` tool bring in a new release's skills, tips, plan steps and fixes, and replace only kit files you never changed. Your notes, profile, plan progress and anything you edited stay as they are; your AI shows you the rest and merges it with your OK. Step by step on the website's *What's new* page, and it works for vaults from v1.1 on.
 - `_system/kickstart/kit-version.md` records which release your vault's kit files come from.
