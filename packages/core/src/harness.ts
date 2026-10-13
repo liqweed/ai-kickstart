@@ -46,6 +46,8 @@ export interface Step {
   detail: string;
   doneWhen?: string;
   check?: string;
+  /** The step's lines exactly as written, for prompts that copy it ("add it exactly as written"). */
+  markdown: string;
 }
 
 export interface PlanPhase extends Partial<Omit<Phase, "id" | "name">> {
@@ -124,13 +126,13 @@ const STEP_ID = /^(P\d+)\.(\d+[a-z]?)\b/;
 
 function parseSteps(phase: string, lines: string[], problems: string[]): Step[] {
   const steps: Step[] = [];
-  let current: { step: Step; parts: string[] } | null = null;
+  let current: { step: Step; parts: string[]; lines: string[] } | null = null;
   const finish = () => {
     if (!current) return;
     const detail = current.parts.join(" ").replace(/\s+/g, " ").trim();
     const done = detail.match(/Done when:\s*(.*?)(?=\s*Check:|$)/);
     const check = detail.match(/Check:\s*(.*)$/);
-    Object.assign(current.step, { detail, doneWhen: done?.[1].trim() || undefined, check: check?.[1].trim() || undefined });
+    Object.assign(current.step, { markdown: current.lines.join("\n"), detail, doneWhen: done?.[1].trim() || undefined, check: check?.[1].trim() || undefined });
     steps.push(current.step);
     current = null;
   };
@@ -151,11 +153,13 @@ function parseSteps(phase: string, lines: string[], problems: string[]): Step[] 
       if (!status) problems.push(`${id[0]} has an unknown mark [${mark}]; read as "to do"`);
       const title = head.slice(id[0].length).replace(/^[\s:.—–-]+/, "").replace(/[.:]$/, "").trim();
       current = {
-        step: { id: id[0], phase, title, status: status ?? "todo", star: rest.includes("★"), detail: "" },
+        step: { id: id[0], phase, title, status: status ?? "todo", star: rest.includes("★"), detail: "", markdown: "" },
         parts: bold ? [bold[2]] : [],
+        lines: [line],
       };
     } else if (current && /^\s+\S/.test(line)) {
       current.parts.push(line.trim());
+      current.lines.push(line);
     } else if (current && line.trim()) {
       finish();
     }
