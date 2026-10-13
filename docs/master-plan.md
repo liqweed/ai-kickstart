@@ -56,10 +56,9 @@ The app is designed (approved prototype in [`design/prototype/`](../design/proto
 | ID | Item | Done when | Effort | Status |
 |---|---|---|---|---|
 | K11 ★ | **tinyjs spike, Mac + Windows**: a window that picks a folder, watches it for a new file, writes `~/.ai-kickstart/`, opens an `obsidian://` link, and loads `kickstart.css` | It works on a real Mac (signed + notarised) and a real Windows machine; D15 confirmed, or a fallback chosen. Mac, unsigned: passes (`app/README.md`) | S | doing |
-| K20 | **Harness plan parser** in `packages/core`: phases, steps with status marks, Now table, personal backlog, session log | Vitest covers the vault template plus a filled-in fixture plan | S | todo |
 | K19 | **Update model** in `packages/core`: a per-release kit manifest (files, hashes, kind), the install baseline, and a planner that sorts files into untouched / changed by the person / person-owned | Vitest reproduces the prototype's update scenario (14 untouched, 1 conflict on `weekly-review`, 1 addition to `HARNESS-PLAN.md`) | M | todo |
 | K10a | **App shell + first run**: vault (create or find), Obsidian check, AI path, first contact detected by `_inbox/hello.md` | The prototype's first-run scenarios 1–3 work on Mac and Windows | M | blocked: K11 |
-| K10b | **Next + Plan views** with file watching and the "noticed" line | Scenarios 4–7 work against a real vault edited by an AI | M | blocked: K10a, K20 |
+| K10b | **Next + Plan views** with file watching and the "noticed" line | Scenarios 4–7 work against a real vault edited by an AI | M | blocked: K10a |
 | K10c | **Updates**: download, review, apply only untouched files, hand-off prompts | Scenario 8 works end to end; the write-rules audit (`04 §4`) passes | M | blocked: K19, K10b |
 | K10d | **Distribution**: signed + notarised Mac build, signed Windows build, auto-update, download on the site | A friend installs it from the site without security warnings | M | blocked: K21 |
 | K25 | **App in CI**: `pnpm --filter @ai-kickstart/app build` + `lint` on every push, and a `tinyjs build` matrix (macos, windows) on tags | CI fails on an app type error; tags produce both builds | S | todo |
