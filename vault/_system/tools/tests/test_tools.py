@@ -16,6 +16,7 @@ import subprocess
 import tempfile
 import textwrap
 import unittest
+import zipfile
 from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 
@@ -24,6 +25,7 @@ sys.path.insert(0, str(TOOLS))
 
 import fix_frontmatter  # noqa: E402
 import hub_index  # noqa: E402
+import kit_update  # noqa: E402
 import recent  # noqa: E402
 import secret_scan  # noqa: E402
 import upcoming  # noqa: E402
@@ -271,16 +273,110 @@ class TestHubIndex(VaultCase):
         self.assertIn("- **active/** — 1 note\n  - [[03-projects/active/Kitchen|Kitchen]] — New kitchen.", text)
 
 
+class TestKitUpdate(VaultCase):
+    OLD = {
+        "AGENTS.md": "# Agents v1\n",
+        "_system/HARNESS-PLAN.md": "- [ ] P0.1 Install\n",
+        "_system/profile/GOALS.md": "# Goals\n",
+        "_system/skills/a/SKILL.md": "skill a v1\n",
+        "_system/skills/b/SKILL.md": "skill b v1\n",
+        "_system/templates/T.md": "template\n",
+        "_system/old-only.md": "retired soon\n",
+    }
+    NEW = {
+        "AGENTS.md": "# Agents v2\n",
+        "_system/HARNESS-PLAN.md": "- [ ] P0.1 Install\n- [ ] P0.6 Tools\n",
+        "_system/profile/GOALS.md": "# Goals\n",
+        "_system/skills/a/SKILL.md": "skill a v2\n",
+        "_system/skills/b/SKILL.md": "skill b v2\n",
+        "_system/skills/c/SKILL.md": "skill c\n",
+        "_system/templates/T.md": "template v2\n",
+        "_system/kickstart/kit-version.md": "---\nkit_version: \"1.4\"\n---\n",
+    }
+
+    def kit(self, name: str, files: dict) -> Path:
+        root = self.vault.parent / f"{self.vault.name}-{name}" / "vault"
+        for rel, text in files.items():
+            (root / rel).parent.mkdir(parents=True, exist_ok=True)
+            (root / rel).write_text(text, encoding="utf-8")
+        self.addCleanup(lambda: __import__("shutil").rmtree(root.parent, ignore_errors=True))
+        return root.parent
+
+    def lived_in_vault(self) -> None:
+        for rel, text in self.OLD.items():
+            self.write(rel, text)
+        self.write("_system/skills/b/SKILL.md", "skill b v1\nmy own tweak\n")             # edited kit file
+        self.write("_system/profile/GOALS.md", "# Goals\n- run a 10k\n")                  # their profile
+        self.write("_system/HARNESS-PLAN.md", "- [x] P0.1 Install\n")                      # their progress
+        (self.vault / "_system/skills/a/SKILL.md").write_bytes(b"skill a v1\r\n")         # only line endings changed
+        (self.vault / "_system/templates/T.md").unlink()                                   # they deleted it
+        self.write("01-life/Tea.md", "My tea notes.\n")                                   # not in the kit at all
+
+    def snapshot(self) -> dict:
+        return {vl.rel(self.vault, p): p.read_bytes() for p in self.vault.rglob("*") if p.is_file()}
+
+    def test_plan_apply_and_idempotent(self) -> None:
+        self.lived_in_vault()
+        old, new = self.kit("old", self.OLD), self.kit("new", self.NEW)
+        actions = {r["path"]: r["action"] for r in kit_update.plan(self.vault, kit_update.load_kit(new), kit_update.load_kit(old))}
+        self.assertEqual(actions, {
+            "AGENTS.md": "merge", "_system/HARNESS-PLAN.md": "merge", "_system/profile/GOALS.md": "unchanged",
+            "_system/skills/a/SKILL.md": "update", "_system/skills/b/SKILL.md": "conflict", "_system/skills/c/SKILL.md": "add",
+            "_system/templates/T.md": "removed", "_system/kickstart/kit-version.md": "add", "_system/old-only.md": "retired"})
+        before = self.snapshot()
+        args = ["--vault", str(self.vault), "--kit", str(new), "--old", str(old)]
+        with redirect_stdout(io.StringIO()):
+            self.assertEqual(kit_update.main(args), 1)
+        self.assertEqual(self.snapshot(), before, "the dry run wrote something")
+        with redirect_stdout(io.StringIO()):
+            self.assertEqual(kit_update.main(args + ["--apply"]), 1)  # the conflict and merges still need a person
+        after = self.snapshot()
+        changed = {p for p in after if before.get(p) != after[p]}
+        self.assertEqual(changed, {"_system/skills/a/SKILL.md", "_system/skills/c/SKILL.md", "_system/kickstart/kit-version.md"})
+        self.assertFalse((self.vault / "_system/templates/T.md").exists(), "a deleted file came back")
+        with redirect_stdout(io.StringIO()) as out:
+            kit_update.main(args + ["--json"])
+        report = json.loads(out.getvalue())
+        self.assertEqual((report["count"]["update"], report["count"]["add"]), (0, 0))
+        self.assertEqual(report["versions"]["new"], "1.4")
+
+    def test_zip_input_without_old(self) -> None:
+        self.lived_in_vault()
+        new = self.kit("new", self.NEW)
+        zpath = self.vault.parent / f"{self.vault.name}-kit.zip"
+        self.addCleanup(lambda: zpath.unlink() if zpath.exists() else None)
+        with zipfile.ZipFile(zpath, "w") as z:
+            z.writestr("ai-kickstart/START-HERE.html", "<p>not part of the vault</p>")
+            for rel, text in self.NEW.items():
+                z.writestr(f"ai-kickstart/vault/{rel}", text)
+        from_zip = kit_update.load_kit(zpath)
+        self.assertEqual(from_zip, kit_update.load_kit(new))
+        actions = {r["path"]: r["action"] for r in kit_update.plan(self.vault, from_zip, None)}
+        self.assertEqual(actions["_system/skills/a/SKILL.md"], "conflict", "without --old an untouched file can't be told apart")
+        self.assertEqual(actions["_system/skills/c/SKILL.md"], "add")
+
+    def test_max_refuses_and_writes_nothing(self) -> None:
+        self.lived_in_vault()
+        old, new = self.kit("old", self.OLD), self.kit("new", self.NEW)
+        before = self.snapshot()
+        with redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
+            code = kit_update.main(["--vault", str(self.vault), "--kit", str(new), "--old", str(old), "--apply", "--max", "1"])
+        self.assertEqual(code, 2)
+        self.assertEqual(self.snapshot(), before)
+
+
 class TestCommandLine(unittest.TestCase):
     def test_every_tool_has_help_and_json(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             Path(tmp, "_system").mkdir()
             Path(tmp, "_system/index.md").write_text("# Index\n", encoding="utf-8")
-            for name in ("vault_lint", "secret_scan", "upcoming", "recent", "fix_frontmatter", "hub_index"):
+            Path(tmp, "AGENTS.md").write_text("# Agents\n", encoding="utf-8")  # so kit_update accepts it as a kit
+            for name in ("vault_lint", "secret_scan", "upcoming", "recent", "fix_frontmatter", "hub_index", "kit_update"):
                 script = str(TOOLS / f"{name}.py")
                 r = subprocess.run([sys.executable, script, "--help"], capture_output=True, text=True, encoding="utf-8")
                 self.assertEqual(r.returncode, 0, f"{name} --help failed: {r.stderr}")
-                r = subprocess.run([sys.executable, script, "--vault", tmp, "--json"], capture_output=True, text=True, encoding="utf-8")
+                extra = ["--kit", tmp] if name == "kit_update" else []
+                r = subprocess.run([sys.executable, script, "--vault", tmp, "--json", *extra], capture_output=True, text=True, encoding="utf-8")
                 self.assertIn(r.returncode, (0, 1), f"{name} --json failed: {r.stderr}")
                 self.assertEqual(json.loads(r.stdout)["tool"], name)
 

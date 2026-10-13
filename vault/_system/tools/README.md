@@ -34,6 +34,7 @@ Every tool in the vault is listed here, including scripts that live in a skill's
 | `recent.py` | Notes created or updated, and tasks completed, in the last N days | Read-only | `weekly-review`, `vault-maintenance` |
 | `fix_frontmatter.py` | Adds missing frontmatter fields, guessed from the folder; never changes existing values | Writer | `vault-maintenance` |
 | `hub_index.py` | Rewrites the automatic note list between the markers in `_index.md` hubs | Writer | `vault-maintenance` |
+| `kit_update.py` | Brings in a new kit release: adds new files and replaces kit files you never changed; lists the rest for your AI | Writer | `kit-update` |
 | `selftest.py` | Runs every tool test and the contract checks | Read-only | harness P0.6, `tool-builder` |
 
 Shared code lives in `vaultlib.py` (not a tool). New tools start from `_template.py`. Tests live in `tests/`.

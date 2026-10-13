@@ -15,6 +15,7 @@ The complete roadmap, open work only. **When an item is done, delete its row** a
 
 1. **M1.1** Pilot with one friend, using https://ai-kickstart.me.
 2. **K11** tinyjs spike: Mac passes; a Windows tester has the [0.1.2 test build](https://github.com/liqweed/ai-kickstart/releases/tag/app-v0.1.2). Then signing (K21).
+3. **Release v1.4** (skill: `release`): kit updates (K1), plus the "Let your AI set it up" prompt once that session commits it. **Deploy the site with it:** *What's new* already describes v1.4's `kit-version.md`.
 
 ## 1 · First users
 
@@ -37,7 +38,6 @@ The complete roadmap, open work only. **When an item is done, delete its row** a
 
 | ID | Item | Done when | Effort | Status |
 |---|---|---|---|---|
-| K1 ★ | **"Updating your kit" guide**: how an existing user pulls new skills, tips and steps into their vault without losing their notes (per-file guidance + an agent prompt). Shares its model of "kit-owned vs. person-owned files" with the app: `kindOf()` in `packages/core/src/update.ts`. Tools, contracts, catalogs, templates and dashboards are kit-owned; hubs with `auto-index` blocks are mixed (the block is generated) | A v1.1 vault updates to the next release by following the guide, with no edited note lost | M | todo |
 | K4 | **Windows + chat-app walkthrough** on a real machine | Setup completed end to end on Windows with a chat app; fixes filed | S | todo |
 | K23 | **Vault tools and dashboards on a real Windows machine**, beyond CI: the `py` launcher, a vault in OneDrive, CRLF notes, non-ASCII names | `selftest.py` passes and `vault_lint.py` / `fix_frontmatter.py --apply` behave on a real Windows vault; the four `.base` views show the same notes as on Mac (K22); fixes released | S | todo |
 | K24 | **More starter tools, only if a starter skill needs them**: candidates are an `.ics` reader (read a calendar export into `upcoming.py`, no connection needed) and an RSS digest (the first tool with declared network use, as the worked example for TOOLS-CONTRACT §3) | Each one passes the contract, serves a named skill, and is in the registry | M | idea |

@@ -3,6 +3,12 @@
 import Base from "../layouts/Base.astro";
 import { RELEASES_URL } from "../lib/choices.ts";
 import { inline, monthYear, ordered } from "../lib/kit.ts";
+import Prompt from "../components/Prompt.astro";
+
+// Works for vaults from before v1.4 too: they don't have the kit-update skill yet, so the AI takes it from the new kit.
+const UPDATE = `Update my kit. The new kit is unpacked at <new kit folder>, and my vault came from <old kit zip>.
+Follow the kit-update skill: this vault's _system/skills/kit-update/SKILL.md, or, if it isn't here yet, the one in the new kit's vault/ folder (then run its tool from there, with --vault pointing at this vault).
+Back up first, show me the plan before changing anything, and never overwrite my own notes or anything I edited.`;
 
 const releases = await ordered("releases");
 const latest = releases[0].data;
@@ -15,11 +21,15 @@ const latest = releases[0].data;
     </div>
     <section class="safe" aria-labelledby="upd">
       <h2 id="upd" class="h2-card">Updating without losing your notes</h2>
-      <p>A guided update isn't part of the kit yet. When it is, it will live here, step by step, like the setup. Until then, the safe rule is simple:</p>
-      <ul>
-        <li>Keep your vault where it is. Never unzip a new version on top of it.</li>
-        <li><a href={RELEASES_URL}>Download the new kit</a> into a separate folder, and read the notes below to see what changed.</li>
-      </ul>
+      <p>Your AI does the update with you, in about half an hour. New skills, tips and plan steps come in. Your notes, your profile, your plan's progress and anything you changed stay exactly as they are.</p>
+      <ol class="update-steps">
+        <li><strong>Back up your vault.</strong> Copy the whole folder somewhere, or check that your sync or backup has today's version.</li>
+        <li><strong><a href={RELEASES_URL}>Download the new kit</a> and unpack it somewhere else</strong>, Downloads is fine. Never unzip it on top of your vault.</li>
+        <li><strong>Find the kit you started with.</strong> Usually its zip is still in Downloads (<code>ai-kickstart-v1.2.zip</code>, say). If not, every version is on the <a href="https://github.com/liqweed/ai-kickstart/releases">releases page</a>. From v1.4 on, your vault says which one it is, in <code>_system/kickstart/kit-version.md</code>. It's what lets your AI tell your changes from the kit's.</li>
+        <li><strong>Open your AI in your vault</strong> and paste this, with the two paths filled in (the new folder from step 2, the old zip from step 3):</li>
+      </ol>
+      <Prompt label="Update my kit" note="For a desktop AI app or a terminal agent" text={UPDATE} />
+      <p class="small">Your AI shows you the plan before it changes anything. It adds the new files and replaces only kit files you never touched. Anything you edited, and your own plan, profile and index, it shows you and merges only with your OK. Nothing is deleted. Using a chat app? Paste the same message: the skill has a simpler, copy-paste version for chat.</p>
     </section>
     <ol class="releases">
       {releases.map((r) => (

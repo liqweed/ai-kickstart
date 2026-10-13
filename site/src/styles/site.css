@@ -296,6 +296,7 @@ details[open] > summary .step-chev::before { content: "−"; }
 .news { padding-block: 36px 56px; display: flex; flex-direction: column; gap: 24px; }
 .safe { padding: 18px; border: 2px solid var(--accent); border-radius: var(--r-card); display: flex; flex-direction: column; gap: 10px; }
 .safe ul { padding-left: 22px; display: flex; flex-direction: column; gap: 4px; }
+.update-steps { padding-left: 22px; display: flex; flex-direction: column; gap: 8px; }
 .releases { list-style: none; padding: 0; display: flex; flex-direction: column; }
 .releases > li { display: grid; grid-template-columns: 80px minmax(0, 1fr); gap: 12px; padding: 16px 0; border-top: 1px solid var(--line); }
 .releases > li:last-child { border-bottom: 1px solid var(--line); }

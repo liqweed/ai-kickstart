@@ -5,6 +5,11 @@ All notable changes to the AI Kickstart kit. Versions are git tags (`vX.Y`). Eac
 - **Minor (x.Y):** new or changed content: tips, skills, catalog items, guide pages, wording.
 - **Major (X.0):** structural changes to the vault template that an existing user would have to migrate (folder layout, profile files, harness-plan format).
 
+## Unreleased
+
+- **Update your kit without losing anything.** Say *"Update my kit"*: the new `kit-update` skill and `kit_update.py` tool bring in a new release's skills, tips, plan steps and fixes, and replace only kit files you never changed. Your notes, profile, plan progress and anything you edited stay as they are; your AI shows you the rest and merges it with your OK. Step by step on the website's *What's new* page, and it works for vaults from v1.1 on.
+- `_system/kickstart/kit-version.md` records which release your vault's kit files come from.
+
 ## v1.3 — 2026-10-13
 
 - **A smaller download:** the 8-page offline guide (`guide/`) is gone. Everything it explained is on [ai-kickstart.me](https://ai-kickstart.me), which stays current. `START-HERE.html` is now one page that works offline: what's in the folder, the short version of Day 1 with the first two prompts, and links to the website. The zip holds `README.md`, `LICENSE`, `START-HERE.html` and `vault/`.

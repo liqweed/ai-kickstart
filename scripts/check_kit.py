@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """Consistency checks for the AI Kickstart kit. Exit 1 on any failure.
 
-1. version  - VERSION matches the START-HERE.html footer, the README credit line and CHANGELOG.md
+1. version  - VERSION matches the START-HERE.html footer, the README credit line, CHANGELOG.md and vault/_system/kickstart/kit-version.md
 2. links    - every relative href/src in START-HERE.html points to an existing file
 3. offline  - START-HERE.html loads no external resources (stylesheets, scripts, images, fonts, iframes)
 4. skills   - every skill in vault/_system/skills/ has name+description frontmatter and is listed in vault/AGENTS.md
 5. prompts  - every prompt on START-HERE.html is in site/src/content/prompts.md, word for word
 6. plan     - docs/master-plan.md holds open work only: every row has an open status and a unique ID
-7. tools    - the vault tools pass their self-test, the template vault lints clean, and its hubs are current
+7. ownership - kit_update.py and packages/core/src/update.ts agree on which files are the person's
+8. tools    - the vault tools pass their self-test, the template vault lints clean, and its hubs are current
 """
 import html
 import re
@@ -32,6 +33,9 @@ def check_version():
         fail("version", f"README.md credit line is not v{version}")
     if not re.search(rf"^## v{re.escape(version)}\b", (ROOT / "CHANGELOG.md").read_text(), re.M):
         fail("version", f"CHANGELOG.md has no '## v{version}' section")
+    note = (ROOT / "vault/_system/kickstart/kit-version.md").read_text()
+    if f'kit_version: "{version}"' not in note or f"AI Kickstart v{version}**" not in note:
+        fail("version", f"vault/_system/kickstart/kit-version.md is not v{version} (frontmatter and text)")
     return version
 
 
@@ -103,6 +107,17 @@ def check_prompts():
     return len(md)
 
 
+def check_ownership():
+    """kit_update.py (manual updates) and update.ts (the app) must agree on which files are the person's."""
+    ts = (ROOT / "packages/core/src/update.ts").read_text()
+    block = re.search(r"const PERSON_OWNED: RegExp\[\] = \[(.*?)\];", ts, re.S)
+    js = [s.replace("\\/", "/") for s in re.findall(r"^\s*/(.+)/,\s*$", block.group(1), re.M)] if block else []
+    py = re.findall(r're\.compile\(r"(.+?)"\)', (ROOT / "vault/_system/tools/kit_update.py").read_text())
+    if not js or js != py:
+        fail("ownership", f"PERSON_OWNED differs: update.ts {js} vs kit_update.py {py}")
+    return len(py)
+
+
 OPEN = {"next", "doing", "todo", "blocked", "idea"}
 
 
@@ -145,6 +160,7 @@ def main():
     n_skills = check_skills()
     n_prompts = check_prompts()
     n_plan = check_plan()
+    check_ownership()
     n_tools = check_tools()
     if errors:
         print("\n".join(errors), file=sys.stderr)

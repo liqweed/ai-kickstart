@@ -15,6 +15,7 @@ A release = a `vX.Y` tag on `main`. Pushing the tag triggers `.github/workflows/
    - `VERSION` → `1.2`
    - `START-HERE.html` footer: `sed -i '' 's/AI Kickstart · v[0-9.]* · [A-Za-z]* [0-9]*/AI Kickstart · v1.2 · <Month YYYY>/' START-HERE.html` (on Linux, drop the `''`)
    - README credit line: `v1.2, <Month YYYY>.`
+   - `vault/_system/kickstart/kit-version.md`: `kit_version: "1.2"`, the version in its text, and `updated:`
    - `CHANGELOG.md`: rename **Unreleased** → `## v1.2 — YYYY-MM-DD`
 4. **Check and build:** `scripts/build.sh`. It must end with `build: dist/ai-kickstart-v1.2.zip …`. Open the zip listing and confirm it holds only `README.md LICENSE START-HERE.html vault/`.
 5. **Browser smoke test** of `START-HERE.html`, opened from the file: it renders in light and dark, the copy buttons work, and the console shows no errors. The site needs `pnpm test && pnpm check && pnpm build && scripts/check_site.py` green.

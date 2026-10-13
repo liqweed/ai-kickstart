@@ -43,7 +43,8 @@ describe("hashing", () => {
 describe("the prototype's v1.1 → v1.2 update (scenario 8)", async () => {
   // v1.1: today's template without P4.0. v1.2: P4.0 back, a better weekly-review skill, 14 more kit files changed.
   const changed = [
-    ...template.map((f) => f.path).filter((p) => p.startsWith("_system/kickstart/") && kindOf(p) === "kit"),
+    // kit-version.md is left out to keep the prototype's numbers; in a real release it changes too.
+    ...template.map((f) => f.path).filter((p) => p.startsWith("_system/kickstart/") && kindOf(p) === "kit" && !p.endsWith("kit-version.md")),
     "06-reference/Working with AI - Tips & Insights.md",
     ...["harness", "vault-save", "vault-query", "people", "skill-builder"].map((s) => `_system/skills/${s}/SKILL.md`),
   ];

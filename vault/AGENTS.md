@@ -29,6 +29,7 @@ Reusable playbooks live in `_system/skills/<name>/SKILL.md`. When a request matc
 | `vault-maintenance` | "vault health check", "tidy my vault", monthly |
 | `tool-builder` | "make this a tool", "write a script for…", "review my tools" |
 | `connect-app` | "what could I connect?", "connect my calendar", "review my connections" |
+| `kit-update` | "update my kit", "a new version is out" |
 
 When you create a new skill, add a row here and in `_system/index.md`.
 

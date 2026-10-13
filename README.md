@@ -37,8 +37,9 @@ ai-kickstart/
     │   ├── kickstart/      → interview protocol, rounds 1–5, function catalog, connections catalog
     │   ├── skills/         → kickstart-interview, harness, daily-briefing, weekly-review,
     │   │                     vault-query, vault-save, people, quality-time-planner, skill-builder,
-    │   │                     vault-maintenance, tool-builder, connect-app
-    │   ├── tools/          → vault_lint, secret_scan, upcoming, recent, fix_frontmatter, hub_index
+    │   │                     vault-maintenance, tool-builder, connect-app, kit-update
+    │   ├── tools/          → vault_lint, secret_scan, upcoming, recent, fix_frontmatter, hub_index,
+    │   │                     kit_update
     │   │                     (+ tests and a self-test; Python 3.9+, standard library only)
     │   ├── dashboards/     → Obsidian Bases views
     │   └── templates/

@@ -22,9 +22,9 @@ tags: [system, index]
 | `_system/TOOLS-CONTRACT.md` | Rules for tools (scripts) and connections: quality, safety, privacy |
 | `_system/HARNESS-PLAN.md` | **The build plan**: what's done, what's next. Say "continue my harness plan" |
 | `_system/profile/` | Who the owner is: MISSION, GOALS, PROJECTS, LANDSCAPE, PREFERENCES, BELIEFS, LEARNED |
-| `_system/kickstart/` | Interview protocol, rounds, function catalog, **connections catalog**. Answers go in `answers/` |
+| `_system/kickstart/` | Interview protocol, rounds, function catalog, **connections catalog**, the kit version (`kit-version.md`). Answers go in `answers/` |
 | `_system/skills/` | Playbooks (one folder per skill, each with `SKILL.md`) |
-| `_system/tools/` | Tested scripts for exact jobs (health check, what's due, what changed, secret scan). Registry: `_system/tools/README.md` |
+| `_system/tools/` | Tested scripts for exact jobs (health check, what's due, what changed, secret scan, kit update). Registry: `_system/tools/README.md` |
 | `_system/dashboards/` | Live Bases views: projects, people, inbox, needs attention |
 | `_system/templates/` | Note templates: base, project, meeting, person, decision, reference, idea, source, connection |
 | `config/` | Per-skill settings, written by first-run interviews |
