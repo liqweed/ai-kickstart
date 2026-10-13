@@ -3,7 +3,7 @@
   "title": "AI Kickstart",
   "size": "800x560",
   "id": "me.ai-kickstart.companion",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "minTinyjsVersion": "0.51.1",
   "backend": "backend/main.ts",
   "frontend": {
