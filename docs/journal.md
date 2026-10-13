@@ -26,6 +26,31 @@ What happened and why, newest first. The open work is in [`master-plan.md`](mast
 
 ## Session log
 
+### 2026-10-13 — Tools, connections and vault curation
+- **Did:**
+  - Added six vault tools with a shared library, a template, 27 tests and a contract-checking self-test. The registry is `vault/_system/tools/README.md`. The tools are `vault_lint`, `secret_scan`, `upcoming`, `recent`, `fix_frontmatter` and `hub_index`.
+  - Wrote `TOOLS-CONTRACT.md`: Part A covers tools, Part B covers connections.
+  - Wrote the connections catalog: 40 connections in 12 areas, plus combos. It's also published at `/connections/` (parser `parseConnections` in `packages/core`).
+  - Added the `Organizing your vault` reference note, four Bases dashboards, six templates and three skills (`vault-maintenance`, `tool-builder`, `connect-app`).
+  - Put `auto-index` markers in six hubs.
+  - Harness: new steps P0.6, P3.6, P3.7, P4.0, P5.3, P7.4 and P7.5.
+  - Prompts: four new ones (40 in total).
+  - Repo: ARCHITECTURE D11 revised (a few tested tools now ship), and new D16 (connections catalog) and D17 (the contract lives in the vault). New `tools` check in `check_kit.py` (self-test, `vault_lint --strict` on the template, hubs current, no `__pycache__`). New CI `tools` matrix (Linux, macOS and Windows on 3.x, plus Linux on 3.9). `build.sh` drops `__pycache__`.
+  - Bases syntax checked against the official docs: no `sort` key (it isn't documented), and `if()` truthiness for empty summaries.
+- **Checked:**
+  - The self-test passes on Python 3.15 and on macOS's built-in 3.9.6.
+  - The template vault lints with 0 errors and 0 warnings. Its only tips are the two deliberately empty profile templates.
+  - A demo person note gives the expected `hub_index` diff and `upcoming` output.
+  - `scripts/check.sh` green. `pnpm test` (18), `pnpm check`, `pnpm build` and `check_site.py` all green (8 pages, 40 connections, 104 functions).
+  - Found and fixed on the way:
+    - Windows line endings were being normalised by the writers (they now use `read_raw`).
+    - macOS `/var` → `/private/var` paths broke `secret_scan` paths.
+    - A scrub false positive inside a `difflib` function name.
+- **Not done:**
+  - The `.base` views are not yet opened in the Obsidian app (K22).
+  - No real-Windows run of the tools (K23; CI covers the basics).
+- **Next:** K22, then M1.1.
+
 ### 2026-10-13 — K13 theme toggle, K15 llms.txt
 - **Did:** K13: a header button cycles colours between system, light and dark (`site/src/scripts/theme.ts`), remembered in `localStorage` (`aik.site.theme`). A one-line inline script in `<head>` (`site/src/lib/theme-boot.mjs`) sets `data-kk` before first paint. Astro doesn't hash `is:inline` scripts, so `astro.config.mjs` hashes the same string into `scriptDirective.hashes`, and the CSP stays hash-only. `check_site.py` now fails on any inline script the CSP doesn't hash. K15: a build-time integration (`site/src/integrations/llms.ts`, `turndown` as a dev dependency) converts each built page's `<main>` to Markdown at `<page>/index.html.md` (the spec's rule for URLs ending in `/`). It drops interactive and hidden parts, turns prompt cards and `<pre>` into fenced blocks, catalog rows into list items and setup variants into labelled lines. It then writes `/llms.txt` (H1, summary, *Pages* and *Optional* lists) from each page's title and meta description. `check_site.py` checks the format, that every link resolves, and that the prompts Markdown holds all 36 prompts.
 - **Checked:** headless Chromium at 1280 and 390 px with a dark system: system → light → dark → system, each surviving a reload, `data-kk` already set when the document becomes interactive, no console errors or CSP violations, no horizontal scroll. Negative tests: an edited inline script and a missing `.md` page both fail `check_site.py`. `wrangler dev` serves `llms.txt` as `text/plain; charset=utf-8` and `.md` as `text/markdown; charset=utf-8`, so `_headers` is unchanged. `pnpm test`, `pnpm check`, `pnpm build`, `check_site.py`, `scripts/check.sh` all green.

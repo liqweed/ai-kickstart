@@ -1,0 +1,14 @@
+filters:
+  and:
+    - file.inFolder("_inbox")
+    - file.ext == "md"
+    - file.basename != "README"
+formulas:
+  added: file.ctime.relative()
+views:
+  - type: table
+    name: Inbox
+    order:
+      - file.name
+      - formula.added
+      - note.summary

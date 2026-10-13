@@ -1,0 +1,40 @@
+filters:
+  and:
+    - file.ext == "md"
+    - '!file.inFolder("_system")'
+    - '!file.inFolder("_inbox")'
+    - '!file.inFolder("99-archive")'
+    - file.basename != "_index"
+formulas:
+  changed: file.mtime.relative()
+views:
+  - type: table
+    name: Recently changed
+    filters:
+      and:
+        - file.mtime > now() - "7d"
+    order:
+      - file.name
+      - formula.changed
+      - note.summary
+      - file.folder
+  - type: table
+    name: Missing summary
+    filters:
+      and:
+        - if(summary, false, true)
+    order:
+      - file.name
+      - file.folder
+      - formula.changed
+  - type: table
+    name: Active but untouched for 4 months
+    filters:
+      and:
+        - 'status == "active"'
+        - file.mtime < now() - "120d"
+    order:
+      - file.name
+      - formula.changed
+      - note.summary
+      - file.folder

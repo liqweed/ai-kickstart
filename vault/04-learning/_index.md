@@ -9,4 +9,10 @@ summary: Hub for learning — one folder per topic (book notes, courses, languag
 
 # Learning
 
-One folder per topic, e.g. `04-learning/<language>/`, `04-learning/books/`, `04-learning/ai/`. Research briefs and book notes go here too.
+One folder per topic, e.g. `04-learning/<language>/`, `04-learning/books/`, `04-learning/ai/`. Research briefs and book notes go here too (template: *Source Note*).
+
+## Topics
+
+<!-- auto-index:start -->
+_(Nothing here yet.)_
+<!-- auto-index:end -->

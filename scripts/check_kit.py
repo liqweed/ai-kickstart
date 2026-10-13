@@ -8,9 +8,11 @@
 5. skills   - every skill in vault/_system/skills/ has name+description frontmatter and is listed in vault/AGENTS.md
 6. prompts  - site/src/content/prompts.md and guide/prompts.html hold the same prompts (until the guide shrinks, K12)
 7. plan     - docs/master-plan.md holds open work only: every row has an open status and a unique ID
+8. tools    - the vault tools pass their self-test, the template vault lints clean, and its hubs are current
 """
 import html
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -158,6 +160,22 @@ def check_plan():
     return rows
 
 
+def check_tools():
+    tools = ROOT / "vault/_system/tools"
+    runs = [
+        ("self-test", [sys.executable, str(tools / "selftest.py")]),
+        ("template vault lint", [sys.executable, str(tools / "vault_lint.py"), "--strict", "--max", "0"]),
+        ("hubs current", [sys.executable, str(tools / "hub_index.py")]),
+    ]
+    for name, cmd in runs:
+        r = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8")
+        if r.returncode != 0:
+            fail("tools", f"{name} failed:\n{(r.stdout + r.stderr).strip()[-1500:]}")
+    for leftover in (ROOT / "vault").rglob("__pycache__"):
+        fail("tools", f"{leftover.relative_to(ROOT)} exists (tools must set sys.dont_write_bytecode)")
+    return len([p for p in tools.glob("*.py") if not p.name.startswith("_") and p.name not in ("vaultlib.py", "selftest.py")])
+
+
 def main():
     version = check_version()
     n_catalog = check_catalog()
@@ -165,11 +183,12 @@ def main():
     n_skills = check_skills()
     n_prompts = check_prompts()
     n_plan = check_plan()
+    n_tools = check_tools()
     if errors:
         print("\n".join(errors), file=sys.stderr)
         print(f"check_kit: {len(errors)} problem(s)", file=sys.stderr)
         return 1
-    print(f"check_kit: OK (v{version}, {n_catalog} catalog functions, {n_pages} pages, {n_skills} skills, {n_prompts} prompts, {n_plan} open plan items)")
+    print(f"check_kit: OK (v{version}, {n_catalog} catalog functions, {n_pages} pages, {n_skills} skills, {n_prompts} prompts, {n_plan} open plan items, {n_tools} tools)")
     return 0
 
 

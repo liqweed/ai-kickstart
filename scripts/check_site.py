@@ -82,6 +82,10 @@ def main():
         n = len(re.findall(r"\bdata-row\b", ideas))
         if n != md_items:
             errors.append(f"[counts] ideas page shows {n} functions, the catalog has {md_items}")
+    conn_md = (ROOT / "vault/_system/kickstart/connections-catalog.md").read_text().count("\n### ")
+    n_conn = (DIST / "connections/index.html").read_text().count('<article class="conn"')
+    if n_conn != conn_md:
+        errors.append(f"[counts] connections page shows {n_conn} connections, connections-catalog.md has {conn_md}")
     prompts_md = (ROOT / "site/src/content/prompts.md").read_text().count("\n### ")
     n_cards = (DIST / "prompts/index.html").read_text().count("data-prompt")
     if n_cards != prompts_md:
@@ -96,7 +100,7 @@ def main():
         print("\n".join(errors), file=sys.stderr)
         print(f"check_site: {len(errors)} problem(s)", file=sys.stderr)
         return 1
-    print(f"check_site: OK ({len(pages)} pages, {md_items} catalog functions, {prompts_md} prompts, llms.txt)")
+    print(f"check_site: OK ({len(pages)} pages, {md_items} catalog functions, {conn_md} connections, {prompts_md} prompts, llms.txt)")
     return 0
 
 

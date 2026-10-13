@@ -63,6 +63,7 @@ Check for `config/<name>.md`. If missing, ask: <3–6 questions, one at a time>.
 - **First-run interview → config file.** Ask once, remember forever, let the owner edit the file.
 - **Gates before ranking.** Hard constraints filter first. Unknown goes in its own list.
 - **Three options, one recommendation.** Decision-ready beats a catalogue.
-- **Script lists, search questions.** If a list must be filtered correctly every time, write a small script (in `scripts/`). If it's an open question, search.
+- **Script lists, search questions.** If a list must be filtered correctly every time, build a small tool (skill `tool-builder`, rules in `_system/TOOLS-CONTRACT.md`). If it's an open question, search. Check the registry (`_system/tools/README.md`) first: a starter tool may already do it.
+- **Name the connection, and the fallback.** If a skill reads an app (calendar, email), say which connection note it relies on and what to do when it isn't connected.
 - **Offer follow-through; don't auto-run it.** Saving, reminders and messages are offers.
 - **Say what you don't know.**

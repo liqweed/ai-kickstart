@@ -3,7 +3,7 @@ tags: [system, kickstart]
 type: reference
 status: active
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 summary: Menu of things AI can do across life and work, grouped by area, with effort levels. Used in interview Round 2.
 ---
 
@@ -13,7 +13,7 @@ A menu, not a to-do list. Most people end up using **5–10 of these** regularly
 
 **Levels:**
 - **S, Starter.** Works with just the AI, your vault and web search. Build it in one session.
-- **M, Connected.** Needs a connection to an app (calendar, email, tasks, a portal). Do these after the starters.
+- **M, Connected.** Needs a connection to an app (calendar, email, tasks, a portal). Do these after the starters. What each connection unlocks: [[connections-catalog|the Connections catalog]].
 - **L, Builder.** Needs a small script or a schedule. The AI writes it with you, step by step.
 
 ## 🧭 Daily rhythm & focus
@@ -33,6 +33,7 @@ A menu, not a to-do list. Most people end up using **5–10 of these** regularly
 | Quick capture + inbox triage | Dump thoughts anywhere; they get sorted weekly | S |
 | Ask my notes | Answers from your own vault, with links to the notes | S |
 | Save this | Keeps the useful part of a conversation as a proper note | S |
+| Vault health check | Finds broken links, duplicates, stale notes and stray passwords; fixes them with you | S |
 | Article / video / podcast digest | Summary plus why it matters to *you* | S |
 | Book notes | Key ideas, quotes, how they apply to your life | S |
 | Research brief | Compares options with sources and flags uncertainty | S |
@@ -177,7 +178,7 @@ A menu, not a to-do list. Most people end up using **5–10 of these** regularly
 ## 🛠️ Builder track (optional)
 | Function | What it does | Level |
 |---|---|---|
-| Connect your apps | Calendar, email, tasks, cloud drive, **read-only first** | M |
+| Connect your apps | Calendar, email, tasks, cloud drive, maps, weather… (see the connections catalog), **read-only first** | M |
 | Small scripts | For lists that must be filtered correctly every time | L |
 | Scheduled automations | Things that run by themselves: digests, review prep | L |
 | Dashboards & mini pages | Personal web pages from your data | L |

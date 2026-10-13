@@ -11,6 +11,7 @@ const PAGES: { path: string; optional?: boolean }[] = [
   { path: "/" },
   { path: "/setup/" },
   { path: "/ideas/" },
+  { path: "/connections/" },
   { path: "/prompts/" },
   { path: "/how-it-works/" },
   { path: "/whats-new/", optional: true },

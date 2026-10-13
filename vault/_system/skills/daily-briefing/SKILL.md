@@ -13,6 +13,7 @@ A briefing the owner can read in **under two minutes** that answers: *what matte
 |---|---|
 | Goals & projects | `_system/profile/GOALS.md` → *Now*, `PROJECTS.md` → *Active* |
 | Open tasks | `- [ ]` items in the vault, especially in `PROJECTS.md`, project notes and the last weekly review |
+| Due & dates | If you can run commands: `python3 _system/tools/upcoming.py --days 3` (overdue tasks, due dates, birthdays, renewals). Otherwise scan for dated tasks by hand |
 | Yesterday | the previous file in `07-briefings/daily/` (what carried over?) |
 | Calendar | only if connected (see `06-reference/connections/`); otherwise ask "anything fixed today?" |
 | This week's priorities | latest `05-planning/weekly/` review |

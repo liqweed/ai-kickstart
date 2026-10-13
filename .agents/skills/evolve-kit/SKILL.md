@@ -19,12 +19,16 @@ Most kit content is referenced from several places. A change is done only when *
 | You change… | Also update |
 |---|---|
 | A catalog function | **Both** `vault/_system/kickstart/function-catalog.md` and the `CATALOG` array in `guide/catalog.html` (same name and level). Check the count claims ("103", "around a hundred") on `guide/catalog.html`, `guide/index.html`, `CHANGELOG.md` |
-| A vault skill (new/renamed) | `vault/AGENTS.md` skills table · `vault/_system/index.md` (if the index mentions it) · `guide/system.html` starter-skills table · README tree · `guide/index.html` "What's in the box" · skill count claims ("9 starter playbooks") |
+| A vault skill (new/renamed) | `vault/AGENTS.md` skills table · `vault/_system/index.md` (if the index mentions it) · `guide/system.html` starter-skills table · README tree · `guide/index.html` "What's in the box" · skill count claims ("12 starter playbooks") |
 | A harness step | `vault/_system/HARNESS-PLAN.md` · `guide/harness.html` (phases table, if phase-level) · any skill or round file that ticks that step by ID (`P1.1`…). **Don't renumber existing steps.** Users' plans reference them, so add new ones as `P3.5`, `P3.6` |
 | An interview round/question | The round file · `interview-protocol.md` table (if the goal changed) · `guide/interview.html` round card · question counts ("about 9 questions") |
 | A profile file | `vault/_system/profile/README.md` · `vault/_system/index.md` · `guide/system.html` · Round 4 synthesis · **major** version |
 | A vault folder | `vault/_system/VAULT-CONTRACT.md` placement table · `vault/_system/index.md` · README tree · `guide/system.html` tree · `guide/index.html` tree |
 | A tip | `vault/06-reference/Working with AI - Tips & Insights.md`. If it's a principle, consider `guide/why.html` → *Principles* too |
+| A vault tool (new/changed) | The tool + a test in `vault/_system/tools/tests/` · registry row in `vault/_system/tools/README.md` · the skill(s) that use it (command + fallback) · counts ("six tools") in `guide/system.html`, `guide/index.html`, `site/src/pages/how-it-works.astro`, README tree · run `python3 vault/_system/tools/selftest.py`. Follow `vault/_system/TOOLS-CONTRACT.md` Part A |
+| A connection (catalog entry) | `vault/_system/kickstart/connections-catalog.md` only (the site parses it; keep the field shape). Counts in CHANGELOG if stated. Methods stay generic; services are examples |
+| A contract rule (VAULT- or TOOLS-CONTRACT) | The contract · skills that cite its § numbers (`grep -rn "§" vault/_system/skills`) · `test_contract.py` if a tools rule is machine-checked |
+| A template or dashboard | `vault/_system/templates/` or `vault/_system/dashboards/` · `vault/_system/index.md` · `guide/system.html` tree comment |
 | A prompt | `guide/prompts.html`. If it's also shown on `interview.html`, `harness.html` or `setup.html`, keep the wording identical |
 | A guide page (new) | Nav bar in **every** page · pager links of neighbours · `guide/index.html` · README tree |
 | Any guide page | Footer version stays as-is (the `release` skill bumps it) |

@@ -116,8 +116,8 @@ const toc = [["interview", "The interview"], ["harness", "The harness plan"], ["
           <div><dt>Profile</dt><dd><code>_system/profile/</code>: mission, goals, projects, landscape, preferences, beliefs, and what the AI has learned.</dd></div>
           <div><dt>Map &amp; rules</dt><dd><code>index.md</code> is the map, read first. <code>AGENTS.md</code> says how the AI behaves here.</dd></div>
           <div><dt>Skills</dt><dd>One folder per playbook, in <code>_system/skills/</code>.</dd></div>
-          <div><dt>Connections</dt><dd>Calendar, tasks, email, read-only first. Often through MCP (a plug that lets the AI read an app, like your calendar).</dd></div>
-          <div><dt>Scripts</dt><dd>Small helpers for lists that must be filtered correctly every time.</dd></div>
+          <div><dt>Connections</dt><dd>Calendar, tasks, email, maps, weather, read-only first. Often through MCP (a plug that lets the AI read an app, like your calendar). See <a href="/connections/">what you could connect</a>.</dd></div>
+          <div><dt>Tools</dt><dd>Small, tested scripts for jobs with one right answer: a vault health check, what's due, what changed, a password scan. Six come with the kit (optional; they need Python). <code>TOOLS-CONTRACT.md</code> says how to build more safely.</dd></div>
           <div><dt>Automations</dt><dd>Things that run on a schedule, with their output checked.</dd></div>
           <div><dt>Harness plan</dt><dd><code>HARNESS-PLAN.md</code>, plus session and decisions logs, so progress survives pauses and tool switches.</dd></div>
         </dl>
@@ -129,10 +129,13 @@ const toc = [["interview", "The interview"], ["harness", "The harness plan"], ["
 ├── _system/
 │   ├── index.md         the map, read first
 │   ├── VAULT-CONTRACT.md
+│   ├── TOOLS-CONTRACT.md
 │   ├── HARNESS-PLAN.md
 │   ├── profile/
-│   ├── kickstart/       interview, catalog
+│   ├── kickstart/       interview, catalogs
 │   ├── skills/          one folder per playbook
+│   ├── tools/           tested helper scripts
+│   ├── dashboards/      live Bases views
 │   └── templates/
 ├── 01-life/ 02-work/ 03-projects/
 ├── 04-learning/ 05-planning/

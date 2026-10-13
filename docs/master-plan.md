@@ -14,8 +14,9 @@ The complete roadmap, open work only. **When an item is done, delete its row** a
 ## Now
 
 1. **M1.1** Pilot with one friend, using https://ai-kickstart.me.
-2. **K11** tinyjs spike, to find out early whether the app's stack works on Mac and Windows.
-3. **K16** Content parity with the offline guide (small; unblocks K12).
+2. **K22** Check the new dashboards in the real Obsidian app (small; before the next release).
+3. **K11** tinyjs spike, to find out early whether the app's stack works on Mac and Windows.
+4. **K16** Content parity with the offline guide (small; unblocks K12).
 
 ## 1 · First users
 
@@ -40,8 +41,11 @@ The complete roadmap, open work only. **When an item is done, delete its row** a
 
 | ID | Item | Done when | Effort | Status |
 |---|---|---|---|---|
-| K1 ★ | **"Updating your kit" guide**: how an existing user pulls new skills, tips and steps into their vault without losing their notes (per-file guidance + an agent prompt). Shares its model of "kit-owned vs. person-owned files" with K19 | A v1.1 vault updates to the next release by following the guide, with no edited note lost | M | todo |
+| K1 ★ | **"Updating your kit" guide**: how an existing user pulls new skills, tips and steps into their vault without losing their notes (per-file guidance + an agent prompt). Shares its model of "kit-owned vs. person-owned files" with K19. Tools, contracts, catalogs, templates and dashboards are kit-owned; hubs with `auto-index` blocks are mixed (the block is generated) | A v1.1 vault updates to the next release by following the guide, with no edited note lost | M | todo |
 | K4 | **Windows + chat-app walkthrough** on a real machine | Setup completed end to end on Windows with a chat app; fixes filed | S | todo |
+| K22 ★ | **Check the dashboards and hub lists in the real Obsidian app** (Mac + Windows): open `_system/dashboards/Dashboards.md` with Bases on, add a few sample notes, and confirm every view of the four `.base` files works (`if(summary, …)`, the `now() - "7d"` date maths, `groupBy`). Check the `auto-index` lists render | Each view shows the expected notes, or the `.base` files are fixed; syntax checked against the current Bases docs | S | next |
+| K23 | **Vault tools on a real Windows machine**, beyond CI: the `py` launcher, a vault in OneDrive, CRLF notes, non-ASCII names | `selftest.py` passes and `vault_lint.py` / `fix_frontmatter.py --apply` behave on a real Windows vault; fixes released | S | todo |
+| K24 | **More starter tools, only if a starter skill needs them**: candidates are an `.ics` reader (read a calendar export into `upcoming.py`, no connection needed) and an RSS digest (the first tool with declared network use, as the worked example for TOOLS-CONTRACT §3) | Each one passes the contract, serves a named skill, and is in the registry | M | idea |
 | K2 | **Fictional example vault** ("after 2 months"): filled profile, briefings, a weekly review and a harness log for an invented persona | Linked from the site; scrub-clean; no real family's specifics | M | todo |
 | K3 | **Profession packs**: optional skills (teacher, manager, freelancer, healthcare admin…) with an install prompt | At least two packs, each listed in the catalog | M | todo |
 

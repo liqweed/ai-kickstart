@@ -34,6 +34,7 @@ summary: Interview round 4 — tone, autonomy, guardrails, rhythms; then synthes
    - Fill in the P2 placeholders (P2.3–P2.5) with the **three best first wins**: high value, effort **S**, one per top area where possible. The ★ item from Round 3 goes first.
    - Remove or mark `[-]` any generic steps that don't fit them. Examples: no daily briefing wanted, or a locked-down work laptop.
    - Make sure every backlog item from Round 3 is in the *Personal backlog* table.
+   - Low tech comfort, or a chat-only AI? Mark P0.6 `[-]` (the tools are optional). Locked-down work laptop? Note it next to P4.
 3. **Present the plan** in plain words:
    > "Here's your setup in one screen: *who I think you are* (3 lines), *your first three wins* (with when you'll feel them), and *what comes after* (connections, automations), at whatever pace you like."
 4. Save `answers/round-4-YYYY-MM-DD.md`, tick **P1.4** and **P1.5**, and hand off:

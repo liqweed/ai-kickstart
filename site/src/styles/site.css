@@ -212,6 +212,26 @@ details[open] > summary .step-chev::before { content: "−"; }
 .dialog__msg { margin: 0; flex: 1; min-height: 0; overflow: auto; padding: 16px 20px; font: 14px/1.6 var(--mono); white-space: pre-wrap; }
 .dialog__foot { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; padding: 12px 16px; border-top: 1px solid var(--line); }
 
+/* Connections */
+.conn-start { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 16px 32px; align-items: start; padding: 18px; border: 2px solid var(--accent); border-radius: var(--r-card); }
+.conn-groups { display: flex; flex-direction: column; gap: 40px; padding-block: 24px 56px; }
+.conn-group { display: flex; flex-direction: column; gap: 14px; scroll-margin-top: 76px; }
+.conn-group__h { margin: 0; font: 500 26px/1.25 var(--serif); border-bottom: 1px solid var(--ink); padding-bottom: 8px; }
+.conns { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); gap: 16px; align-items: start; }
+.conn { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-card); padding: 18px; display: flex; flex-direction: column; gap: 10px; scroll-margin-top: 76px; }
+.conn__head { display: flex; align-items: baseline; gap: 10px; }
+.conn__name { flex: 1; margin: 0; font: 500 21px/1.25 var(--serif); }
+.conn p { margin: 0; }
+.conn__try { font-size: 15px; padding: 8px 12px; background: var(--sunk); border-radius: var(--r); }
+.conn__facts { display: flex; flex-direction: column; gap: 6px; margin: 0; border-top: 1px solid var(--line); padding-top: 10px; }
+.conn__facts div { display: grid; grid-template-columns: 92px 1fr; gap: 8px; }
+.conn__facts dt { font-weight: 600; }
+.conn__facts dd { margin: 0; }
+.risk { font: 600 12px/1 var(--sans); padding: 3px 7px; border-radius: 999px; border: 1px solid var(--line-strong); white-space: nowrap; }
+.risk--medium { background: var(--hl); border-color: var(--hl-line); }
+.risk--high { border-color: var(--ink); border-width: 1.5px; }
+.table-wrap { overflow-x: auto; }
+
 /* Prompts */
 .prompt-groups { padding-block: 36px 56px; display: flex; flex-direction: column; gap: 22px; }
 .ph-sample { font-family: var(--mono); background: var(--hl); border-bottom: 2px dashed var(--hl-line); padding: 0 3px; }

@@ -177,6 +177,26 @@ Explain <concept> to me as a smart colleague from a different field: what it is,
 Make this a skill. I'll probably ask for this again. Use the skill-builder skill.
 ```
 
+### What could I connect?
+```text
+What could I connect? Look at my profile and the connections catalog, and show me the five or six connections that would help me most, with one example each of what it would unlock for me. Use the connect-app skill.
+```
+
+### Connect an app
+```text
+Connect my <app> read-only. Use the connect-app skill: research the current best method for my AI tool, ask before installing or signing in, test it with a real question, and document it.
+```
+
+### Vault health check
+```text
+Vault health check. Use the vault-maintenance skill: show me what's broken or messy in one table, then fix it in small batches. Don't delete or move anything until I say yes.
+```
+
+### Turn a repeat into a tool
+```text
+Make this a tool. It's a list or check with one right answer that you've done by hand before. Use the tool-builder skill and follow TOOLS-CONTRACT.md: test first, dry run by default, and show me a run on my real notes.
+```
+
 ### Ask before doing
 ```text
 Before you start: what would you need to know to do this really well? Ask me first, one question at a time.

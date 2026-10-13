@@ -24,13 +24,19 @@ ai-kickstart/
     ├── _system/
     │   ├── index.md        → map of the vault
     │   ├── VAULT-CONTRACT.md
+    │   ├── TOOLS-CONTRACT.md → rules for tools (scripts) and connections
     │   ├── HARNESS-PLAN.md → the trackable build plan
     │   ├── profile/        → MISSION, GOALS, PROJECTS, LANDSCAPE, PREFERENCES, BELIEFS, LEARNED
-    │   ├── kickstart/      → interview protocol, rounds 1–5, function catalog
+    │   ├── kickstart/      → interview protocol, rounds 1–5, function catalog, connections catalog
     │   ├── skills/         → kickstart-interview, harness, daily-briefing, weekly-review,
-    │   │                     vault-query, vault-save, people, quality-time-planner, skill-builder
+    │   │                     vault-query, vault-save, people, quality-time-planner, skill-builder,
+    │   │                     vault-maintenance, tool-builder, connect-app
+    │   ├── tools/          → vault_lint, secret_scan, upcoming, recent, fix_frontmatter, hub_index
+    │   │                     (+ tests and a self-test; Python 3.9+, standard library only)
+    │   ├── dashboards/     → Obsidian Bases views
     │   └── templates/
     ├── 06-reference/Working with AI - Tips & Insights.md → habits, prompting, trust, pitfalls
+    ├── 06-reference/Organizing your vault.md → folders, links, properties, rhythms, plugins
     └── _inbox/ 01-life/ 02-work/ 03-projects/ 04-learning/ 05-planning/
         07-briefings/ 99-archive/ config/
 ```

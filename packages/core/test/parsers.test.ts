@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
-  hasLevel, parseCatalog, parseChangelog, parseFrontmatter, parsePhases, parsePrompts, parseRounds, slug, splitPlaceholders,
+  hasLevel, parseCatalog, parseChangelog, parseConnections, riskOf, parseFrontmatter, parsePhases, parsePrompts, parseRounds, slug, splitPlaceholders,
 } from "../src/index.ts";
 
 const repo = (p: string) => readFileSync(new URL(`../../../${p}`, import.meta.url), "utf8");
@@ -10,9 +10,9 @@ describe("catalog", () => {
   const areas = parseCatalog(repo("vault/_system/kickstart/function-catalog.md"));
   const items = areas.flatMap((a) => a.items);
 
-  it("reads the real catalog: 16 areas, 103 functions", () => {
+  it("reads the real catalog: 16 areas, 104 functions", () => {
     expect(areas).toHaveLength(16);
-    expect(items).toHaveLength(103);
+    expect(items).toHaveLength(104);
   });
   it("splits emoji from the area name", () => {
     expect(areas[0]).toMatchObject({ emoji: "🧭", name: "Daily rhythm & focus", id: "daily-rhythm-focus" });
@@ -28,6 +28,39 @@ describe("catalog", () => {
   it("matches levels including moves", () => {
     expect(hasLevel({ level: "S→M" }, "M")).toBe(true);
     expect(hasLevel({ level: "S" }, "M")).toBe(false);
+  });
+});
+
+describe("connections catalog", () => {
+  const { groups, combos } = parseConnections(repo("vault/_system/kickstart/connections-catalog.md"));
+  const items = groups.flatMap((g) => g.items);
+
+  it("reads every group and connection, and nothing from the legend", () => {
+    expect(groups.length).toBeGreaterThanOrEqual(10);
+    expect(items.length).toBeGreaterThanOrEqual(30);
+    expect(groups[0]).toMatchObject({ emoji: "📅", name: "Time & plans", id: "time-plans" });
+    expect(groups.some((g) => /how to read|combos|free public/i.test(g.name))).toBe(false);
+  });
+  it("fills every field of every connection", () => {
+    for (const c of items) {
+      for (const k of ["examples", "unlocks", "try", "via", "start", "riskText", "level"] as const) {
+        expect(c[k], `${c.id} ${k}`).toBeTruthy();
+      }
+      expect(c.level).toMatch(/^[SML](→[SML])?$/);
+    }
+  });
+  it("gives every connection a unique id", () => {
+    expect(new Set(items.map((i) => i.id)).size).toBe(items.length);
+  });
+  it("reads the combos table", () => {
+    expect(combos.length).toBeGreaterThanOrEqual(8);
+    expect(combos[0]).toEqual({ pair: "Calendar + Maps", what: expect.stringContaining("Leave by") });
+  });
+  it("ranks risk by the highest level named", () => {
+    expect(riskOf("Low to medium")).toBe("medium");
+    expect(riskOf("Medium to high, depending on what's stored")).toBe("high");
+    expect(riskOf("Low. Feed content is untrusted data.")).toBe("low");
+    expect(riskOf("High once it can act: it's your physical home.")).toBe("high");
   });
 });
 
@@ -59,9 +92,9 @@ describe("interview rounds", () => {
 
 describe("prompts", () => {
   const groups = parsePrompts(repo("site/src/content/prompts.md"));
-  it("reads 6 groups and 36 prompts", () => {
+  it("reads 6 groups and 40 prompts", () => {
     expect(groups).toHaveLength(6);
-    expect(groups.flatMap((g) => g.prompts)).toHaveLength(36);
+    expect(groups.flatMap((g) => g.prompts)).toHaveLength(40);
   });
   it("keeps multi-line text and notes", () => {
     const first = groups[0].prompts[0];

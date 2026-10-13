@@ -9,12 +9,8 @@ summary: List of people profiles, grouped by relationship (maintained by the peo
 
 # People
 
-*(Profiles are added with the `people` skill: "add a person".)*
+*(Profiles are added with the `people` skill: "add a person".)* The list below is grouped by each profile's `relationship` and kept current by the vault tools (`hub_index.py`), or by the AI by hand.
 
-## Household
-
-## Family
-
-## Friends
-
-## Work
+<!-- auto-index:start group=relationship -->
+_(Nothing here yet.)_
+<!-- auto-index:end -->

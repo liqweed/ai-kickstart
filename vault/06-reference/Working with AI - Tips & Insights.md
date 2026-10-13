@@ -3,7 +3,7 @@ tags: [reference, ai]
 type: reference
 status: active
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 summary: Practical tips and hard-won insights for getting real value from AI day to day — habits, prompting, trust, privacy, and pitfalls.
 ---
 
@@ -60,6 +60,8 @@ These come from a lot of real, daily use across family life, home admin and work
 - **Search before you create.** Ask the AI to update an existing note rather than making a new one. Two notes on one topic is how a vault rots.
 - **Keep always-read files short.** `AGENTS.md` and `PREFERENCES.md` are read every session. Every line costs attention. When the AI makes the same mistake twice, fix the skill or the folder structure first, and add a rule only as a last resort.
 - **Put a small index in big folders.** A short `_index.md` saying "what's in here and where things go" saves the AI from guessing, whether in your vault or a shared drive.
+- **A one-line `summary` on every note is the best investment in your vault.** It lets the AI (and you) decide what to open without opening everything. More in [[Organizing your vault]].
+- **A monthly health check keeps the rot out.** Broken links, duplicates and an outdated index make the AI guess. *"Vault health check"* takes 15 minutes.
 - **Private vs. shareable versions.** Keep your honest, private analysis in your vault. When something goes to a shared document, ask for a neutral version. Never paste your private angle into a shared doc by accident.
 
 ## 🔒 Privacy & safety
@@ -93,10 +95,13 @@ These come from a lot of real, daily use across family life, home admin and work
 - **Rehearse hard conversations.** Ask the AI to play the other person, realistically and not too nicely.
 - **Draft in your voice.** Give it two or three emails you wrote and liked as examples.
 - **Prefer official connections over clicking around.** Where an app has a proper connector or command-line tool, use it. Having the AI drive a web page is slower and breaks more often.
+- **Connections multiply.** Calendar plus maps gives you "leave by" times. Email plus tasks turns every deadline into a to-do. Ask *"What could I connect?"* once you're past the basics.
 
 ## ⚙️ When you get more technical
 
 - **Script lists, search questions.** If a list must be filtered correctly every time, have the AI write a small script. If it's an open question, ask it.
+- **Tools need tests, and connections need notes.** A script without a test breaks silently. A connection without a note is forgotten, along with its permissions. `TOOLS-CONTRACT.md` has the short checklist for both.
+- **Never combine all three:** private data, untrusted content (web, email) and a way to send things out, in one unsupervised agent. That's how data gets leaked by a hidden instruction.
 - **Keep your vault in version control (git) or synced with history.** Then any change the AI makes can be undone.
 - **Let agents work on a copy.** For bigger changes, have the AI work on a branch or a copy and review the result before it replaces the original.
 - **Use the right model for the job.** The most capable model for planning, tricky reasoning and reviews. Faster, cheaper ones for routine summaries and sorting.

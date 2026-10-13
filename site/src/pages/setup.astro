@@ -93,16 +93,18 @@ const fill = { "Mac / Windows / Linux": "os", "AI tool": "tool" } as const;
             <li>In Obsidian, choose <strong>Open folder as vault</strong> and pick that folder: the renamed one, not the kit folder around it. If asked, choose <strong>Trust author and enable plugins</strong> (there are none yet).</li>
           </ol>
           <details class="more">
-            <summary>Three settings worth changing</summary>
+            <summary>Four settings worth changing</summary>
             <div>
               <table class="table">
                 <thead><tr><th scope="col">Where</th><th scope="col">Setting</th><th scope="col">Why</th></tr></thead>
                 <tbody>
                   <tr><td>Settings → Files and links</td><td><strong>Automatically update internal links</strong>: on</td><td>Moving or renaming a note won't break links.</td></tr>
                   <tr><td>Settings → Files and links</td><td><strong>Default location for new notes</strong>: <code>_inbox</code></td><td>Quick notes land in the inbox and get sorted weekly.</td></tr>
-                  <tr><td>Settings → Core plugins → Templates</td><td><strong>Template folder</strong>: <code>_system/templates</code></td><td>One-click project and meeting notes.</td></tr>
+                  <tr><td>Settings → Core plugins → Templates</td><td><strong>Template folder</strong>: <code>_system/templates</code></td><td>One-click project, meeting, person and decision notes.</td></tr>
+                  <tr><td>Settings → Core plugins → Bases</td><td><strong>On</strong> (Obsidian 1.9.10 or newer)</td><td>Live dashboards of your projects, people and inbox in <code>_system/dashboards/</code>.</td></tr>
                 </tbody>
               </table>
+              <p class="small muted">Optional, for desktop and terminal agents: the kit's helper tools (a vault health check, "what's due", a password scan) need <strong>Python 3.9 or newer</strong>. No need to install it now. Harness step P0.6 checks it with you later, and every skill works without it.</p>
             </div>
           </details>
         </Step>

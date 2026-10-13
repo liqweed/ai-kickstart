@@ -1,0 +1,23 @@
+filters:
+  and:
+    - file.ext == "md"
+    - 'type == "project"'
+views:
+  - type: table
+    name: By status
+    groupBy:
+      property: note.status
+      direction: ASC
+    order:
+      - file.name
+      - note.summary
+      - note.updated
+      - file.folder
+  - type: cards
+    name: Active
+    filters:
+      and:
+        - 'status == "active"'
+    order:
+      - file.name
+      - note.summary

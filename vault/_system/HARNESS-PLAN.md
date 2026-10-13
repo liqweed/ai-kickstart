@@ -3,7 +3,7 @@ tags: [system, plan]
 type: plan
 status: active
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 summary: The step-by-step build plan for my AI setup — one small, verified step per session.
 current_phase: P0
 next_step: P0.1
@@ -59,6 +59,8 @@ Every step has a **Done when** (what must be true) and a **Check** (how we prove
   Done when: the vault lives in a backed-up place. Check: edit a note, see the change on a second device or in the cloud folder.
 - [ ] **P0.5 Privacy baseline.** Read `_system/profile/PREFERENCES.md` → *Ask me first* and *Never*, and adjust them to taste.
   Done when: you're comfortable with both lists. Check: the AI reads them back to you.
+- [ ] **P0.6 Tools check** *(optional; desktop or terminal agents)*. Say *"Run the tools self-test"*. The AI runs `python3 _system/tools/selftest.py` (Windows: `py`). If Python is missing, it explains the options and asks before installing anything. Chat-only, or not now? Mark `[-]`: every skill also works without the tools.
+  Done when: the self-test says **OK**. Check: the AI shows the last line of its output.
 
 ## P1 — Get to know you (the interview)
 
@@ -88,12 +90,21 @@ Start each round with: *"Start round N of my kickstart interview."*
 - [ ] **P3.3 People.** Add the 3–5 most important people with the `people` skill (only what you're comfortable storing). Check: profiles exist and are linked from `01-life/people/`.
 - [ ] **P3.4 Lessons.** Add a first entry to `LEARNED.md`. Check: the weekly review now asks about lessons.
 - [ ] **P3.5 Tips & habits.** Skim `06-reference/Working with AI - Tips & Insights.md` (the top 10 is enough) and pick **two** habits to try for two weeks. Check: the two habits are written in the *Decisions log* below, and the Round 5 check-in asks how they went.
+- [ ] **P3.6 First vault health check.** Say *"Vault health check"* (skill `vault-maintenance`). Skim [[Organizing your vault]] first if you like: ten minutes, and it explains the why.
+  Done when: no red findings are left. Check: the before → after counts from `vault_lint.py` (or the by-hand checklist) are in the session log.
+- [ ] **P3.7 Dashboards** *(optional)*. Open [[_system/dashboards/Dashboards|Dashboards]] in Obsidian (needs the core *Bases* plugin) and pick the view you'd look at weekly. Pin or bookmark it.
+  Done when: one dashboard shows your real notes. Check: you've opened it twice in a week.
 
 ## P4 — Connections (read-only first)
 
-Add one step per app you want connected; the Round 3 backlog says which. Template:
+Not sure what's possible? Start with P4.0. Then add one step per app you want connected; the Round 3 backlog and P4.0 say which. The rules are in `_system/TOOLS-CONTRACT.md`, Part B.
 
-- [ ] **P4.x Connect <app> (read-only).** Method: built-in connector / MCP server / command-line tool / export file. Ask the AI to research the current best option for your tool and OS.
+- [ ] **P4.0 Explore what you could connect.** Say *"What could I connect?"* (skill `connect-app`). The AI shows the five or six connections from the [[connections-catalog|Connections catalog]] that fit your life, each with an example of what it would unlock for you, plus one combo.
+  Done when: you picked two or three, and they're added below as P4.x steps in your order. Check: the steps exist, with the first one marked ★.
+
+Template:
+
+- [ ] **P4.x Connect <app> (read-only).** Skill `connect-app`. Method: built-in connector / official MCP server / command-line tool / export file. The AI researches the current best option for your tool and OS, prefers official, and vets anything third-party.
   Done when: the AI can *read* from it in a test. Check: it answers "what's on my calendar tomorrow?" (or the equivalent) correctly, **and** `06-reference/connections/<app>.md` documents how it's connected, what it can do, and how to disconnect.
   Only later, and only if you want: allow *drafts* (e.g. email drafts). Sending stays with you.
 
@@ -103,12 +114,15 @@ Rule of thumb: **if it's a list that must be filtered correctly every time, scri
 
 - [ ] **P5.1 Spot candidates.** Review the session log: what did the AI do by hand more than twice that has one right answer (filtering, renaming, converting, calculating)? Add each to the backlog as effort **L**.
 - [ ] **P5.2 First script.** Build the top candidate with the AI: small, one job, readable, in the skill's `scripts/` folder.
-  Done when: it works on real data. Check: it has a test or a sample run you saw with your own eyes, and the skill's `SKILL.md` says when to use it.
+  Skill `tool-builder`, following `_system/TOOLS-CONTRACT.md` Part A. The kit's starter tools in `_system/tools/` are working examples.
+  Done when: it works on real data. Check: it has a test, `python3 _system/tools/selftest.py` passes, you saw a run on your own notes, it's in the registry (`_system/tools/README.md`), and the skill's `SKILL.md` says when to use it.
+- [ ] **P5.3 Put the starter tools to work.** Wire the tools you'll actually use into your routines: e.g. `upcoming.py` in the morning briefing, `recent.py` in the weekly review. (The starter skills already mention them; this step checks they're used.)
+  Done when: at least one tool runs as part of a skill you use. Check: a briefing or review that used a tool's output.
 
 ## P6 — Automations
 
 - [ ] **P6.1 Choose a runner.** Your AI tool's scheduler, if it has one, or your OS scheduler (macOS/Linux cron or launchd, Windows Task Scheduler).
-- [ ] **P6.2 First scheduled job.** Usually *weekly review prep* or a *content digest*. Schedule it.
+- [ ] **P6.2 First scheduled job.** Usually *weekly review prep*, a *content digest*, or the monthly `vault_lint.py` report saved as a note. Schedule it.
   Done when: it has run on schedule. Check: **the output file exists and is correct.** "The job ran" isn't proof; the result is.
 - [ ] **P6.3 Two-week watch.** Check: every scheduled run in two weeks produced its output. Note misses in the session log.
 
@@ -117,6 +131,8 @@ Rule of thumb: **if it's a list that must be filtered correctly every time, scri
 - [ ] **P7.1 Check-in (Round 5)** two weeks after P1.5. Then monthly.
 - [ ] **P7.2 Prune.** Archive skills you haven't used in a month (ask first). Keep `AGENTS.md` short.
 - [ ] **P7.3 Quarterly profile review.** Re-read GOALS / PROJECTS / MISSION. Update what's stale.
+- [ ] **P7.4 Monthly vault health check.** Skill `vault-maintenance`. Check: a *Maintenance* line in this month's review, with no red findings left.
+- [ ] **P7.5 Quarterly tools & connections review.** Skills `tool-builder` (review mode) and `connect-app` (review mode): still used? Still right? Permissions still minimal? Retire what isn't pulling its weight. Check: a dated *Last reviewed* line on each connection note, and the self-test passing.
 
 ---
 

@@ -30,5 +30,6 @@ summary: Interview round 5 — recurring check-in (two weeks after setup, then m
 - Turn new wishes into **backlog items** (same format as Round 3).
 - Add 1–3 lines to `LEARNED.md` → *Working with AI*.
 - Re-order the harness plan if priorities shifted. Retire unused skills to `99-archive/`, after asking.
+- If no app is connected yet and they're past P3, mention P4.0 (*"What could I connect?"*): it's often where the setup starts to feel useful.
 - Save `answers/round-5-YYYY-MM-DD.md` and add a session-log entry in the harness plan.
 - Suggest the next check-in date.

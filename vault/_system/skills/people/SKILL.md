@@ -48,5 +48,6 @@ birthday: <MM-DD or YYYY-MM-DD, if known>
 - **Only store what the owner tells you**, and what they'd be comfortable with that person reading. Factual and kind.
 - No health details beyond what's practically needed (e.g. allergies), and no ID numbers.
 - Hard constraints (allergies, dietary needs, accessibility) go at the top of their section. Other skills treat them as **rules, not preferences**.
-- Keep `01-life/people/_index.md` as a simple list of profiles grouped by relationship. Optionally add groups like "Household" or "Close friends" for trip and event planning.
+- Keep `01-life/people/_index.md` as a simple list of profiles grouped by relationship. Its list sits between `auto-index` markers: refresh it with `python3 _system/tools/hub_index.py --apply`, or by hand in the same format. Optionally add groups like "Household" or "Close friends" for trip and event planning.
 - Query mode ("what does X like?"): answer from the profile and cite it. Say when the profile is thin.
+- "Whose birthday is coming up?": `python3 _system/tools/upcoming.py --days 45` reads the `birthday` and `anniversary` fields (`MM-DD` or `YYYY-MM-DD`). Without tools, read the profiles' frontmatter.

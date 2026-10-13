@@ -20,7 +20,7 @@ Pick the 5–7 most useful questions for the area. Don't ask all of them by rote
 
 1. **Last time.** Walk me through the last time you did this. What happened, step by step? *(Stories beat abstractions.)*
 2. **Who's involved?** Just you, or also a partner, kids, colleagues, clients? Who decides?
-3. **Where does the information live?** Email, calendar, an app, paper, your head, a website you check, a school portal, a spreadsheet?
+3. **Where does the information live?** Email, calendar, an app, paper, your head, a website you check, a school portal, a spreadsheet? *(Each answer is a possible connection. Note it for the backlog; `connections-catalog.md` shows what each one unlocks.)*
 4. **Musts and nevers.** Anything that's non-negotiable? *Examples: dietary needs, budget ceiling, "must have English subtitles", "never book without asking", "only weekends", accessibility.* These become **hard rules** in the skill.
 5. **What does "great" look like?** If this were handled brilliantly, what would you see, and when? *Examples: "a message on Sunday evening with the week's plan", "three options, one recommendation", "a checklist I can tick".*
 6. **How often, and when?** On demand, or on a schedule (daily, weekly, before an event)?

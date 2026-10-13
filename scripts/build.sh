@@ -14,6 +14,7 @@ trap 'rm -rf "$stage"' EXIT
 mkdir -p "$stage/ai-kickstart" dist
 cp -R README.md LICENSE START-HERE.html guide vault "$stage/ai-kickstart/"
 find "$stage" -name '.DS_Store' -delete
+find "$stage" -name '__pycache__' -type d -prune -exec rm -rf {} +
 
 out="dist/ai-kickstart-v${version}.zip"
 rm -f "$out"

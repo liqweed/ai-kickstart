@@ -35,11 +35,12 @@ You are helping **maintain** a public, CC BY 4.0 kit that helps people start wor
 6. **Tool-agnostic.** The kit must work with any capable AI tool, plus a chat-only fallback. Name specific products only on the setup pages (`guide/setup.html`, `site/src/pages/setup.astro`), the path chooser, and only as examples.
 7. **Friendly and plain.** End-user text is warm, jargon-free and explains any technical term the first time. Keep `vault/AGENTS.md` short. It's read every session by the user's AI.
 8. **Small and finished beats big.** Same rule the kit teaches: add a line only after it's earned its place, and prune what isn't pulling its weight.
+9. **Vault tools stay tested and optional.** Python 3.9+ standard library only, read-only unless `--apply`, registered in `vault/_system/tools/README.md`, with a fallback in every skill that uses them. `python3 vault/_system/tools/selftest.py` must pass, and the template vault must lint clean (`check_kit.py` runs both). See ARCHITECTURE D11/D17.
 
 ## Verify before you claim done
 
 ```bash
-scripts/check.sh            # privacy scrub + version/catalog/links/offline/skills checks
+scripts/check.sh            # privacy scrub + version/catalog/links/offline/skills/tools checks
 scripts/build.sh            # also builds dist/ai-kickstart-v<VERSION>.zip
 pnpm test && pnpm check && pnpm build && scripts/check_site.py   # website: parsers, types, build, no third-party requests
 ```

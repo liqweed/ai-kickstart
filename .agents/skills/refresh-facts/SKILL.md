@@ -18,6 +18,9 @@ AI tools change monthly. The kit stays trustworthy only if its few concrete prod
 | Provider data/training settings, "paid plan recommended" | `guide/setup.html` §5, `guide/index.html` |
 | Scheduler options (tool schedulers, cron/launchd, Task Scheduler) | `vault/_system/HARNESS-PLAN.md` P6.1 |
 | "As of <season year>" snapshot line | `guide/setup.html` §1 callout |
+| Obsidian Bases (minimum version, where the toggle is, `.base` syntax used by the dashboards) and the CLI commands named in the organizing note | `vault/_system/dashboards/*.base`, `vault/06-reference/Organizing your vault.md` §8–9, `guide/setup.html` §2, `site/src/pages/setup.astro` |
+| Connections: how people connect each service, which apps offer built-in connectors, MCP status, free public data terms (weather, holidays, OpenStreetMap usage policy) | `vault/_system/kickstart/connections-catalog.md`, `vault/_system/TOOLS-CONTRACT.md` §9–12 |
+| Python availability (macOS built-in version, Windows `py` launcher) | `vault/_system/tools/README.md`, harness P0.6 |
 
 ## Steps
 

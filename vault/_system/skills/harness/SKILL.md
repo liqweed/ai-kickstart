@@ -24,8 +24,8 @@ description: Drive the owner's step-by-step AI setup plan in _system/HARNESS-PLA
 3. **Say the plan in three lines:** what we'll do, how long it should take, and what "done" will look like. Ask before anything that installs software, creates accounts, costs money, touches other people, or is hard to undo.
 4. **Do it, small.** If it won't fit in ~30 minutes, split it into sub-steps (`P2.3a`, `P2.3b`, …), write them into the plan, and do the first one.
    - Building a skill? Use the `skill-builder` skill.
-   - Connecting an app? Research the current method for the owner's tool and OS (it changes often). Start **read-only**. Document it in `06-reference/connections/<app>.md`.
-   - Writing a script? Keep it small and single-purpose, store it in the owning skill's `scripts/` folder, and run it on real data in front of the owner.
+   - Connecting an app? Use the `connect-app` skill: research the current method for the owner's tool and OS (it changes often), start **read-only**, document it in `06-reference/connections/<App>.md`.
+   - Writing a script? Use the `tool-builder` skill and `_system/TOOLS-CONTRACT.md`: small, single-purpose, tested, registered, and run on real data in front of the owner.
 5. **Check.** Run the step's **Check** and show the evidence: the file exists, the output is right, the owner tried it. If it fails, leave the step `[/]` and note why.
 6. **Update the plan.**
    - Tick `[x]` only after a passing check.

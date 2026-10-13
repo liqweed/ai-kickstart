@@ -1,7 +1,7 @@
 // Typed, ordered access to the collections, plus small text helpers for pages.
 import { getCollection, type CollectionEntry } from "astro:content";
 
-type Name = "catalog" | "prompts" | "releases" | "phases" | "rounds" | "skills";
+type Name = "catalog" | "connections" | "combos" | "prompts" | "releases" | "phases" | "rounds" | "skills";
 
 export async function ordered<N extends Name>(name: N): Promise<CollectionEntry<N>[]> {
   const list = (await getCollection(name)) as CollectionEntry<N>[];

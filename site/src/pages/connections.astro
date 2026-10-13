@@ -1,0 +1,109 @@
+---
+// The connections catalog, read from vault/_system/kickstart/connections-catalog.md at build time.
+// The safety ladder and the "dangerous combination" summarise TOOLS-CONTRACT.md Part B.
+import Base from "../layouts/Base.astro";
+import Prompt from "../components/Prompt.astro";
+import { inline, ordered } from "../lib/kit.ts";
+
+const groups = await ordered("connections");
+const combos = await ordered("combos");
+const items = groups.flatMap((g) => g.data.items);
+const START_HERE = ["Calendar", "Tasks & reminders", "Web search & reading pages", "Cloud files", "Weather"];
+const starters = START_HERE.map((n) => items.find((i) => i.name === n)).filter((i) => i !== undefined);
+if (starters.length !== START_HERE.length) throw new Error("site: a 'start here' connection is missing from connections-catalog.md");
+const RISK_HEAD = /^(Low|Medium|High)( to (?:medium|high))?[.:,]?\s*/i;
+/** "Low to medium. Rest…" -> ["Low to medium risk", "Rest…"] */
+const riskParts = (text: string): [string, string] => {
+  const m = text.match(RISK_HEAD);
+  return m ? [`${m[1]}${m[2] ?? ""} risk`, text.slice(m[0].length)] : ["Risk", text];
+};
+const levelWord = (l: string) => l.replace("S", "Starter").replace("M", "Connected").replace("L", "Builder");
+---
+<Base title="What could you connect? · AI Kickstart" place="ideas" description={`${items.length} apps and data sources your AI could connect to, in ${groups.length} areas: what each unlocks, how people connect it, and where to start safely.`}>
+  <section class="wrap cat-head" aria-labelledby="conn-h">
+    <div class="stack gap-8 measure">
+      <p class="kk-eyebrow">Connections</p>
+      <h1 id="conn-h" class="h1">What could you connect?</h1>
+      <p class="lede">On its own, your AI knows your notes and the web. Connect your calendar and it knows your week. Add maps and it knows how long the drive takes. Add the weather and Saturday's picnic gets a plan B.</p>
+      <p class="pretty">Here are {items.length} connections in {groups.length} areas: what each one unlocks, how people usually connect it, and where to start. It's a menu, not a to-do list. Most people end up with three to six. Your AI picks the ones that fit you and connects them one at a time, read-only first.</p>
+    </div>
+    <div class="conn-start">
+      <div class="stack gap-8">
+        <h2 class="h3">Start here</h2>
+        <p class="small muted">The five that unlock the most for most people:</p>
+        <p class="jump jump--wrap">{starters.map((s) => <a href={`#${s.id.replace("/", "--")}`}>{s.name}</a>)}</p>
+      </div>
+      <Prompt label="Ask your AI (in your vault)" text="What could I connect? Look at my profile and pick the five or six connections that would help me most." />
+    </div>
+    <div class="legend">
+      <span><strong>Start</strong> the first rung: export → read-only → draft → act</span>
+      <span><strong>Risk</strong> low · medium · high</span>
+      <span><strong>S M L</strong> effort, as on the <a href="/ideas/">ideas menu</a></span>
+    </div>
+    <nav class="jump" aria-label="Areas">
+      {groups.map((g) => <a href={`#${g.id}`}><span aria-hidden="true">{g.data.emoji}</span> {g.data.name}</a>)}
+      <a href="#combos">Combos</a>
+      <a href="#safely">Safely</a>
+    </nav>
+  </section>
+
+  <div class="wrap conn-groups">
+    {groups.map((g) => (
+      <section class="conn-group" id={g.id} aria-labelledby={`${g.id}-h`}>
+        <h2 id={`${g.id}-h`} class="conn-group__h"><span aria-hidden="true">{g.data.emoji}</span> {g.data.name}</h2>
+        <div class="conns">
+          {g.data.items.map((c) => (
+            <article class="conn" id={c.id.replace("/", "--")} aria-labelledby={`${c.id.replace("/", "--")}-h`}>
+              <header class="conn__head">
+                <h3 id={`${c.id.replace("/", "--")}-h`} class="conn__name">{c.name}</h3>
+                <span class="kk-tag" title={levelWord(c.level)}>{c.level}</span>
+              </header>
+              <p class="conn__examples small muted" set:html={inline(c.examples)} />
+              <p class="conn__unlocks" set:html={inline(c.unlocks)} />
+              <p class="conn__try"><span class="label-caps">Try</span> <span set:html={inline(c.try)} /></p>
+              <dl class="conn__facts small">
+                <div><dt>Connect via</dt><dd set:html={inline(c.via)} /></div>
+                <div><dt>Start</dt><dd set:html={inline(c.start)} /></div>
+                <div><dt>Risk</dt><dd><span class={`risk risk--${c.risk}`}>{riskParts(c.riskText)[0]}</span> <span set:html={inline(riskParts(c.riskText)[1])} /></dd></div>
+              </dl>
+            </article>
+          ))}
+        </div>
+      </section>
+    ))}
+
+    <section class="conn-group" id="combos" aria-labelledby="combos-h">
+      <h2 id="combos-h" class="conn-group__h">Combos</h2>
+      <p class="measure pretty">Two connections together often unlock more than both alone. Once you have both halves, try one of these.</p>
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th scope="col">Combo</th><th scope="col">What becomes possible</th></tr></thead>
+          <tbody>{combos.map((c) => <tr><td><strong>{c.data.pair}</strong></td><td set:html={inline(c.data.what)} /></tr>)}</tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="conn-group" id="safely" aria-labelledby="safely-h">
+      <h2 id="safely-h" class="conn-group__h">Connecting safely</h2>
+      <div class="pieces">
+        <div class="piece">
+          <h3 class="h3">Climb the ladder slowly</h3>
+          <p><strong>Export</strong> (a file you download) → <strong>read-only</strong> → <strong>draft</strong> (you review and send) → <strong>act</strong> (small, reversible things). Every connection starts at the bottom. Money and messages to people stay at <em>draft</em>.</p>
+        </div>
+        <div class="piece">
+          <h3 class="h3">Prefer official</h3>
+          <p>Best first: a connector built into your AI app, then one made by the service itself, then a well-known community one you've checked, then an export file. Driving a website in a browser is the last resort.</p>
+        </div>
+        <div class="piece">
+          <h3 class="h3">Never all three at once</h3>
+          <p>Private data, untrusted content (web pages, emails) and a way to send things out, all in one unsupervised AI: that's how a hidden instruction leaks your data. Keep approvals on for anything that sends.</p>
+        </div>
+        <div class="piece">
+          <h3 class="h3">Write it down</h3>
+          <p>Each connection gets a short note in your vault: how it's connected, what the AI may and may never do, a test question, and how to disconnect. Reviewed every quarter.</p>
+        </div>
+      </div>
+      <p class="small muted measure">The full rules are in your vault's <code>_system/TOOLS-CONTRACT.md</code>. The <code>connect-app</code> skill follows them step by step.</p>
+    </section>
+  </div>
+</Base>

@@ -9,18 +9,12 @@ summary: One note per app connected to the AI — how, what it can do, how to di
 
 # Connections
 
-One note per connected app (harness phase P4). Each note has:
+One note per connected app (harness phase P4), made from the *Connection* template: how it's connected, access level, what the AI may and may never do, a test prompt, how to disconnect, and when it was last reviewed. A connection without a note doesn't exist: the next session can't know about it.
 
-```markdown
-# <App>
-- **Connected via:** <built-in connector / MCP server / CLI tool / export file>
-- **Access level:** read-only | can draft | can act
-- **What the AI can do:** …
-- **What it must never do:** …
-- **How to test:** <one prompt that proves it works>
-- **How to disconnect:** …
-- **Connected on:** YYYY-MM-DD
-```
+Ideas for what to connect: [[connections-catalog|the Connections catalog]]. Rules: [[TOOLS-CONTRACT|Tools & Connections Contract]], Part B. New notes start from the *Connection* template.
 
-| App | Access | Note |
-|---|---|---|
+## Connected
+
+<!-- auto-index:start group=access -->
+_(Nothing here yet.)_
+<!-- auto-index:end -->

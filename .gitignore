@@ -9,3 +9,5 @@ node_modules/
 site/dist/
 site/.astro/
 .wrangler/
+# Python (the vault tools set dont_write_bytecode; this is a backstop)
+__pycache__/
