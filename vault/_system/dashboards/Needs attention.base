@@ -5,6 +5,7 @@ filters:
     - '!file.inFolder("_inbox")'
     - '!file.inFolder("99-archive")'
     - file.basename != "_index"
+    - file.folder != "/"
 formulas:
   changed: file.mtime.relative()
 views:

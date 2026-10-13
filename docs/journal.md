@@ -27,6 +27,12 @@ What happened and why, newest first. The open work is in [`master-plan.md`](mast
 
 ## Session log
 
+### 2026-10-13 — K22 dashboards in the real Obsidian app (Mac)
+- **Did:** copied the template vault to a throwaway folder and added sample notes: 3 people (one with no summary), 3 projects (active, paused, and active but untouched since March via `touch`), 2 inbox notes, 1 work note. Ran `hub_index.py --apply`, opened the copy in Obsidian 1.14.4 (macOS), and queried every view with the Obsidian CLI (`obsidian base:query … format=paths`). Then checked `Dashboards.md` and the People hub by eye. Found and fixed two filter gaps: People and Projects listed the `Person` and `Project Note` templates in `_system/templates/` (the template's `status: active` also put it in the *Active* cards), and *Needs attention* listed the root `AGENTS.md` and `CLAUDE.md`, which deliberately have no frontmatter, as "missing summary". Now `!file.inFolder("_system")` and `file.folder != "/"`.
+- **Checked:** after the fix, all 7 views return exactly the expected notes. `if(summary, false, true)`, `now() - "7d"`, `now() - "120d"`, `file.ctime/mtime.relative()`, `groupBy` and the cards view all work as written. In a new vault, Bases is already on (the empty tab offers *New base*). The auto-index lists render as headed, linked lists. `scripts/check.sh` green.
+- **Not done:** Windows (folded into K23).
+- **Next:** release v1.2, then M1.1.
+
 ### 2026-10-13 — Pilot feedback: existing AI setups, Craft Agents
 - **Did:** a friend's AI read the unzipped kit from outside and told her to skip P0, P4 and P6 because of her existing setup (global instructions, AI memory, a Craft Agents workspace), though she doesn't use Obsidian. Added an "If you're an AI reading this kit for someone" section to `README.md` (the only text file at the zip root), a P0 intro line in `HARNESS-PLAN.md`, an "evidence comes from this vault" rule in the `harness` skill, and an "Already use AI with your own setup?" note on both setup pages. Path B on both setup pages now has a Craft Agents note (one workspace just for the vault, Ask to Edit mode, sources → P4, automations → P6), checked against its source code at v0.15.1: it finds `AGENTS.md`/`CLAUDE.md` in the working folder, and keeps its own skills under `~/.craft-agent/`.
 - **Checked:** `scripts/check.sh`, `pnpm test` (36), `pnpm check`, `pnpm build`, `check_site.py` all green. Not opened in a browser.

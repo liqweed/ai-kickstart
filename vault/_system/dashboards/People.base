@@ -1,6 +1,7 @@
 filters:
   and:
     - file.ext == "md"
+    - '!file.inFolder("_system")'
     - 'type == "person"'
 views:
   - type: table
