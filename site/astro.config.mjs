@@ -1,16 +1,19 @@
 // @ts-check
 import { createHash } from "node:crypto";
 import { defineConfig } from "astro/config";
+import llms from "./src/integrations/llms.ts";
 import { THEME_BOOT } from "./src/lib/theme-boot.mjs";
 
 /** @param {string} text @returns {`sha256-${string}`} */
 const sha256 = (text) => `sha256-${createHash("sha256").update(text).digest("base64")}`;
 
-// Static output only. No integrations, no client framework: the few interactive pieces are plain TS modules.
+// Static output only. No client framework: the few interactive pieces are plain TS modules.
+// One build-time integration writes /llms.txt and the Markdown copies of the pages.
 export default defineConfig({
   site: "https://ai-kickstart.me",
   trailingSlash: "always",
   build: { format: "directory" },
+  integrations: [llms()],
   devToolbar: { enabled: false },
   markdown: { syntaxHighlight: false },
   security: {

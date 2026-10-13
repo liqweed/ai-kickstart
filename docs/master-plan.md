@@ -15,7 +15,7 @@ The complete roadmap, open work only. **When an item is done, delete its row** a
 
 1. **M1.1** Pilot with one friend, using https://ai-kickstart.me.
 2. **K11** tinyjs spike, to find out early whether the app's stack works on Mac and Windows.
-3. **K15** `llms.txt` (small).
+3. **K16** Content parity with the offline guide (small; unblocks K12).
 
 ## 1 · First users
 
@@ -29,7 +29,6 @@ The complete roadmap, open work only. **When an item is done, delete its row** a
 
 | ID | Item | Done when | Effort | Status |
 |---|---|---|---|---|
-| K15 | **`/llms.txt`** per [llmstxt.org](https://llmstxt.org/): a summary plus links to Markdown versions of the pages (setup, catalog, prompts, how it works), generated at build time from the same content | `/llms.txt` and its `.md` links resolve, follow the spec's format, and come from the kit's sources, not a hand-kept copy | S | todo |
 | K14 | **⌘K / Ctrl+K quick find**: one dialog that searches pages, prompts and ideas, with a build-time index and no third-party code | Typing a word finds and copies a prompt, Enter navigates, Esc closes; keyboard-only and screen-reader friendly; works on a phone via a visible button | M | todo |
 | K16 ★ | **Content parity with the offline guide** before it shrinks: "Why Obsidian", "What this is not", and the compounding loop from `guide/why.html` | Every explanation in `guide/` has a home on the site | S | todo |
 | K12 | **Shrink the zip's `guide/`** to one offline `START-HERE` page pointing to the site. Drop the catalog JS copy (D7) and the prompt sync check | The zip has one guide page; `check_kit.py` no longer needs the catalog and prompt sync. Needs K16 | S | blocked: K16 |

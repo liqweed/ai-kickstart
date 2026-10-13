@@ -18,6 +18,8 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@types/node": "^24.19.2",
+    "@types/turndown": "^5.0.6",
+    "turndown": "^7.2.4",
     "typescript": "^6.0.3",
     "wrangler": "4.149.0"
   }

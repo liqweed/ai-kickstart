@@ -5,6 +5,7 @@
 2. csp      - every page carries the Content-Security-Policy <meta> Astro generates, and it hashes every inline script
 3. links    - every internal href/src points to a file in dist/
 4. counts   - the catalog and prompt counts on the pages match the kit
+5. llms     - /llms.txt follows llmstxt.org (H1, summary, link lists) and every link it makes on this site resolves
 """
 import base64
 import hashlib
@@ -26,6 +27,24 @@ def target(url):
         return None
     p = DIST / path.lstrip("/")
     return p / "index.html" if path.endswith("/") else p
+
+
+def check_llms():
+    llms = DIST / "llms.txt"
+    if not llms.exists():
+        errors.append("[llms] llms.txt missing")
+        return
+    lines = llms.read_text().splitlines()
+    if not lines[0].startswith("# ") or not any(line.startswith("> ") for line in lines[1:4]):
+        errors.append("[llms] llms.txt must start with an H1 and a > summary")
+    links = re.findall(r"^- \[[^\]]+\]\((\S+)\)", llms.read_text(), re.M)
+    if not links:
+        errors.append("[llms] llms.txt lists no links")
+    for url in links:
+        if url.startswith("https://ai-kickstart.me/"):
+            md = DIST / url.removeprefix("https://ai-kickstart.me/")
+            if not md.exists() or md.stat().st_size < 200:
+                errors.append(f"[llms] {url} is missing or nearly empty in dist/")
 
 
 def main():
@@ -68,11 +87,16 @@ def main():
     if n_cards != prompts_md:
         errors.append(f"[counts] prompts page shows {n_cards} prompts, prompts.md has {prompts_md}")
 
+    check_llms()
+    md_prompts = (DIST / "prompts/index.html.md").read_text().count("```text\n") if (DIST / "prompts/index.html.md").exists() else 0
+    if md_prompts != prompts_md:
+        errors.append(f"[llms] prompts/index.html.md has {md_prompts} prompt blocks, prompts.md has {prompts_md}")
+
     if errors:
         print("\n".join(errors), file=sys.stderr)
         print(f"check_site: {len(errors)} problem(s)", file=sys.stderr)
         return 1
-    print(f"check_site: OK ({len(pages)} pages, {md_items} catalog functions, {prompts_md} prompts)")
+    print(f"check_site: OK ({len(pages)} pages, {md_items} catalog functions, {prompts_md} prompts, llms.txt)")
     return 0
 
 
