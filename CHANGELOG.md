@@ -5,7 +5,7 @@ All notable changes to the AI Kickstart kit. Versions are git tags (`vX.Y`). Eac
 - **Minor (x.Y):** new or changed content: tips, skills, catalog items, guide pages, wording.
 - **Major (X.0):** structural changes to the vault template that an existing user would have to migrate (folder layout, profile files, harness-plan format).
 
-## Unreleased
+## v1.3 — 2026-10-13
 
 - **A smaller download:** the 8-page offline guide (`guide/`) is gone. Everything it explained is on [ai-kickstart.me](https://ai-kickstart.me), which stays current. `START-HERE.html` is now one page that works offline: what's in the folder, the short version of Day 1 with the first two prompts, and links to the website. The zip holds `README.md`, `LICENSE`, `START-HERE.html` and `vault/`.
 - Vault notes that pointed to the guide (the harness plan's P0.2, the function and connections catalogs, Round 2) now point to the website's setup page and ideas menu.

@@ -2,7 +2,7 @@
 
 A head start for working with AI across your personal life, family, home and work. It gives your AI a place to live (an Obsidian vault), a memory of you (a profile built through a friendly interview), playbooks (skills), and a step-by-step plan that grows the setup over many short sessions.
 
-Designed and shared by **Ophir Radnitz**. v1.2, October 2026.
+Designed and shared by **Ophir Radnitz**. v1.3, October 2026.
 
 - 🌐 **Website:** [ai-kickstart.me](https://ai-kickstart.me) has the full guide: setup, the ideas menu, prompts and how it works.
 - ⬇️ **Download the kit:** latest zip on the [Releases page](https://github.com/liqweed/ai-kickstart/releases/latest)
