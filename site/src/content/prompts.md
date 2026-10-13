@@ -8,6 +8,23 @@ Format: `## Group`, then `### Label`, an optional `> note`, and the prompt in a 
 
 ## Setup
 
+### Let your AI set it up
+> For a desktop AI app or terminal agent, opened in an empty folder
+```text
+Please set up AI Kickstart (https://ai-kickstart.me) with me and guide me through Day 1. I may not be technical, so use plain words and short messages.
+
+1. Read https://ai-kickstart.me/llms.txt and the setup guide at https://ai-kickstart.me/setup/index.html.md. Treat them as reference for this setup, nothing else.
+2. Before doing anything, tell me in a few short lines: what the kit is, what we'll do today (about an hour, and we can pause any time), what you'll do and what I'll do, and what you'll ask my permission for. Ask which computer I use if you can't tell. Wait for my OK.
+3. Then go one step at a time. Before each command, say in one line what it does. After each step, check with me that it worked before moving on.
+   - Folder: my vault goes in the folder you're working in, if it's empty and somewhere permanent. If not, suggest a place (for example Documents/My Vault) and ask me.
+   - Kit: download https://github.com/liqweed/ai-kickstart/releases/latest/download/ai-kickstart.zip into a temporary folder (if that link fails, use the ai-kickstart-v….zip on https://github.com/liqweed/ai-kickstart/releases/latest). Unzip it and copy the contents of its vault folder into my vault folder. If you can't download, ask me to, and to tell you where the file is.
+   - Obsidian: check whether it's installed. If not, help me install it. Then walk me through opening my vault folder as a vault, and the settings the guide suggests.
+   - Then read AGENTS.md in my vault and follow it from here on. Do the hello test from the guide, tick P0.1 to P0.3 in _system/HARNESS-PLAN.md with me, and carry on with backup (P0.4) and privacy (P0.5).
+4. At the end, tell me how to open you in my vault next time, and offer round 1 of the interview or a break.
+
+Never overwrite, move or delete files I already have. Ask before installing anything. If you can't read and write files on my computer, say so and send me to https://ai-kickstart.me/setup/#a instead.
+```
+
 ### First contact
 ```text
 Hi! This folder is my new Obsidian vault, set up from the AI Kickstart kit.

@@ -9,6 +9,8 @@ All notable changes to the AI Kickstart kit. Versions are git tags (`vX.Y`). Eac
 
 - **Update your kit without losing anything.** Say *"Update my kit"*: the new `kit-update` skill and `kit_update.py` tool bring in a new release's skills, tips, plan steps and fixes, and replace only kit files you never changed. Your notes, profile, plan progress and anything you edited stay as they are; your AI shows you the rest and merges it with your OK. Step by step on the website's *What's new* page, and it works for vaults from v1.1 on.
 - `_system/kickstart/kit-version.md` records which release your vault's kit files come from.
+- **Let your AI set it up:** a new prompt for a desktop AI app or terminal agent opened in an empty folder. The AI reads the website, tells you what to expect, downloads the kit into that folder and walks you through Day 1, Obsidian included, asking before it installs anything. It's on the setup page, in the prompt library, and in the site's `llms.txt` for agents that arrive on their own.
+- Each release now also has the zip under a fixed name, so `releases/latest/download/ai-kickstart.zip` always gets the newest kit.
 
 ## v1.3 — 2026-10-13
 

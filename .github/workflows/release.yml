@@ -30,4 +30,7 @@ jobs:
       - name: Create release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" "dist/ai-kickstart-${GITHUB_REF_NAME}.zip" --title "AI Kickstart ${GITHUB_REF_NAME}" --notes-file notes.md
+        run: |
+          # A second copy under a fixed name, so releases/latest/download/ai-kickstart.zip always works.
+          cp "dist/ai-kickstart-${GITHUB_REF_NAME}.zip" dist/ai-kickstart.zip
+          gh release create "$GITHUB_REF_NAME" "dist/ai-kickstart-${GITHUB_REF_NAME}.zip" dist/ai-kickstart.zip --title "AI Kickstart ${GITHUB_REF_NAME}" --notes-file notes.md

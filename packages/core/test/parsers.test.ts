@@ -110,12 +110,12 @@ describe("interview rounds", () => {
 
 describe("prompts", () => {
   const groups = parsePrompts(repo("site/src/content/prompts.md"));
-  it("reads 6 groups and 47 prompts", () => {
+  it("reads 6 groups and 48 prompts", () => {
     expect(groups).toHaveLength(6);
-    expect(groups.flatMap((g) => g.prompts)).toHaveLength(47);
+    expect(groups.flatMap((g) => g.prompts)).toHaveLength(48);
   });
   it("keeps multi-line text and notes", () => {
-    const first = groups[0].prompts[0];
+    const first = groups[0].prompts[1];
     expect(first.label).toBe("First contact");
     expect(first.text.split("\n")).toHaveLength(4);
     expect(groups.flatMap((g) => g.prompts).find((p) => p.label.startsWith("Express"))?.note).toBe("Rounds 1 and 2 merged");

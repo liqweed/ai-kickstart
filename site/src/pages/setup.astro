@@ -8,6 +8,7 @@ import Step from "../components/Step.astro";
 import { OS, PATHS, RELEASES_URL, ZIP_SIZE } from "../lib/choices.ts";
 import { prompt } from "../lib/kit.ts";
 
+const lead = await prompt("setup/let-your-ai-set-it-up");
 const first = await prompt("setup/first-contact");
 const stuck = await prompt("setup/help-me-with-a-setup-step-i-m-stuck-on");
 const main = await prompt("harness/the-main-one");
@@ -58,6 +59,11 @@ const fill = { "Mac / Windows / Linux": "os", "AI tool": "tool" } as const;
     </div>
 
     <div class="stack gap-18" data-steps-area>
+      <div class="kk-note stack gap-14 lead" data-path="b c">
+        <p><span class="variant-tag" data-for="path">desktop app or terminal</span><strong>Or let your AI lead.</strong> Make an empty folder where your vault should live, for example <code>Documents/My Vault</code>. Open your AI in that folder (step 4, “Connect your AI”, shows how) and paste the message below. It reads this site, tells you what to expect, downloads the kit and walks you through each step, Obsidian included. It asks before installing anything.</p>
+        <Prompt label={lead.label} note={lead.note} text={lead.text} />
+        <p class="small muted">The steps below are the same journey by hand. Tick them as your AI finishes each one, or use them if it gets stuck.</p>
+      </div>
       <p class="progress" aria-live="polite" data-progress>Six steps. Tick each one when its check works.</p>
       <ol class="steps">
         <Step id="kit" proof={[{ doneWhen: "You have an unpacked kit folder with a folder called vault inside.", check: "Open vault. You should see AGENTS.md and a folder called _system." }]}>

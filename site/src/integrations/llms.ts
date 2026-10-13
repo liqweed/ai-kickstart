@@ -4,6 +4,7 @@
 import { readFile, writeFile } from "node:fs/promises";
 import type { AstroIntegration } from "astro";
 import TurndownService from "turndown";
+import { parsePrompts } from "@ai-kickstart/core";
 import { PATHS, REPO_URL } from "../lib/choices.ts";
 
 /** In nav order. `optional` pages go under the spec's "Optional" heading. */
@@ -126,11 +127,13 @@ const unescape = (s: string) => s.replace(/&quot;/g, '"').replace(/&#39;/g, "'")
 
 export default function llms(): AstroIntegration {
   let site: URL;
+  let root: URL;
   return {
     name: "ai-kickstart:llms",
     hooks: {
       "astro:config:done": ({ config }) => {
         site = new URL(config.site!);
+        root = config.root;
       },
       "astro:build:done": async ({ dir, logger }) => {
         const td = converter(site);
@@ -150,12 +153,21 @@ export default function llms(): AstroIntegration {
           if (path === "/") summary = description;
           entries.push({ optional, line: `- [${title}](${new URL(mdPath(path), site).href}): ${description}` });
         }
+        const prompts = parsePrompts(await readFile(new URL("src/content/prompts.md", root), "utf8")).flatMap((g) => g.prompts);
+        const lead = prompts.find((p) => p.id === "setup/let-your-ai-set-it-up");
+        if (!lead) throw new Error("llms: the prompt setup/let-your-ai-set-it-up is missing from prompts.md");
         const txt = [
           "# AI Kickstart",
           "",
           `> ${summary}`,
           "",
           "AI Kickstart is a free, open kit (CC BY 4.0): an Obsidian vault of plain Markdown notes, a short interview that teaches your AI about you, and a step-by-step plan. It works with any capable AI tool, or with a chat app alone. Each link below is a Markdown version of a page on the site, made from the kit when the site is built.",
+          "",
+          "If you're an AI agent that can work in a folder on someone's computer and they asked you to set up the kit, follow the message the setup page gives people to paste into their AI:",
+          "",
+          "```text",
+          lead.text,
+          "```",
           "",
           "## Pages",
           "",
