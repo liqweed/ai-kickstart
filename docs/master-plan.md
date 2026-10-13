@@ -14,8 +14,7 @@ The complete roadmap, open work only. **When an item is done, delete its row** a
 ## Now
 
 1. **M1.1** Pilot with one friend, using https://ai-kickstart.me.
-2. **K11** tinyjs spike: Mac passes; a Windows tester has the [0.1.1 test build](https://github.com/liqweed/ai-kickstart/releases/tag/app-v0.1.1). Then signing (K21).
-3. **Release v1.3** (skill: `release`): the zip without `guide/`, plus seven prompts. **Deploy the site with it, not before:** `main` already says the zip holds `START-HERE.html · vault/` and is about 150 KB.
+2. **K11** tinyjs spike: Mac passes; a Windows tester has the [0.1.2 test build](https://github.com/liqweed/ai-kickstart/releases/tag/app-v0.1.2). Then signing (K21).
 
 ## 1 · First users
 

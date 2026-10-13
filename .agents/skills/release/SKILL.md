@@ -31,4 +31,5 @@ A release = a `vX.Y` tag on `main`. Pushing the tag triggers `.github/workflows/
 
 - A check fails → fix it in a normal commit, then restart from step 4. Never tag a red build.
 - The release workflow **didn't start** (no run listed for the tag; seen when a tag arrives in the same push that creates or changes workflows) → re-push the unpublished tag: `git push origin :refs/tags/v1.2 && git push origin v1.2`.
+- A job failed for a passing reason (a network timeout while downloading a tool) and `gh run rerun` is refused (the token here has no admin rights) → check nothing was published (`gh release view <tag>` fails), then re-push the tag as above. Same for app tags (`app-vX.Y.Z`).
 - The release workflow failed after the tag was pushed → fix on `main`, then move the tag: `git tag -fa v1.2 -m v1.2 && git push -f origin v1.2`. Only do this if the release isn't published yet, and ask the maintainer first.
