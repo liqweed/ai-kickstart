@@ -298,7 +298,7 @@ class TestKitUpdate(VaultCase):
         root = self.vault.parent / f"{self.vault.name}-{name}" / "vault"
         for rel, text in files.items():
             (root / rel).parent.mkdir(parents=True, exist_ok=True)
-            (root / rel).write_text(text, encoding="utf-8")
+            (root / rel).write_bytes(text.encode("utf-8"))  # bytes, so Windows doesn't turn \n into \r\n
         self.addCleanup(lambda: __import__("shutil").rmtree(root.parent, ignore_errors=True))
         return root.parent
 
