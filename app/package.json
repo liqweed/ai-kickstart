@@ -1,7 +1,7 @@
 {
   "name": "@ai-kickstart/app",
   "private": true,
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "description": "The companion app (tinyjs). K11 spike: proves the stack on macOS and Windows.",
   "scripts": {
