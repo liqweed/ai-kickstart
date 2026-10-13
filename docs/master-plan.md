@@ -15,7 +15,7 @@ The complete roadmap, open work only. **When an item is done, delete its row** a
 
 1. **M1.1** Pilot with one friend, using https://ai-kickstart.me.
 2. **K11** tinyjs spike, to find out early whether the app's stack works on Mac and Windows.
-3. **K13** Theme toggle, then **K15** `llms.txt` (both small).
+3. **K15** `llms.txt` (small).
 
 ## 1 · First users
 
@@ -29,7 +29,6 @@ The complete roadmap, open work only. **When an item is done, delete its row** a
 
 | ID | Item | Done when | Effort | Status |
 |---|---|---|---|---|
-| K13 | **Theme toggle** (light / dark / follow the system), remembered per browser, with no flash of the wrong theme on load | The toggle is in the header, both modes and "system" work, the choice survives a reload, and the CSP stays hash-only | S | todo |
 | K15 | **`/llms.txt`** per [llmstxt.org](https://llmstxt.org/): a summary plus links to Markdown versions of the pages (setup, catalog, prompts, how it works), generated at build time from the same content | `/llms.txt` and its `.md` links resolve, follow the spec's format, and come from the kit's sources, not a hand-kept copy | S | todo |
 | K14 | **⌘K / Ctrl+K quick find**: one dialog that searches pages, prompts and ideas, with a build-time index and no third-party code | Typing a word finds and copies a prompt, Enter navigates, Esc closes; keyboard-only and screen-reader friendly; works on a phone via a visible button | M | todo |
 | K16 ★ | **Content parity with the offline guide** before it shrinks: "Why Obsidian", "What this is not", and the compounding loop from `guide/why.html` | Every explanation in `guide/` has a home on the site | S | todo |

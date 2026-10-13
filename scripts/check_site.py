@@ -2,10 +2,12 @@
 """Checks for the built website (site/dist), run after `pnpm build`. Exit 1 on any failure.
 
 1. offline  - no page or stylesheet loads anything from another origin (links to other sites are fine)
-2. csp      - every page carries the Content-Security-Policy <meta> Astro generates
+2. csp      - every page carries the Content-Security-Policy <meta> Astro generates, and it hashes every inline script
 3. links    - every internal href/src points to a file in dist/
 4. counts   - the catalog and prompt counts on the pages match the kit
 """
+import base64
+import hashlib
 import re
 import sys
 from pathlib import Path
@@ -14,6 +16,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DIST = ROOT / "site/dist"
 errors = []
 RESOURCE_TAG = re.compile(r"<(link|script|img|iframe|source|video|audio)\b[^>]*>", re.I)
+INLINE_SCRIPT = re.compile(r"<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>", re.S | re.I)
 ATTR = re.compile(r'\b(href|src)\s*=\s*"([^"]+)"', re.I)
 
 
@@ -39,6 +42,10 @@ def main():
                 errors.append(f"[offline] {rel} loads an external resource: {tag[:100]}")
         if 'http-equiv="content-security-policy"' not in text:
             errors.append(f"[csp] {rel} has no CSP meta tag")
+        for body in INLINE_SCRIPT.findall(text):
+            digest = base64.b64encode(hashlib.sha256(body.encode()).digest()).decode()
+            if body.strip() and f"'sha256-{digest}'" not in text:
+                errors.append(f"[csp] {rel} has an inline script the CSP doesn't hash: {body[:60]}")
         for _attr, url in ATTR.findall(text):
             if re.match(r"^(https?:|mailto:|#|data:)", url):
                 continue

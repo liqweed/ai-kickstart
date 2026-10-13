@@ -5,7 +5,9 @@ import { initNews } from "./news.ts";
 import { initPrompts } from "./prompts.ts";
 import { initSetup } from "./setup.ts";
 import { initStart } from "./start.ts";
+import { initTheme } from "./theme.ts";
 
+initTheme();
 initPrompts();
 initBanners();
 initStart();

@@ -46,6 +46,12 @@ img, svg { display: block; }
 .site-nav::-webkit-scrollbar { display: none; }
 .site-nav a { flex: none; display: flex; align-items: center; white-space: nowrap; min-height: var(--tap); padding: 0 11px; border-bottom: 2px solid transparent; color: var(--ink); font: 400 15px/1 var(--sans); text-decoration: none; box-sizing: border-box; }
 .site-nav a[aria-current="page"] { border-bottom-color: var(--accent); font-weight: 600; }
+.theme-toggle { flex: none; display: grid; place-items: center; width: var(--tap); height: var(--tap); padding: 0; border: 0; border-radius: var(--r); background: transparent; color: var(--ink); cursor: pointer; }
+.theme-toggle:hover { background: var(--accent-soft); }
+.theme-toggle svg { width: 20px; height: 20px; }
+.theme-toggle svg:not([data-icon="auto"]) { display: none; }
+.theme-toggle[data-mode="light"] svg[data-icon="auto"], .theme-toggle[data-mode="dark"] svg[data-icon="auto"] { display: none; }
+.theme-toggle[data-mode="light"] svg[data-icon="light"], .theme-toggle[data-mode="dark"] svg[data-icon="dark"] { display: block; }
 @media (max-width: 600px) {
   .brand__word { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .site-nav { margin-left: 0; flex: 1; }
