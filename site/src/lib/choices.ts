@@ -40,4 +40,4 @@ export type StepId = (typeof STEPS)[number]["id"];
 export const RELEASES_URL = "https://github.com/liqweed/ai-kickstart/releases/latest";
 export const REPO_URL = "https://github.com/liqweed/ai-kickstart";
 /** The release zip, rounded. Update when the kit grows noticeably (dist/ after scripts/build.sh). */
-export const ZIP_SIZE = "about 150 KB";
+export const ZIP_SIZE = "about 160 KB";

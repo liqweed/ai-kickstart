@@ -15,7 +15,6 @@ The complete roadmap, open work only. **When an item is done, delete its row** a
 
 1. **M1.1** Pilot with one friend, using https://ai-kickstart.me.
 2. **K11** tinyjs spike: Mac passes; a Windows tester has the [0.1.2 test build](https://github.com/liqweed/ai-kickstart/releases/tag/app-v0.1.2). Then signing (K21).
-3. **Release v1.4** (skill: `release`): kit updates (K1) and the agent-led setup prompt, both committed. Soon: the live site already describes v1.4 (update steps, seven tools), and the release also adds the stable `ai-kickstart.zip` asset that prompt links to.
 
 ## 1 · First users
 
