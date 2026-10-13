@@ -27,6 +27,13 @@ What happened and why, newest first. The open work is in [`master-plan.md`](mast
 
 ## Session log
 
+### 2026-10-13 — Companion app test builds (K11, part of K25)
+- **Did:** `.github/workflows/app.yml`: on an `app-v*` tag, builds the app on `macos-latest` (arm64) and `windows-latest` (x64) with tinyjs pinned to v0.51.1, then publishes a GitHub **pre-release** (`--latest=false`, so the kit's "Latest" release and download links don't move) with `app/TEST-BUILD.md` as tester notes. Published [app-v0.1.1](https://github.com/liqweed/ai-kickstart/releases/tag/app-v0.1.1) for the maintainer's Windows tester. The website is unchanged on purpose: the build is the K11 check window, unsigned, not the app (K10a–d, K21).
+- **Found:** app-v0.1.0's Windows asset was a tar named `.zip`. `tinyjs publish` packs with `tar -a`, which only writes a zip with Windows' bsdtar, and under Git Bash it got GNU tar. The Windows job now runs `tinyjs build` and zips with PowerShell's `Compress-Archive`, and the release job runs `unzip -t` on every asset before publishing. Worth an upstream tinyjs issue. The page is bundled inside `ai-kickstart.exe` on Windows, so the zip holds just two `.exe` files.
+- **Checked:** both builds and the pre-release job green; both 0.1.1 assets are valid zips; the CI-built Mac app (ad-hoc signature intact) opens its 800×560 window here. Manual `workflow_dispatch` runs need repo admin, which the local `gh` account lacks; tags work.
+- **Not done:** app-v0.1.0 (broken Windows zip) is still published, pending the maintainer's OK to delete it.
+- **Next:** the Windows tester's screenshot closes K11's Windows half; then K21.
+
 ### 2026-10-13 — K26 nested lists in What's new
 - **Did:** `parseChangelog` now returns items as `{ text, sub }`: indented `- ` lines become sub-bullets, and wrapped lines join the bullet they belong to. Updated the `releases` schema and `whats-new.astro` to render a nested `<ul>`. Added a parser test (nesting, wrapped lines, stopping at a non-release `##`). While checking at phone width, found that the page was already 2 px wider than a 390 px screen on the live site, with no right gutter: the releases grid's `1fr` column grew to fit long code paths. Now `minmax(0, 1fr)` and `overflow-wrap: anywhere` for code in the release notes.
 - **Checked:** `pnpm test` (47), `pnpm check`, `pnpm build`, `check_site.py` green. Built HTML nests the v1.2 tool and skill lists, and the `.md` copy for `llms.txt` nests too. Headless Chromium at 1280 px and 390 px (light and dark): `scrollWidth` 390 = viewport (was 392, same on live before the fix), nothing in `<main>` past the right edge. Deployed; live re-checked.

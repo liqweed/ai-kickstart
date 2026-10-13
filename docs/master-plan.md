@@ -14,7 +14,7 @@ The complete roadmap, open work only. **When an item is done, delete its row** a
 ## Now
 
 1. **M1.1** Pilot with one friend, using https://ai-kickstart.me.
-2. **K11** tinyjs spike: the Mac half passes (unsigned), see `app/README.md`. Next, a Windows machine, then signing (K21).
+2. **K11** tinyjs spike: Mac passes; a Windows tester has the [0.1.1 test build](https://github.com/liqweed/ai-kickstart/releases/tag/app-v0.1.1). Then signing (K21).
 3. **K16** Content parity with the offline guide (small; unblocks K12).
 
 ## 1 · First users
@@ -58,7 +58,7 @@ The app is designed (approved prototype in [`design/prototype/`](../design/proto
 | K10b | **Next + Plan views** with file watching and the "noticed" line | Scenarios 4–7 work against a real vault edited by an AI | M | blocked: K10a |
 | K10c | **Updates**: download, review, apply only untouched files, hand-off prompts. The release publishes a manifest (`buildManifest`); the app records the baseline at vault creation | Scenario 8 works end to end; the write-rules audit (`04 §4`) passes | M | blocked: K10b |
 | K10d | **Distribution**: signed + notarised Mac build, signed Windows build, auto-update, download on the site | A friend installs it from the site without security warnings | M | blocked: K21 |
-| K25 | **App in CI**: `pnpm --filter @ai-kickstart/app build` + `lint` on every push, and a `tinyjs build` matrix (macos, windows) on tags | CI fails on an app type error; tags produce both builds | S | todo |
+| K25 | **App checks on every push**: `pnpm --filter @ai-kickstart/app build` (page + backend type-check) + `lint` in `ci.yml`. Tag builds already run (`app.yml`) | CI fails on an app type error | S | todo |
 | K21 | **Signing accounts** (maintainer decision): Apple Developer Program for notarisation; a Windows code-signing option (e.g. Azure Trusted Signing) | Both accounts exist, or Windows ships unsigned for the pilot with a written reason | S | todo |
 
 ## 5 · Recurring
