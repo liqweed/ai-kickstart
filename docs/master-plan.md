@@ -55,7 +55,6 @@ The app is designed (approved prototype in [`design/prototype/`](../design/proto
 | K10b | **Next + Plan views** with file watching and the "noticed" line | Scenarios 4–7 work against a real vault edited by an AI | M | blocked: K10a |
 | K10c | **Updates**: download, review, apply only untouched files, hand-off prompts. The release publishes a manifest (`buildManifest`); the app records the baseline at vault creation | Scenario 8 works end to end; the write-rules audit (`04 §4`) passes | M | blocked: K10b |
 | K10d | **Distribution**: signed + notarised Mac build, signed Windows build, auto-update, download on the site | A friend installs it from the site without security warnings | M | blocked: K21 |
-| K25 | **App checks on every push**: `pnpm --filter @ai-kickstart/app build` (page + backend type-check) + `lint` in `ci.yml`. Tag builds already run (`app.yml`) | CI fails on an app type error | S | todo |
 | K21 | **Signing accounts** (maintainer decision): Apple Developer Program for notarisation; a Windows code-signing option (e.g. Azure Trusted Signing) | Both accounts exist, or Windows ships unsigned for the pilot with a written reason | S | todo |
 
 ## 5 · Recurring

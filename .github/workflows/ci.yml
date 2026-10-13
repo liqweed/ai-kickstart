@@ -58,3 +58,20 @@ jobs:
         run: pnpm build
       - name: Built site makes no third-party requests, links resolve
         run: python3 scripts/check_site.py
+
+  app:
+    # The companion app's page and backend type-check and lint on every push (K25).
+    # Packaged builds need tinyjs and run on app-v* tags (app.yml).
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Lint
+        run: pnpm --filter @ai-kickstart/app lint
+      - name: Type-check page and backend, bundle the page
+        run: pnpm --filter @ai-kickstart/app build

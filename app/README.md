@@ -23,7 +23,10 @@ pnpm lint
 
 Run tinyjs commands from a terminal: with no terminal attached (stdin closed), `tinyjs new` hung in tinyjs 0.51.1.
 
-## Test builds
+## Checks and test builds
+
+Every push to `main` and every pull request runs the `app` job in `.github/workflows/ci.yml`: `pnpm --filter @ai-kickstart/app lint` and `build` (type-checks the page and the backend, then bundles the page). It needs no tinyjs, since the tinyjs and txiki.js types are checked in under `backend/`.
+
 
 Push a tag `app-vX.Y.Z` matching `tinyjs.json`'s version: `.github/workflows/app.yml` builds macOS (arm64) and Windows (x64) on GitHub's runners and publishes a GitHub **pre-release** with [`TEST-BUILD.md`](TEST-BUILD.md) as its notes. Pre-releases never become "Latest", so the kit's download links don't move. Unsigned until K21.
 
