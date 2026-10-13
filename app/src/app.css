@@ -1,0 +1,13 @@
+/* Layout only. Colours, type and controls come from @ai-kickstart/design. */
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 var(--sans)}
+.spike{max-width:640px;margin:0 auto;padding:28px 24px}
+.spike h1{font:500 28px/1.25 var(--serif);margin:6px 0 20px}
+.spike code{font:14px/1.4 var(--mono);overflow-wrap:anywhere}
+.spike__checks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.spike__check{display:flex;gap:14px;padding:14px 16px}
+.spike__check[data-status="ok"]{border-color:var(--accent)}
+.spike__mark{font:600 18px/1.4 var(--mono);width:20px;text-align:center;color:var(--muted)}
+.spike__check[data-status="ok"] .spike__mark{color:var(--accent)}
+.spike__body{display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0;color:var(--muted)}
+.spike__body strong{color:var(--ink)}
+.spike__log{margin:0;padding-left:18px;font-size:14px}

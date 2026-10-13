@@ -1,0 +1,28 @@
+{
+  "name": "@ai-kickstart/app",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "The companion app (tinyjs). K11 spike: proves the stack on macOS and Windows.",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5173 --strictPort",
+    "build": "tsc -b && tsc -p backend && vite build --base=./",
+    "lint": "oxlint",
+    "app:dev": "tinyjs dev",
+    "app:build": "tinyjs build"
+  },
+  "dependencies": {
+    "@ai-kickstart/design": "workspace:*",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "oxlint": "^1.81.0",
+    "typescript": "^6.0.3",
+    "vite": "^8.3.0"
+  }
+}

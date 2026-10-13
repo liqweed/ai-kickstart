@@ -1,0 +1,15 @@
+{
+  "name": "ai-kickstart",
+  "title": "AI Kickstart",
+  "size": "800x560",
+  "id": "me.ai-kickstart.companion",
+  "version": "0.1.0",
+  "minTinyjsVersion": "0.51.1",
+  "backend": "backend/main.ts",
+  "frontend": {
+    "build": "pnpm run build",
+    "dist": "dist",
+    "dev": "pnpm run dev",
+    "devUrl": "http://127.0.0.1:5173"
+  }
+}
