@@ -17,9 +17,9 @@ next_step: M1.1
 | | |
 |---|---|
 | **Current phase** | M1 — First real users |
-| **Next step** | K9: connect Cloudflare + domain (maintainer, `docs/MAINTAINING.md`), then a live check · M1.1 (pilot) |
+| **Next step** | M1.1 (pilot): send a friend https://ai-kickstart.me · optional: K9 follow-ups (HSTS, share preview in WhatsApp) |
 | **Blocked** | — |
-| **Last session** | 2026-10-13 — K9 Astro port of the approved prototype built and verified locally |
+| **Last session** | 2026-10-13 — ai-kickstart.me live on Cloudflare, verified |
 
 ## M0 — Repository foundation
 
@@ -54,7 +54,7 @@ next_step: M1.1
 | K6 | Generate the catalog JS from the markdown (build step) | Removes the D7 duplication. Comes almost free with K9 (Astro content collections). The check guards it until then | M | done for the site (it reads the Markdown); the guide's JS copy goes with K12 |
 | K7 | Favicon + social preview image (inline/SVG, offline-safe) | Nicer when the link is shared in chats | S | done in `site/` (mark, favicons, apple-touch icon, `share-card.png`, Open Graph tags); live with K9 |
 | K8 | Translations (guide + vault) | Reach. Needs a structure decision first (D-level change) | L | idea |
-| K9 ★ | **Website at ai-kickstart.me**: run `design/website-claude-design-package` in Claude Design, then implement the approved prototype as an Astro static site in `site/` (content collections over `vault/` Markdown) on Cloudflare with the custom domain | The domain is bought; the site is the front door for friends | M | doing: built in `site/` + `packages/` (2026-10-13), CI job added; next: Cloudflare project + domain, live check |
+| K9 ★ | **Website at ai-kickstart.me**: run `design/website-claude-design-package` in Claude Design, then implement the approved prototype as an Astro static site in `site/` (content collections over `vault/` Markdown) on Cloudflare with the custom domain | The domain is bought; the site is the front door for friends | M | done 2026-10-13: live at https://ai-kickstart.me. Open: HSTS (decide), check the share preview in a real WhatsApp chat |
 | K12 | When the website is live: shrink the zip's `guide/` to one offline `START-HERE` page pointing to ai-kickstart.me (the website owns all explanations) | One source of explanation; less to maintain | S | todo |
 | K11 | **tinyjs spike (Mac + Windows)**: a hello-world window that picks a folder, watches it for a new file, writes `~/.ai-kickstart/`, and opens an `obsidian://` link; signed/notarized Mac build plus a Windows build on a real machine | De-risks K10 early. Windows is beta in tinyjs, and file watching is the critical capability | S | todo |
 | K10 | **Companion app (tinyjs)**: first run, "one next thing", safe kit updates, local-only (`~/.ai-kickstart/`). Design brief: `design/app-claude-design-package`; approved prototype in `design/prototype/` (round 2). Build after the M1 pilot shows where people actually stall | It solves first-contact verification and K1 (updates) better than docs can | L | idea |
@@ -72,6 +72,11 @@ next_step: M1.1
 | 2026-10-12 | Companion app on tinyjs, targeting macOS **and** Windows in v1; progress stays in the vault's Markdown, `~/.ai-kickstart/` holds only app config + install baseline | Modest requirements; one source of truth the AI can also read. Spike first (K11) |
 
 ## Session log
+
+### 2026-10-13 — K9 ai-kickstart.me live
+- **Did:** a separate `cf` profile (`ai-kickstart`) for account `f6e4…`; the default login belongs to another organisation and is never used here. The maintainer added the zone and switched the Name.com nameservers. I deployed the static-assets Worker with Wrangler 4.149 (`pnpm run deploy`) and attached ai-kickstart.me as its custom domain. With `cf`: Always Use HTTPS on, minimum TLS 1.2, email obfuscation off, Rocket Loader confirmed off; a `www` placeholder record plus a 301 redirect rule; checked there's no Web Analytics site for this zone. `workers_dev` and preview URLs are off. A `cf migrate` attempt was reverted: the beta's project build can't produce a deploy for this static site. Notes are in `docs/MAINTAINING.md`.
+- **Checked:** the zone is active and the `.me` registry delegates to Cloudflare. Universal certificate (Let's Encrypt, TLS 1.3); TLS 1.0 and 1.1 are refused. Every page returns 200, the 404 page works, `http://` and `www` redirect with 301, the security headers are present, nothing is injected, and `workers.dev` returns 404. The full headless browser suite passes against the live domain.
+- **Next:** M1.1. Optional: HSTS once we're sure HTTPS is permanent; check the share preview in WhatsApp.
 
 ### 2026-10-13 — K9 Astro port
 - **Did:** pnpm workspace with `packages/core` (pure TS parsers for catalog, prompts, changelog, harness phases, interview rounds, frontmatter; 13 Vitest tests against the real kit files), `packages/design` (the approved `kickstart.css`), and `site/` (Astro 7, static): Start, Your setup, Ideas menu, Prompts, How it works, What's new, 404. Lists come from the kit through content collections with Zod schemas. The prompt library moved to `site/src/content/prompts.md`. Setup follows `guide/setup.html` in 6 steps (P0.1–P0.5), with every round-1 content gap closed. Strict CSP (hashes, no `unsafe-inline`), `_headers`, `wrangler.jsonc`. Icons and share card copied without their C2PA blocks (the favicon went from 9 KB to 1.6 KB, and it now follows dark mode). New checks: `prompts` sync in `check_kit.py`, `scripts/check_site.py`, CI job `site`. `pnpm-lock.yaml` is excluded from the scrub (generated package names).

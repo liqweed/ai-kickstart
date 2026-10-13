@@ -14,7 +14,11 @@ git config core.hooksPath scripts/hooks                                    # pre
 
 ## Repository settings (one-time, in the GitHub web UI)
 
-1. **Website (`site/`):** a Cloudflare **Worker with static assets**, configured by `site/wrangler.jsonc` (no Worker code, just `dist/`). Connect the repo in Cloudflare → Workers & Pages → Create → Import a repository: root directory `site`, build command `pnpm build`, deploy command `npx wrangler deploy`. Add the custom domain ai-kickstart.me under the Worker's Settings → Domains. Branch previews come with it. Don't enable Web Analytics or any beacon: the site promises no tracking. Manual deploy instead: `pnpm build && cd site && npx wrangler@4 deploy` (asks you to log in to Cloudflare once).
+1. **Website (`site/`, live since 2026-10-13):** a Cloudflare Worker with static assets (no Worker code), configured by `site/wrangler.jsonc`, which pins the account ID, the custom domain and `workers_dev: false`. Zone ai-kickstart.me is on Cloudflare's Free plan; the domain is registered at Name.com with Cloudflare nameservers.
+   - **Deploy:** `pnpm run deploy` at the repo root (builds, runs `scripts/check_site.py`, then `wrangler deploy`). Wrangler needs its own login once: `cd site && npx wrangler login`.
+   - **Account tasks** (zone settings, DNS, rules, certificates) use the `cf` CLI with the `ai-kickstart` profile. Always pass `--profile ai-kickstart` and set `CLOUDFLARE_ACCOUNT_ID`: the folder binding alone did not stop an account-level command from going to another account. Zone commands take `-z <zone-id>`.
+   - **Don't run `cf build` / `cf deploy` / `cf dev` here.** `cf` 1.0 beta can't build this static site, and without a terminal it rewrites the project (adds Astro's server adapter) without asking. Re-check when `cf` leaves beta.
+   - **Zone settings that must stay:** Always Use HTTPS on, minimum TLS 1.2, email obfuscation off, Rocket Loader off, no Web Analytics / RUM site for this zone (each would inject a script and break the no-tracking promise and the CSP). `www` is a proxied `AAAA 100::` placeholder plus one redirect rule (301 to the bare domain, keeping path and query).
 2. **CI scrub (optional, recommended):** Settings → Secrets and variables → Actions → New secret `SCRUB_PATTERN`, value = the terms joined with `|`:
    ```bash
    grep -vE '^[[:space:]]*(#|$)' ~/.config/ai-kickstart/scrub-terms.txt | paste -sd'|' - | tr -d '\n' | pbcopy

@@ -8,6 +8,7 @@
     "dev": "pnpm --filter site dev",
     "build": "pnpm --filter site build",
     "test": "pnpm --filter @ai-kickstart/core test",
-    "check": "pnpm --filter site check"
+    "check": "pnpm --filter site check",
+    "deploy": "pnpm build && python3 scripts/check_site.py && pnpm --filter site run deploy"
   }
 }
