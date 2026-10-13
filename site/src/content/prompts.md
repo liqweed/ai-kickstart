@@ -1,5 +1,5 @@
 ---
-summary: The prompt library for ai-kickstart.me. Same prompts as guide/prompts.html (scripts/check_kit.py keeps them in sync until the guide shrinks, backlog K12).
+summary: The prompt library for ai-kickstart.me. The prompts on START-HERE.html must match these word for word (scripts/check_kit.py).
 ---
 
 # Prompts

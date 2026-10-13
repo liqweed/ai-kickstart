@@ -34,7 +34,7 @@ git config core.hooksPath scripts/hooks                                    # pre
 | Build the zip locally | `scripts/build.sh` → `dist/ai-kickstart-v<VERSION>.zip` |
 | Vault tools self-test | `python3 vault/_system/tools/selftest.py` (also run by `check.sh`) |
 | Lint the template vault | `python3 vault/_system/tools/vault_lint.py --strict` |
-| Preview the guide | open `guide/index.html` in a browser |
+| Preview the offline page | open `START-HERE.html` in a browser |
 | Install website tools (once) | `pnpm install` (Node 22.12+, pnpm 10) |
 | Website dev server | `pnpm dev` → http://localhost:4321 |
 | Website checks | `pnpm test && pnpm check && pnpm build && scripts/check_site.py` |

@@ -11,14 +11,13 @@ AI tools change monthly. The kit stays trustworthy only if its few concrete prod
 
 | Fact | Location |
 |---|---|
-| The three AI paths and example products (chat app with Projects · desktop agent working in a folder · terminal/coding agents) | `guide/setup.html` §1, §3 |
-| How each agent reads instructions (`AGENTS.md`, `CLAUDE.md` + `@` import, native skills folders, the `.claude/skills` symlink) | `guide/setup.html` §3, `vault/CLAUDE.md`, `guide/system.html` |
-| Obsidian: download, "Open folder as vault", *Files and links* settings, Templates plugin, CLI (version + where the toggle is) | `guide/setup.html` §2 |
-| Sync options (Obsidian Sync, iCloud, OneDrive "Always keep on this device", Syncthing, git) | `guide/setup.html` §2 phone tab, §4 · harness P0.4 |
-| Provider data/training settings, "paid plan recommended" | `guide/setup.html` §5, `guide/index.html` |
+| The three AI paths and example products (chat app with Projects · desktop agent working in a folder · terminal/coding agents) | `site/src/pages/setup.astro` (connect step), `site/src/lib/choices.ts` (path chooser) |
+| How each agent reads instructions (`AGENTS.md`, `CLAUDE.md` + `@` import, native skills folders, the `.claude/skills` symlink) | `site/src/pages/setup.astro` (connect step), `vault/CLAUDE.md`, `site/src/pages/how-it-works.astro` |
+| Obsidian: download, "Open folder as vault", *Files and links* settings, Templates plugin, CLI (version + where the toggle is) | `site/src/pages/setup.astro` (Obsidian and vault steps) |
+| Sync options (Obsidian Sync, iCloud, OneDrive "Always keep on this device", Syncthing, git) | `site/src/pages/setup.astro` (vault and plan steps) · harness P0.4 |
+| Provider data/training settings, "paid plan recommended" | `site/src/pages/setup.astro` (privacy), `site/src/pages/index.astro` |
 | Scheduler options (tool schedulers, cron/launchd, Task Scheduler) | `vault/_system/HARNESS-PLAN.md` P6.1 |
-| "As of <season year>" snapshot line | `guide/setup.html` §1 callout |
-| Obsidian Bases (minimum version, where the toggle is, `.base` syntax used by the dashboards) and the CLI commands named in the organizing note | `vault/_system/dashboards/*.base`, `vault/06-reference/Organizing your vault.md` §8–9, `guide/setup.html` §2, `site/src/pages/setup.astro` |
+| Obsidian Bases (minimum version, where the toggle is, `.base` syntax used by the dashboards) and the CLI commands named in the organizing note | `vault/_system/dashboards/*.base`, `vault/06-reference/Organizing your vault.md` §8–9, `site/src/pages/setup.astro` (Obsidian and vault steps), `site/src/pages/setup.astro` |
 | Connections: how people connect each service, which apps offer built-in connectors, MCP status, free public data terms (weather, holidays, OpenStreetMap usage policy) | `vault/_system/kickstart/connections-catalog.md`, `vault/_system/TOOLS-CONTRACT.md` §9–12 |
 | Python availability (macOS built-in version, Windows `py` launcher) | `vault/_system/tools/README.md`, harness P0.6 |
 
@@ -27,9 +26,8 @@ AI tools change monthly. The kit stays trustworthy only if its few concrete prod
 1. For each row, search the web for the **current** official docs. Prefer vendor documentation over blogs. Record the source URL and its date.
 2. Classify each claim: **still true** · **changed** (what's new) · **unverifiable**. Unverifiable claims get softened ("may", "look for…") or removed. Never invent a setting path.
 3. Edit with the `evolve-kit` ripple map in mind. The same fact may appear on several pages and in the harness plan.
-4. Update the "snapshot from <season year>" line on `guide/setup.html`.
-5. `scripts/check.sh`, then a browser check of `setup.html` (all tabs).
-6. Add a CHANGELOG **Unreleased** entry ("Refreshed setup facts: …") and log the sources checked in `docs/journal.md`, so the next refresh knows what was verified when.
+4. `scripts/check.sh` and `pnpm build && scripts/check_site.py`, then a browser check of `/setup/` with every operating system and AI path chosen, then deploy (`pnpm run deploy`).
+5. Add a CHANGELOG **Unreleased** entry ("Refreshed setup facts: …") and log the sources checked in `docs/journal.md`, so the next refresh knows what was verified when.
 
 ## Rules
 

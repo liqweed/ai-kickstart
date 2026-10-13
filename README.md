@@ -4,12 +4,12 @@ A head start for working with AI across your personal life, family, home and wor
 
 Designed and shared by **Ophir Radnitz**. v1.2, October 2026.
 
-- 🌐 **Website:** [ai-kickstart.me](https://ai-kickstart.me) *(coming soon)*. The full guide is also inside the download.
+- 🌐 **Website:** [ai-kickstart.me](https://ai-kickstart.me) has the full guide: setup, the ideas menu, prompts and how it works.
 - ⬇️ **Download the kit:** latest zip on the [Releases page](https://github.com/liqweed/ai-kickstart/releases/latest)
 
 ## Start here
 
-1. **Open `START-HERE.html`** (or `guide/index.html`) in your browser. The guide explains everything, with copy-paste prompts.
+1. **Open `START-HERE.html`** in your browser. It works offline, gives you the short version of Day 1, and links to the full setup at [ai-kickstart.me/setup](https://ai-kickstart.me/setup/).
 2. **Move the `vault/` folder** somewhere permanent, rename it (e.g. "My Vault"), and open it in [Obsidian](https://obsidian.md) with *Open folder as vault*.
 3. **Point your AI tool at that folder** and say: *"Read AGENTS.md and _system/index.md, then tell me what this vault is for."* After that: **"Continue my harness plan."**
 
@@ -25,8 +25,7 @@ Designed and shared by **Ophir Radnitz**. v1.2, October 2026.
 
 ```
 ai-kickstart/
-├── START-HERE.html         → opens the guide
-├── guide/                  → 8 pages: start, why, setup, system, interview, catalog, harness, prompts
+├── START-HERE.html         → one offline page: the short version, and links to the website
 └── vault/                  → your future Obsidian vault
     ├── AGENTS.md           → how the AI behaves here (CLAUDE.md imports it)
     ├── _system/

@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 """Consistency checks for the AI Kickstart kit. Exit 1 on any failure.
 
-1. version  - VERSION matches every guide footer, the README credit line and CHANGELOG.md
-2. catalog  - vault/_system/kickstart/function-catalog.md and guide/catalog.html list the same functions
-3. links    - every relative href/src in guide/*.html and START-HERE.html points to an existing file
-4. offline  - the guide loads no external resources (stylesheets, scripts, images, fonts, iframes)
-5. skills   - every skill in vault/_system/skills/ has name+description frontmatter and is listed in vault/AGENTS.md
-6. prompts  - site/src/content/prompts.md and guide/prompts.html hold the same prompts (until the guide shrinks, K12)
-7. plan     - docs/master-plan.md holds open work only: every row has an open status and a unique ID
-8. tools    - the vault tools pass their self-test, the template vault lints clean, and its hubs are current
+1. version  - VERSION matches the START-HERE.html footer, the README credit line and CHANGELOG.md
+2. links    - every relative href/src in START-HERE.html points to an existing file
+3. offline  - START-HERE.html loads no external resources (stylesheets, scripts, images, fonts, iframes)
+4. skills   - every skill in vault/_system/skills/ has name+description frontmatter and is listed in vault/AGENTS.md
+5. prompts  - every prompt on START-HERE.html is in site/src/content/prompts.md, word for word
+6. plan     - docs/master-plan.md holds open work only: every row has an open status and a unique ID
+7. tools    - the vault tools pass their self-test, the template vault lints clean, and its hubs are current
 """
 import html
 import re
@@ -17,7 +16,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-GUIDE = ROOT / "guide"
+START = ROOT / "START-HERE.html"
 errors = []
 
 
@@ -27,9 +26,8 @@ def fail(check, msg):
 
 def check_version():
     version = (ROOT / "VERSION").read_text().strip()
-    for page in sorted(GUIDE.glob("*.html")):
-        if f"AI Kickstart · v{version} ·" not in page.read_text():
-            fail("version", f"{page.relative_to(ROOT)} footer is not v{version}")
+    if f"AI Kickstart · v{version} ·" not in START.read_text():
+        fail("version", f"START-HERE.html footer is not v{version}")
     if f"v{version}," not in (ROOT / "README.md").read_text():
         fail("version", f"README.md credit line is not v{version}")
     if not re.search(rf"^## v{re.escape(version)}\b", (ROOT / "CHANGELOG.md").read_text(), re.M):
@@ -37,59 +35,25 @@ def check_version():
     return version
 
 
-def catalog_from_md():
-    text = (ROOT / "vault/_system/kickstart/function-catalog.md").read_text()
-    items, area = set(), None
-    for line in text.splitlines():
-        if line.startswith("## "):
-            area = line[3:].strip()
-            continue
-        cells = [c.strip() for c in line.strip().strip("|").split("|")]
-        if area and line.startswith("|") and len(cells) == 3 and not set(cells[0]) <= set("-") \
-                and cells[0] not in ("Function", "Profession"):
-            items.add((cells[0], cells[2]))
-    return items
-
-
-def catalog_from_html():
-    text = (GUIDE / "catalog.html").read_text()
-    rows = re.findall(r'\[\s*"((?:[^"\\]|\\.)*)",\s*"((?:[^"\\]|\\.)*)",\s*"((?:[^"\\]|\\.)*)"\s*\]', text)
-    return {(name.replace('\\"', '"'), level) for name, _desc, level in rows}
-
-
-def check_catalog():
-    md, js = catalog_from_md(), catalog_from_html()
-    for name, level in sorted(md - js):
-        fail("catalog", f"in function-catalog.md but not catalog.html (or level differs): {name} [{level}]")
-    for name, level in sorted(js - md):
-        fail("catalog", f"in catalog.html but not function-catalog.md (or level differs): {name} [{level}]")
-    return len(md)
-
-
 ATTR = re.compile(r'\b(href|src)\s*=\s*"([^"]+)"', re.I)
 RESOURCE_TAG = re.compile(r'<(link|script|img|iframe|source|video|audio)\b[^>]*>', re.I)
 
 
 def check_links_and_offline():
-    pages = sorted(GUIDE.glob("*.html")) + [ROOT / "START-HERE.html"]
-    for page in pages:
-        text = page.read_text()
-        for _attr, url in ATTR.findall(text):
-            url = html.unescape(url)
-            if re.match(r"^(https?:|mailto:|#|javascript:)", url):
-                continue
-            target = (page.parent / url.split("#")[0]).resolve()
-            if not target.exists():
-                fail("links", f"{page.relative_to(ROOT)} -> {url} (missing)")
-        for m in RESOURCE_TAG.finditer(text):
-            if re.search(r'\b(href|src)\s*=\s*"(https?:)?//', m.group(0), re.I):
-                fail("offline", f"{page.relative_to(ROOT)} loads an external resource: {m.group(0)[:90]}")
-        if re.search(r"@import\s+url\(\s*['\"]?https?:", text):
-            fail("offline", f"{page.relative_to(ROOT)} imports external CSS")
-    css = (GUIDE / "assets/kit.css").read_text()
-    if re.search(r"url\(\s*['\"]?https?:", css):
-        fail("offline", "assets/kit.css references an external URL")
-    return len(pages)
+    text = START.read_text()
+    for _attr, url in ATTR.findall(text):
+        url = html.unescape(url)
+        if re.match(r"^(https?:|mailto:|#|javascript:)", url):
+            continue
+        if not (ROOT / url.split("#")[0]).exists():
+            fail("links", f"START-HERE.html -> {url} (missing)")
+    for m in RESOURCE_TAG.finditer(text):
+        if re.search(r'\b(href|src)\s*=\s*"(https?:)?//', m.group(0), re.I):
+            fail("offline", f"START-HERE.html loads an external resource: {m.group(0)[:90]}")
+    if re.search(r"(@import|url\()\s*['\"]?(https?:)?//", text):
+        fail("offline", "START-HERE.html references external CSS or a font/image URL")
+    if (ROOT / "guide").exists():
+        fail("offline", "guide/ is back: the zip ships one offline page, START-HERE.html (K12)")
 
 
 def check_skills():
@@ -125,18 +89,17 @@ def prompts_from_md():
     return found
 
 
-def prompts_from_html():
-    text = (GUIDE / "prompts.html").read_text()
-    pairs = re.findall(r'<span class="label">(.*?)</span>.*?<pre>(.*?)</pre>', text, re.S)
+def prompts_from_start():
+    pairs = re.findall(r'<div class="bar"><span>(.*?)</span></div>\s*<pre>(.*?)</pre>', START.read_text(), re.S)
     return {(html.unescape(label), html.unescape(body)) for label, body in pairs}
 
 
 def check_prompts():
-    md, guide = prompts_from_md(), prompts_from_html()
-    for label, _ in sorted(md - guide):
-        fail("prompts", f"site/src/content/prompts.md differs from guide/prompts.html: {label}")
-    for label, _ in sorted(guide - md):
-        fail("prompts", f"guide/prompts.html differs from site/src/content/prompts.md: {label}")
+    md, start = prompts_from_md(), prompts_from_start()
+    if not start:
+        fail("prompts", "START-HERE.html has no prompt boxes (the check's pattern may be stale)")
+    for label, _ in sorted(start - md):
+        fail("prompts", f"START-HERE.html prompt differs from site/src/content/prompts.md: {label}")
     return len(md)
 
 
@@ -178,8 +141,7 @@ def check_tools():
 
 def main():
     version = check_version()
-    n_catalog = check_catalog()
-    n_pages = check_links_and_offline()
+    check_links_and_offline()
     n_skills = check_skills()
     n_prompts = check_prompts()
     n_plan = check_plan()
@@ -188,7 +150,7 @@ def main():
         print("\n".join(errors), file=sys.stderr)
         print(f"check_kit: {len(errors)} problem(s)", file=sys.stderr)
         return 1
-    print(f"check_kit: OK (v{version}, {n_catalog} catalog functions, {n_pages} pages, {n_skills} skills, {n_prompts} prompts, {n_plan} open plan items, {n_tools} tools)")
+    print(f"check_kit: OK (v{version}, {n_skills} skills, {n_prompts} prompts, {n_plan} open plan items, {n_tools} tools)")
     return 0
 
 

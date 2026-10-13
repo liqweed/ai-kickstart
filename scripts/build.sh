@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Build the shareable zip: dist/ai-kickstart-v<VERSION>.zip
-# Contains only what a friend needs (README, LICENSE, START-HERE.html, guide/, vault/), not the maintainer scaffolding.
+# Contains only what a friend needs (README, LICENSE, START-HERE.html, vault/), not the maintainer scaffolding.
 # Usage: scripts/build.sh [--optional-scrub]
 set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
@@ -12,7 +12,7 @@ stage="$(mktemp -d)"
 trap 'rm -rf "$stage"' EXIT
 
 mkdir -p "$stage/ai-kickstart" dist
-cp -R README.md LICENSE START-HERE.html guide vault "$stage/ai-kickstart/"
+cp -R README.md LICENSE START-HERE.html vault "$stage/ai-kickstart/"
 find "$stage" -name '.DS_Store' -delete
 find "$stage" -name '__pycache__' -type d -prune -exec rm -rf {} +
 

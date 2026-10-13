@@ -1,6 +1,6 @@
 ---
 name: Idea
-about: Suggest a tip, skill, catalog function, guide improvement or fix
+about: Suggest a tip, skill, catalog function, website improvement or fix
 title: "Idea: "
 labels: idea
 ---
@@ -9,6 +9,6 @@ labels: idea
 
 **Who it helps, and how:**
 
-**Where it would go** (guide page · vault skill · catalog · tips note · interview · harness plan · not sure):
+**Where it would go** (website page · vault skill · catalog · tips note · interview · harness plan · not sure):
 
 **Anything it could replace or simplify?**

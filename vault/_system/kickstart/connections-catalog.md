@@ -404,7 +404,7 @@ This is a menu, not a to-do list. Most people end up with **three to six** conne
 - **Examples:** Folders outside the vault · the terminal · desktop apps
 - **Unlocks:** Renaming and organising downloads. Converting files. Checking backups. Running the vault tools. Anything a careful assistant could do at your keyboard.
 - **Try:** "Sort my Downloads folder: propose a plan, and do nothing until I say yes."
-- **Connect via:** A desktop or terminal AI agent (see the guide's *Setup* page) · its permission settings (allow read-only commands, ask for everything else)
+- **Connect via:** A desktop or terminal AI agent (see *Your setup* at ai-kickstart.me/setup/) · its permission settings (allow read-only commands, ask for everything else)
 - **Start:** Read-only, one folder at a time
 - **Risk:** High. Give agents one folder, not your whole computer. Keep "ask before running" on for anything that changes things.
 - **Level:** L

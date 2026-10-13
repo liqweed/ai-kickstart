@@ -53,7 +53,7 @@ These steps set up *this* vault. Something you already have elsewhere (another n
 
 - [ ] **P0.1 Install Obsidian and open this folder as a vault.**
   Done when: Obsidian shows `_system/`, `01-life/`, … in the sidebar. Check: open `_system/index.md` in Obsidian.
-- [ ] **P0.2 Choose your AI tool** (see the guide's *Setup* page). Pick one that can **read and write files in a folder you choose**. If you only have a chat app for now, choose *chat-only mode* (it works, with a bit of copy-paste).
+- [ ] **P0.2 Choose your AI tool** (see *Your setup* at ai-kickstart.me/setup/). Pick one that can **read and write files in a folder you choose**. If you only have a chat app for now, choose *chat-only mode* (it works, with a bit of copy-paste).
   Done when: the tool is installed and you're signed in. Check: note the choice in the *Decisions log* below.
 - [ ] **P0.3 Connect the AI to this vault and test it.** Point the tool at this folder, then ask: *"Read `_system/index.md` and `AGENTS.md`, and tell me in three lines what this vault is for."*
   Done when: it answers correctly **and** can create a test note. Check: ask it to create `_inbox/hello.md`, see it appear in Obsidian, then delete it yourself.

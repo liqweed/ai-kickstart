@@ -15,7 +15,7 @@ The complete roadmap, open work only. **When an item is done, delete its row** a
 
 1. **M1.1** Pilot with one friend, using https://ai-kickstart.me.
 2. **K11** tinyjs spike: Mac passes; a Windows tester has the [0.1.1 test build](https://github.com/liqweed/ai-kickstart/releases/tag/app-v0.1.1). Then signing (K21).
-3. **K12** Shrink the zip's `guide/` to one offline page pointing to the site (K16 done, so nothing is lost).
+3. **Release v1.3** (skill: `release`): the zip without `guide/`, plus seven prompts. **Deploy the site with it, not before:** `main` already says the zip holds `START-HERE.html · vault/` and is about 150 KB.
 
 ## 1 · First users
 
@@ -30,7 +30,6 @@ The complete roadmap, open work only. **When an item is done, delete its row** a
 | ID | Item | Done when | Effort | Status |
 |---|---|---|---|---|
 | K14 | **⌘K / Ctrl+K quick find**: one dialog that searches pages, prompts and ideas, with a build-time index and no third-party code | Typing a word finds and copies a prompt, Enter navigates, Esc closes; keyboard-only and screen-reader friendly; works on a phone via a visible button | M | todo |
-| K12 | **Shrink the zip's `guide/`** to one offline `START-HERE` page pointing to the site. Drop the catalog JS copy (D7) and the prompt sync check | The zip has one guide page; `check_kit.py` no longer needs the catalog and prompt sync | S | todo |
 | K17 | **Deploy from CI**: on push to `main`, build + `check_site.py` + `wrangler deploy` with an API token scoped to this account's Workers only, then a live smoke check | A push reaches the live site within minutes, and the smoke check (status codes, headers, no injected scripts) is green | S | todo |
 | K5 | **Real-device check** of the site: iPhone Safari, Android Chrome, Windows Edge, print | Notes or fixes for each device | S | todo |
 | K18 | **HSTS preload list** submission (hstspreload.org). The header already carries `preload`; joining the list is close to permanent | Decided, and submitted or explicitly declined | S | idea |

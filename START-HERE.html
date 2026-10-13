@@ -2,10 +2,139 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="refresh" content="0; url=guide/index.html">
-<title>AI Kickstart</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>AI Kickstart · start here</title>
+<style>
+/* One offline page: no external requests, works from file://. Colours follow the website (packages/design). */
+:root {
+  --bg: oklch(0.975 0.008 85); --card: oklch(0.995 0.004 85); --sunk: oklch(0.945 0.011 85);
+  --ink: oklch(0.24 0.015 60); --muted: oklch(0.44 0.015 60); --line: oklch(0.86 0.012 80);
+  --accent: oklch(0.45 0.09 160); --accent-hover: oklch(0.38 0.09 160); --on-accent: oklch(0.985 0.005 85);
+  --hl: oklch(0.93 0.075 95);
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Ubuntu, Cantarell, "Noto Sans", sans-serif;
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", Consolas, "Liberation Mono", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: oklch(0.205 0.008 70); --card: oklch(0.245 0.009 70); --sunk: oklch(0.175 0.007 70);
+    --ink: oklch(0.93 0.01 85); --muted: oklch(0.77 0.012 80); --line: oklch(0.37 0.01 70);
+    --accent: oklch(0.8 0.1 160); --accent-hover: oklch(0.87 0.09 160); --on-accent: oklch(0.2 0.02 160);
+    --hl: oklch(0.37 0.07 90);
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.6 var(--sans); }
+main { max-width: 720px; margin: 0 auto; padding: 40px 16px 56px; display: flex; flex-direction: column; gap: 28px; }
+h1, h2 { font-family: var(--serif); font-weight: 500; margin: 0; }
+h1 { font-size: clamp(34px, 7vw, 46px); line-height: 1.1; }
+h2 { font-size: 25px; line-height: 1.2; }
+p, ol, ul { margin: 0; }
+a { color: var(--accent); }
+a:hover { color: var(--accent-hover); }
+code { font: 0.9em var(--mono); background: var(--sunk); padding: 1px 5px; border-radius: 5px; overflow-wrap: anywhere; }
+section { display: flex; flex-direction: column; gap: 12px; }
+.eyebrow { font: 600 13px/1.4 var(--sans); letter-spacing: .07em; text-transform: uppercase; color: var(--accent); }
+.lede { font-size: 19px; }
+.muted { color: var(--muted); }
+.small { font-size: 15px; }
+.go { padding: 20px; border: 2px solid var(--accent); border-radius: 14px; background: var(--card); display: flex; flex-direction: column; gap: 12px; }
+.btn { align-self: flex-start; display: inline-block; padding: 12px 20px; border-radius: 10px; background: var(--accent); color: var(--on-accent); font-weight: 600; text-decoration: none; }
+.btn:hover { background: var(--accent-hover); color: var(--on-accent); }
+.links { display: flex; flex-wrap: wrap; gap: 8px 18px; padding: 0; list-style: none; }
+.steps { padding-left: 24px; display: flex; flex-direction: column; gap: 10px; }
+.box { border: 1px solid var(--line); border-radius: 12px; background: var(--card); overflow: hidden; }
+.bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 8px 12px 8px 16px; border-bottom: 1px dashed var(--line); font: 600 15px var(--sans); }
+.bar button { font: 600 14px var(--sans); padding: 6px 14px; border-radius: 8px; border: 1px solid var(--accent); background: transparent; color: var(--accent); cursor: pointer; }
+.bar button:focus-visible, .btn:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+pre { margin: 0; padding: 14px 16px; font: 14px/1.6 var(--mono); white-space: pre-wrap; overflow-wrap: anywhere; }
+.note { background: var(--hl); border-radius: 10px; padding: 14px 16px; }
+footer { border-top: 1px solid var(--line); padding-top: 16px; display: flex; flex-direction: column; gap: 4px; font-size: 15px; color: var(--muted); }
+</style>
 </head>
-<body style="font-family:system-ui,sans-serif;padding:40px">
-<p>Opening the guide… If nothing happens, <a href="guide/index.html">click here</a>.</p>
+<body>
+<main>
+  <section>
+    <p class="eyebrow">AI Kickstart</p>
+    <h1>Give your AI a memory of you</h1>
+    <p class="lede">This kit turns AI from a brilliant stranger into an assistant that knows your life, follows your rules, and gets a little better every week. Your notes stay on your own computer.</p>
+  </section>
+
+  <section class="go">
+    <h2>The full guide is on the website</h2>
+    <p>Step-by-step setup for your computer and your AI tool, the ideas menu, the prompt library and how it all works. It remembers where you got to.</p>
+    <a class="btn" href="https://ai-kickstart.me/setup/">Set up at ai-kickstart.me →</a>
+    <ul class="links small">
+      <li><a href="https://ai-kickstart.me/ideas/">Ideas menu</a></li>
+      <li><a href="https://ai-kickstart.me/prompts/">Prompts</a></li>
+      <li><a href="https://ai-kickstart.me/how-it-works/">How it works</a></li>
+      <li><a href="https://ai-kickstart.me/whats-new/">What's new</a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>What's in this folder</h2>
+    <ul class="steps">
+      <li><code>vault/</code> is the heart of the kit: a folder of plain notes that becomes your AI's memory. You'll open it in Obsidian, a free notes app.</li>
+      <li><code>README.md</code> is a short overview, also written for an AI that reads the kit on your behalf.</li>
+      <li>This page. Nothing else to install from here.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>The short version</h2>
+    <p class="muted">If you'd rather not open the website, this is all of Day 1. About an hour.</p>
+    <ol class="steps">
+      <li><strong>Install Obsidian</strong> from <a href="https://obsidian.md/download">obsidian.md</a>. It's free.</li>
+      <li><strong>Give your vault a home.</strong> Move the <code>vault</code> folder out of this kit to somewhere permanent and backed up, and rename it, for example <code>Documents/My Vault</code>. In Obsidian, choose <em>Open folder as vault</em> and pick it.</li>
+      <li><strong>Connect your AI.</strong> Use an AI app that can read and write files in a folder you choose, and choose your vault folder (only that one). Only have a chat app? It works too, with some copy-paste: the website's setup page shows which files to give it.</li>
+      <li><strong>Say hello.</strong> Paste this into your AI:</li>
+    </ol>
+    <div class="box">
+      <div class="bar"><span>First contact</span></div>
+<pre>Hi! This folder is my new Obsidian vault, set up from the AI Kickstart kit.
+Please read AGENTS.md and _system/index.md (nothing else yet), then tell me in three short lines:
+1) what this vault is for, 2) how you'll help me, 3) what we should do first.
+Then create a test note at _inbox/hello.md that says "It works!" so I can check that you can write here.</pre>
+    </div>
+    <p>If <code>_inbox/hello.md</code> appears in Obsidian, it works. Delete it yourself.</p>
+  </section>
+
+  <section>
+    <h2>After that, one sentence</h2>
+    <p>Start every session, in any AI tool, with this. The plan in your vault (<code>_system/HARNESS-PLAN.md</code>) remembers where you were and leads from here: backup and privacy first, then a friendly interview, then your first wins.</p>
+    <div class="box">
+      <div class="bar"><span>The main one</span></div>
+<pre>Continue my harness plan.</pre>
+    </div>
+  </section>
+
+  <p class="note small">Put in your notes only what you'd be comfortable with your AI provider processing. Passwords, card numbers and ID numbers never go in.</p>
+
+  <footer>
+    <span>AI Kickstart · v1.2 · October 2026</span>
+    <span>Designed and shared by Ophir Radnitz. Free under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>: share and adapt it, with credit.</span>
+  </footer>
+</main>
+<script>
+// Copy buttons, with a fallback for browsers that block the clipboard API on file:// pages.
+document.querySelectorAll(".box").forEach(function (box) {
+  var pre = box.querySelector("pre"), btn = document.createElement("button");
+  btn.type = "button"; btn.textContent = "Copy";
+  box.querySelector(".bar").appendChild(btn);
+  btn.addEventListener("click", function () {
+    var text = pre.textContent.trim();
+    var done = function () { btn.textContent = "Copied ✓"; setTimeout(function () { btn.textContent = "Copy"; }, 1600); };
+    var manual = function () { btn.textContent = "Select & copy manually"; };
+    if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text).then(done, manual);
+    var ta = document.createElement("textarea");
+    ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy") ? done() : manual(); } catch (e) { manual(); }
+    document.body.removeChild(ta);
+  });
+});
+</script>
 </body>
 </html>

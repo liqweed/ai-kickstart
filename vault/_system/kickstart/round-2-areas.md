@@ -28,7 +28,7 @@ Ask these first, so the menu doesn't put ideas in their head.
 ## Part B — the menu
 
 7. **Show the tailored menu.** Use the area shortlist from Round 1's *Signals*. For each area, show 3–5 example functions from [[function-catalog]] in one line each. Mark the ones that echo what they said in Part A with ★. Ask: *"Which of these make you think 'yes, that'*? Pick as many as you like."
-   - If they have the kit's HTML guide, they can also tick boxes on the **catalog page** and paste the generated list.
+   - They can also tick boxes on the **Ideas menu** at ai-kickstart.me/ideas/ and paste the generated list.
 8. **Rank.** From their picks, help them choose a **top 3–5 areas**. For each, ask two quick ratings:
    - **Pain or value:** 1 = nice to have · 2 = would help · 3 = would genuinely change my week
    - **How often:** daily · weekly · monthly · occasionally

@@ -51,7 +51,7 @@ if hits="$(grep -nIiE -- "$pattern" "${files[@]}")"; then
 fi
 
 # The author's surname is allowed only in the credit lines.
-allowed_credit='^(README\.md|CONTRIBUTING\.md|guide/[^/]+\.html|design/[^/]+/[^/]+\.md|design/([^/]+-)?prototype/[^/]+\.html|site/src/layouts/Base\.astro|site/src/pages/index\.astro|scripts/scrub\.sh)$'
+allowed_credit='^(README\.md|CONTRIBUTING\.md|START-HERE\.html|design/[^/]+/[^/]+\.md|design/([^/]+-)?prototype/[^/]+\.html|site/src/layouts/Base\.astro|site/src/pages/index\.astro|scripts/scrub\.sh)$'
 for f in "${files[@]}"; do
   if [[ ! "$f" =~ $allowed_credit ]] && grep -qI "Radnitz" "$f"; then
     echo "scrub: credit name outside allowed files: $f" >&2

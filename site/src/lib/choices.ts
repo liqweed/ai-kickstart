@@ -26,7 +26,7 @@ export const PATHS = {
 } as const;
 export type Path = keyof typeof PATHS;
 
-/** Day 1, in the order of the kit's harness steps P0.1–P0.5 (see guide/setup.html and vault/_system/HARNESS-PLAN.md). */
+/** Day 1, in the order of the kit's harness steps P0.1–P0.5 (see vault/_system/HARNESS-PLAN.md). */
 export const STEPS = [
   { id: "kit", title: "Get the kit", harness: "Before P0.1" },
   { id: "obsidian", title: "Install Obsidian", harness: "P0.1" },
@@ -40,4 +40,4 @@ export type StepId = (typeof STEPS)[number]["id"];
 export const RELEASES_URL = "https://github.com/liqweed/ai-kickstart/releases/latest";
 export const REPO_URL = "https://github.com/liqweed/ai-kickstart";
 /** The release zip, rounded. Update when the kit grows noticeably (dist/ after scripts/build.sh). */
-export const ZIP_SIZE = "about 110 KB";
+export const ZIP_SIZE = "about 150 KB";

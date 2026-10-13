@@ -9,7 +9,7 @@ summary: Menu of things AI can do across life and work, grouped by area, with ef
 
 # Function catalog
 
-A menu, not a to-do list. Most people end up using **5–10 of these** regularly. The interview helps pick them. (Same catalog as the interactive *catalog* page in the HTML guide.)
+A menu, not a to-do list. Most people end up using **5–10 of these** regularly. The interview helps pick them. (Same catalog as the *Ideas menu* at ai-kickstart.me/ideas/, where you can tick what appeals and copy your picks.)
 
 **Levels:**
 - **S, Starter.** Works with just the AI, your vault and web search. Build it in one session.
