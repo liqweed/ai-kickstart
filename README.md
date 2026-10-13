@@ -13,6 +13,14 @@ Designed and shared by **Ophir Radnitz**. v1.1, October 2026.
 2. **Move the `vault/` folder** somewhere permanent, rename it (e.g. "My Vault"), and open it in [Obsidian](https://obsidian.md) with *Open folder as vault*.
 3. **Point your AI tool at that folder** and say: *"Read AGENTS.md and _system/index.md, then tell me what this vault is for."* After that: **"Continue my harness plan."**
 
+## If you're an AI reading this kit for someone
+
+- **It's a fresh template, not a parts bin.** The `vault/` folder becomes the person's new vault. Their profile, skills and step-by-step plan all live as files inside it.
+- **Nothing they already have counts as done.** Global instructions, an AI tool's memory, a work knowledge base or a workspace in another app don't replace any step. They can keep all of it, and it can shape how a step is done later.
+- **Obsidian comes first.** The kit is built around it (step P0.1 in `vault/_system/HARNESS-PLAN.md`). If they don't use it yet, say so and help them install it.
+- **Don't recommend skipping phases from a read-through.** Steps are skipped inside the vault, one at a time and with the person, through the `harness` skill.
+- To begin: walk them through *Start here* above, then work from inside the vault and follow `vault/AGENTS.md`.
+
 ## What's inside
 
 ```

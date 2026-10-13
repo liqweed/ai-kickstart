@@ -37,6 +37,7 @@ description: Drive the owner's step-by-step AI setup plan in _system/HARNESS-PLA
 ## Rules
 
 - **Never tick without evidence.** "It should work" is not a check. A job that "ran" but produced no output did not work.
+- **Evidence comes from this vault.** A setup the owner has elsewhere (another app's workspace, global instructions, the AI tool's memory) never ticks a step. It can shape how you do the step, or be a reason to propose `[-]`, which the owner decides.
 - **One step per session is a success.** Two is fine. Don't sprint through five without the owner seeing each one work.
 - **Plain words.** If the owner rated their tech comfort 1–2, you do the technical parts and narrate briefly. Never leave them with a wall of terminal instructions.
 - **Respect the profile.** The steps serve the owner's goals. If a generic step doesn't fit them, propose `[-]`.

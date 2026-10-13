@@ -7,6 +7,8 @@ All notable changes to the AI Kickstart kit. Versions are git tags (`vX.Y`). Eac
 
 ## Unreleased
 
+- **Clearer for people who already use AI:** the README has a short section for an AI reading the kit on someone's behalf, and the setup pages, harness plan (P0) and `harness` skill now say that an existing setup elsewhere (custom instructions, an AI's memory, another notes app) doesn't count as a done step, and that Obsidian comes first.
+- **Setup, path B:** a short note for Craft Agents users (a free, open-source desktop agent): one workspace just for the vault, the permission mode to start in, and where its sources and automations fit in the harness plan.
 - **Vault tools** (`vault/_system/tools/`): six tested helper scripts. Python 3.9+, standard library only, Mac/Windows/Linux, all optional.
   - `vault_lint.py`: health check for broken links, missing frontmatter, orphans, duplicate names, index drift, an old inbox, stale notes, unused attachments and secrets.
   - `secret_scan.py`: finds passwords, API keys, card and IBAN numbers, with masked output and an optional git commit guard.

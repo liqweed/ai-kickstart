@@ -49,6 +49,8 @@ Every step has a **Done when** (what must be true) and a **Check** (how we prove
 
 ## P0 — Foundations
 
+These steps set up *this* vault. Something you already have elsewhere (another notes app, a work knowledge base, your AI's memory or custom instructions) doesn't tick a step here, because your profile, skills and plan live in this folder. New to Obsidian? That's normal: P0.1 is where everyone starts.
+
 - [ ] **P0.1 Install Obsidian and open this folder as a vault.**
   Done when: Obsidian shows `_system/`, `01-life/`, … in the sidebar. Check: open `_system/index.md` in Obsidian.
 - [ ] **P0.2 Choose your AI tool** (see the guide's *Setup* page). Pick one that can **read and write files in a folder you choose**. If you only have a chat app for now, choose *chat-only mode* (it works, with a bit of copy-paste).

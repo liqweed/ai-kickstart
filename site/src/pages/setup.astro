@@ -25,6 +25,7 @@ const fill = { "Mac / Windows / Linux": "os", "AI tool": "tool" } as const;
       <p class="kk-eyebrow">Day 1 · about an hour, in any number of sittings</p>
       <h1 class="h1">Your setup</h1>
       <p class="muted">Keep this open next to Obsidian and your AI. Each step you tick is remembered on this device.</p>
+      <p class="muted">Already use AI with your own instructions, memory or notes app? Keep them. This vault is a new, separate home for your profile, skills and plan, so these steps still apply, Obsidian included.</p>
     </div>
 
     <div class="settings" hidden data-pills>
@@ -132,6 +133,7 @@ const fill = { "Mac / Windows / Linux": "os", "AI tool": "tool" } as const;
               <li>If the app has a “project instructions” field, paste the line below.</li>
             </ol>
             <Prompt label="Project instructions" note="Only if your app has this field" text={PROJECT_LINE} />
+            <p class="tip"><strong>Using Craft Agents?</strong> It's free and open source (Mac, Windows, Linux) and works with a Claude, ChatGPT, GitHub Copilot or Google AI Studio account. Make a new workspace just for your vault, even if you already have others, and choose the vault folder as its working folder. It notices the vault's <code>AGENTS.md</code> by itself, and the kit's skills stay in the vault, so there's nothing to import. Start in the <em>Ask to Edit</em> permission mode. Later it can also connect your apps (its <em>sources</em>, harness phase P4) and run things on a schedule (its <em>automations</em>, P6).</p>
           </div>
           <div class="stack gap-14" data-path="c">
             <p class="why"><span class="variant-tag" data-for="path">Terminal agent</span>Your agent reads the vault's rules by itself.</p>
